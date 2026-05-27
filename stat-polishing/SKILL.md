@@ -49,6 +49,7 @@ These files are reference support. Open them after the section's rhetorical job 
 | `../stat-shared-references/stat-venue-checklists.md` | Final-pass venue conformance check |
 | `../shared-references/citation-discipline.md` | Auditing citations, fabricated references, citation key consistency |
 | `../stat-shared-references/stat-codex-dialogue.md` | **Read before any Codex MCP call.** Dialogue discipline: when to accept, when to push back via `mcp__codex__codex-reply`, when to log disagreement, common areas where Codex is right or wrong, convergence test, documentation expectations. |
+| `../stat-shared-references/stat-latex-audit.md` | **Read before the mechanical audit pass.** Template conformance check (documentclass, packages, font, line spacing, margins, bibliography style, venue-required blocks, anonymization) and LaTeX integrity check (undefined references, undefined citations, missing image files, broken cross-file references, log warnings). |
 
 ## Big Four Standards
 
@@ -455,7 +456,7 @@ If the user asks for an audit without rewriting:
 The order matters. Polishing prose on top of an overclaim makes the overclaim more confidently stated; polishing prose on top of a weak positioning hides the weakness rather than fixing it. The audits come first.
 
 1. **Read the document end-to-end first.** Do not polish sentence-by-sentence on a first pass.
-2. **Identify paper type and venue.** Apply the corresponding standards.
+2. **Identify paper type, venue, and journal voice.** Apply the corresponding standards from `stat-venue-checklists.md`. Then calibrate to the target journal's voice by reading 2 or 3 recent papers from that venue (last 1-2 years, same paper type). Note their paragraph length, sentence rhythm, math display density, theorem density, figure density, citation density, and tone. The polished prose should feel at home alongside those papers. A draft that reads like a Bernoulli theory paper will not pass at JASA ACS, and vice versa.
 3. **Positioning audit.** Read `../stat-shared-references/stat-positioning-and-claims.md`. Extract every positioning claim from the prose, especially the abstract, introduction, contribution list, related work, and discussion. For each claim, verify it against `PRIOR_WORK_MATRIX.md` (if available) and against the literature. Flag OVERCLAIMED, UNVERIFIED, MISSING REFERENCE FRAME claims. Run a literature search for unverified claims using `/semantic-scholar`, `/arxiv`, `/novelty-check`, or `mcp__codex__codex`. Update or build `CLAIM_SUPPORT_MAP.md`.
 4. **Technical claim strength audit.** Same reference. Extract every technical claim (rates, bounds, "weaker assumptions", "first to", "minimax optimal", "efficient", "tight", "robust", "adaptive", computational complexity). Verify each against the theorem statements and the cited prior work. Flag the same statuses. For each OVERCLAIMED claim, draft a specific replacement sentence rather than leaving a TODO.
 5. **Diagnose at the paper level.** Are claims and evidence aligned? Is the supplement separated correctly per `SUPPLEMENT_MODE`?
@@ -463,10 +464,13 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
 7. **Polish at the paragraph level.** Does each paragraph develop one idea?
 8. **Polish at the sentence level.** Apply punctuation discipline and AI-template removal.
 9. **Polish at the word level.** Cut watchwords; replace with precise alternatives or remove.
-10. **Audit figures and tables.** Apply the figure design rules.
-11. **Audit citations.** Verify that no fabricated citations exist; verify cited claims match cited papers.
-12. **Final venue check.** Read the venue checklist; confirm format conformance.
-13. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, even when the polisher has already run one. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
+10. **Audit figures and tables.** Apply the figure design rules in `../stat-shared-references/stat-figure-design.md`.
+11. **Template conformance audit.** Read `../stat-shared-references/stat-latex-audit.md`. Verify `\documentclass` matches the venue, required packages are loaded, `\bibliographystyle` matches the venue, line spacing matches the venue (e.g., `setspace doublespacing` for JASA), margins match (e.g., 1 inch for JASA), font matches (e.g., Times Roman for JASA), and venue-required blocks are present (keywords, AMS subject classification, alt text, AI disclosure block where required). Produce `TEMPLATE_CONFORMANCE_REPORT.md` with PASS / FAIL / NEEDS VERIFY for each check, and the exact LaTeX line to change for any FAIL.
+12. **LaTeX integrity audit.** Same reference. Compile with `latexmk -pdf -interaction=nonstopmode`, search the log for undefined references, undefined citations, multiply-defined labels, missing image files, font-shape warnings, overfull boxes. Cross-check `\ref{}` and `\label{}`. Cross-check `\cite{}` and the `.bib` file. Cross-check `\includegraphics` and image files on disk. For `SUPPLEMENT_MODE = separate_self_contained`, also verify the supplement contains no `\ref` to labels in the main paper and vice versa. Produce `LATEX_INTEGRITY_REPORT.md` with HIGH and CRITICAL findings and the exact fix for each. All HIGH and CRITICAL findings must be fixed before polishing is declared complete.
+13. **Audit citations.** Verify that no fabricated citations exist; verify cited claims match cited papers.
+14. **Journal-style match check.** Compare the polished prose against the 2-3 recent venue papers identified in Step 2. Does the polished draft match their voice, density, and structural choices? If not, identify the specific deltas (e.g., "this introduction is much longer than typical Biometrika introductions; consider compressing"). For JASA, JRSS-B, AOS, AOAS, this check is usually done by Codex in the optional second-pass; for first-pass polishing, a quick comparison by the polisher is sufficient.
+15. **Final venue check.** Read `stat-venue-checklists.md` for the target venue and confirm every venue-specific requirement is met (cover letter ready, AI disclosure block present, ACC form completed for JASA, alt text under figures for Biometrika and Biostatistics, etc.).
+16. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, a journal-style-match assessment against the venue, and an AI-tell line-level audit. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
 
 ## Optional Codex MCP second-pass dialogue
 
@@ -555,7 +559,47 @@ mcp__codex__codex:
     For each of the top three remaining issues here, write a concrete
     revision.
 
-    (C) Line-level AI-tell audit.
+    (C) Journal-style match.
+
+    The author identified [VENUE] as the target. From your knowledge of
+    recent papers published there (last 1-2 years, same paper type),
+    assess whether the polished prose matches the venue's voice and
+    structural conventions:
+    - Paragraph length, sentence rhythm
+    - Math display vs inline density
+    - Theorem density and statement style
+    - Figure density and caption style
+    - Citation density
+    - Use of section headings and subsections
+    - Tone (measured / dense / elegant / data-first)
+
+    For each significant mismatch, name a specific recent paper from
+    the venue that the polished draft should resemble more closely,
+    and identify the specific delta. If you are uncertain about a
+    recent paper, mark your confidence.
+
+    (D) Template conformance.
+
+    From the LaTeX preamble and front matter included below, identify
+    any obvious deviation from the venue's required template:
+    - `\documentclass` and class options
+    - Required packages (line spacing, geometry, font)
+    - Bibliography style file
+    - Venue-required blocks (keywords, AMS classification, alt text,
+      AI disclosure)
+    - Author / anonymization block
+
+    [paste preamble + first 50 lines]
+
+    (E) LaTeX integrity (summary).
+
+    From the manuscript and the compile log excerpt below, identify
+    undefined references, undefined citations, missing image files,
+    and broken cross-file references. List with file:line and the fix.
+
+    [paste compile log warnings or note that no log was provided]
+
+    (F) Line-level AI-tell audit.
 
     Count and quote (with line numbers when available):
     - em-dashes used to connect clauses
@@ -641,6 +685,9 @@ Save to `POLISHING_REVIEW.md` in the project root, in the format from `../stat-s
 - **Match the polish to the paper type**. Theory polishing emphasizes theorem and assumption precision. Methodology polishing balances method and empirics. Application polishing emphasizes data description, application depth, and substantive findings.
 - **Positioning and claim audit before style**. Every polishing pass that touches the abstract, introduction, contribution list, theorem statements, or discussion must run the positioning audit and the technical claim strength audit first. Polishing prose on top of an overclaim makes the overclaim more confidently stated; polishing prose on top of a weak positioning hides the weakness. Read `../stat-shared-references/stat-positioning-and-claims.md`.
 - **Literature support for every comparative claim**. Comparative claims ("weaker assumptions than", "first to", "improves the rate from") require verified literature support. If the support is not in `PRIOR_WORK_MATRIX.md` or `CLAIM_SUPPORT_MAP.md`, search for it before polishing.
+- **Template conformance is non-negotiable**. Read `../stat-shared-references/stat-latex-audit.md`. The `\documentclass`, packages, line spacing, margins, font, and `.bst` must match the venue requirement before polishing is declared complete. JASA requires double-spaced manuscript; Biometrika and Biostatistics require alt text under each figure legend; IMS journals use the `imsart` class with the right option.
+- **LaTeX integrity is non-negotiable**. The manuscript must compile cleanly with no undefined references, no undefined citations, no missing image files, and no fatal log warnings. For `SUPPLEMENT_MODE = separate_self_contained`, the supplement and main paper must each compile independently with no cross-file `\ref` or `\cite`.
+- **Journal-style match**. The polished prose should feel at home alongside 2-3 recent papers from the target venue. The polisher (and Codex) calibrate to those papers, not to a generic "statistics paper" voice.
 - **Do not invent**. Polishing improves prose, not content. Flag content concerns; do not paper over them.
 - **Punctuation discipline is non-negotiable**. Em-dashes cut, colons restricted, semicolons reduced.
 - **AI templates and watchwords must be removed**.

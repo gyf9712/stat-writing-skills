@@ -10,6 +10,7 @@ Use this reference when `stat-paper-plan` needs help shaping the paper's story o
 - `stat-application-writing.md` covers application paper structure (data-first narrative, EDA, application section). Read it before writing an application paper.
 - `stat-positioning-and-claims.md` covers the positioning audit, the technical claim strength audit, and the `CLAIM_SUPPORT_MAP.md` artifact. Read it before drafting or polishing any front matter.
 - `stat-codex-dialogue.md` covers the dialogue principle for any Codex MCP review: discuss until convergence rather than apply wholesale. Read it before any Codex call.
+- `stat-latex-audit.md` covers template conformance (documentclass, packages, font, line spacing, margins, bibliography style, venue-required blocks) and LaTeX integrity (undefined references, undefined citations, missing images, log warnings, cross-file references). Read it before compiling or polishing.
 - `stat-venue-checklists.md` covers venue-specific requirements. Read it when setting the target venue.
 
 ## Contents

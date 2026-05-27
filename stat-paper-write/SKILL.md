@@ -1050,11 +1050,15 @@ Save the Codex dialogue to `PAPER_DRAFT_REVIEW.md` in the project root, with the
 
 **General checks (all paper types):**
 
+For the mechanical compile and reference checks below, read `../stat-shared-references/stat-latex-audit.md` for the full audit protocol including the cross-check scripts and the warning patterns to search for in the log.
+
 - [ ] All `\ref{}` / `\label{}` match within each file (main, supplement)
-- [ ] **No cross-references between main and supplement files** (use textual references like "Section S.1 of the Supplement")
+- [ ] **No cross-references between main and supplement files** when `SUPPLEMENT_MODE = separate_self_contained` (use textual references like "Section S.1 of the Supplement")
 - [ ] **Supplement is self-contained**: every theorem, lemma, assumption it proves is restated; notation defined or imported via `math_commands.tex`
 - [ ] **Supplement compiles independently** from the main paper
 - [ ] **Supplement uses S-prefixed numbering** for theorems, equations, sections (Theorem S.1, Section S.2, etc.)
+- [ ] **LaTeX integrity audit passes**: no undefined references, no undefined citations, no missing image files, no HIGH/CRITICAL log warnings (run `latexmk -pdf -interaction=nonstopmode` and search for "Warning|Error|undefined|multiply|missing")
+- [ ] **Template conformance audit passes**: `\documentclass`, packages, font, line spacing, margins, bibliography style match the venue requirement (read `../stat-shared-references/stat-latex-audit.md`)
 - [ ] All `\citet{}` / `\citep{}` have BibTeX entries in both main and supplement
 - [ ] Notation consistent (check math_commands.tex is included in both main and supplement)
 - [ ] No TODO/FIXME/VERIFY markers remain

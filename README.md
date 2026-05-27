@@ -30,6 +30,7 @@ Located in `stat-shared-references/`. These are reusable across the four skills.
 | `stat-application-writing.md` | Application paper structure (data-first narrative), §2 Data and Background, §6 Application section, validation, domain interpretation |
 | `stat-positioning-and-claims.md` | Positioning audit, technical claim strength audit, `CLAIM_SUPPORT_MAP.md` artifact, literature search protocol, common overclaim patterns |
 | `stat-codex-dialogue.md` | Dialogue discipline for Codex MCP reviews: discuss until convergence rather than apply wholesale; when to accept, when to push back, when to log disagreement |
+| `stat-latex-audit.md` | Template conformance (documentclass, packages, font, line spacing, margins, bibliography style, venue-required blocks) and LaTeX integrity (undefined refs, undefined citations, missing images, log warnings, cross-file references) |
 | `stat-venue-checklists.md` | Per-venue formatting, supplement, anonymity, AI disclosure, alt text, reproducibility rules with `Last checked` dates |
 
 ## Design Philosophy

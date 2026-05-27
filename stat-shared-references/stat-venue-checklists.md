@@ -56,7 +56,7 @@ Use this reference when setting the target venue in `stat-paper-plan` and during
 - `JASA` = Theory and Methods (T&M)
 - `JASA_ACS` = Applications and Case Studies (ACS)
 
-**Last checked:** 2026-05-27 using accessible ASA-adjacent and Taylor & Francis sources. The live Taylor & Francis Instructions for Authors page for JASA was not directly retrievable (HTTP 403), so items marked `[VERIFY AT SUBMISSION]` must be confirmed on the live journal page or in the submission portal.
+**Last checked:** 2026-05-27 using accessible ASA-adjacent and Taylor & Francis sources, plus Codex MCP dialogue. The live Taylor & Francis Instructions for Authors page for JASA returned HTTP 403 from automated fetch tools at the time of this writing. Items marked `[VERIFY AT SUBMISSION]` must be confirmed on the live journal page or in the submission portal — a human author can open the page in a browser and check directly.
 
 **Official journal home:** https://www.tandfonline.com/journals/uasa20
 
