@@ -48,77 +48,133 @@ Use this reference when setting the target venue in `stat-paper-plan` and during
 - Ensure assumptions are precisely stated and discussed
 - Verify rate comparisons with existing literature are explicit
 
-## Journal of the American Statistical Association (JASA) — Theory and Methods (T&M)
+## Journal of the American Statistical Association (JASA)
 
-**Publisher:** ASA (American Statistical Association) / Taylor & Francis
+**Publisher:** American Statistical Association / Taylor & Francis
 
-**Formatting:**
-- Use JASA LaTeX template (available from journal website)
-- Author-year citations with `natbib`
-- `\bibliographystyle{asa}` (Chicago-style author-year)
-- Typically 20-30 pages main + supplement
-- Single column format
+**Tracks covered here:**
+- `JASA` = Theory and Methods (T&M)
+- `JASA_ACS` = Applications and Case Studies (ACS)
 
-**Content expectations:**
-- Strong methodology with theoretical justification and empirical validation
-- Expects simulation studies AND real data analysis
-- Code/software availability is strongly encouraged
-- Reproducibility statement expected
+**Last checked:** 2026-05-27 using accessible ASA-adjacent and Taylor & Francis sources. The live Taylor & Francis Instructions for Authors page for JASA was not directly retrievable (HTTP 403), so items marked `[VERIFY AT SUBMISSION]` must be confirmed on the live journal page or in the submission portal.
 
-**Submission specifics:**
-- Submit via ScholarOne/Manuscript Central
-- Cover letter required
-- Supplementary materials uploaded separately
-- Associate Editor assignment based on topic
-- Submission category: "Theory and Methods"
+**Official journal home:** https://www.tandfonline.com/journals/uasa20
 
-**Final-check implications:**
-- Ensure both simulations AND real data are present
-- Check that the methodology has practical value beyond theory
-- Verify the real data analysis provides substantive domain insights
-- Ensure code/data availability is stated
+**Official Instructions for Authors URL to check at submission time:** https://www.tandfonline.com/action/authorSubmission?show=instructions&journalCode=uasa20
 
-## JASA — Applications and Case Studies (JASA ACS)
+### Formatting and template
 
-**Publisher:** ASA / Taylor & Francis
+- If submitting in LaTeX, use the journal's official JASA / Taylor & Francis template linked from the JASA Instructions for Authors page. `[VERIFY AT SUBMISSION]`
+- Public helper templates exist but should be treated as convenience tools rather than the binding source of record:
+  - ASA-journal Quarto template: https://github.com/quarto-journals/jasa
+  - Taylor & Francis author-template guidance: https://authorservices.taylorandfrancis.com/publishing-your-research/writing-your-paper/formatting-and-templates/
+- Use a conservative review-manuscript format unless the live JASA page says otherwise:
+  - 12-point Times New Roman
+  - **double line spacing** for the manuscript
+  - margins of at least 2.5 cm (1 inch)
 
-**Formatting:**
-- Same JASA LaTeX template as T&M
-- Author-year citations with `natbib`
-- `\bibliographystyle{asa}`
-- Typically 20-30 pages main + supplement (similar to T&M)
-- Single column format
+### Length
 
-**Content expectations:**
-- **Application paper track** — substantive scientific or applied problem is the primary driver
-- A specific dataset and clear scientific question are required
-- Methodological contribution can be novel or an adaptation that addresses the problem
-- Real data analysis is the centerpiece (4-6+ pages typically)
-- Simulation studies should be informed by the real data
-- Theory in the main body is light (1-2 theorems max); heavier theory goes to supplement
-- Detailed data description with exploratory analysis is expected
-- Validation through holdout, cross-validation, or sensitivity is expected
-- Substantive scientific findings must be reported and interpreted
-- Code and data availability are strongly expected
+- Use **35 double-spaced pages** as the operative JASA main-manuscript working limit.
+- The accessible source citing JASA standards defines this as roughly **26-27 lines of text per page**.
+- `[VERIFY AT SUBMISSION]` what exactly counts toward the 35-page limit. Because the live JASA instructions page was blocked at last check, use the **conservative assumption** that the counted manuscript runs **from abstract through references**, and move long appendices, proofs, extra simulations, and overflow tables and figures to supplementary material.
 
-**Submission specifics:**
-- Submit via ScholarOne/Manuscript Central
-- Cover letter must explain the applied significance
-- Submission category: "Applications and Case Studies"
-- ACS has its own editorial team and reviewer pool — applied statisticians and domain experts
-- Reproducibility editor may review code/data
+### Citation style
 
-**Final-check implications:**
-- Verify the scientific question is named in the first paragraph of the Introduction
-- Verify a specific dataset is used throughout
-- Check that Data and Background section is at least 2 pages with EDA
-- Check that Application section is the longest section
-- Verify comparison with methods used by the application community (not just statistical baselines)
-- Ensure substantive findings are reported, not just method performance
-- Verify code and data availability statements are present
-- Read `stat-application-writing.md` for detailed application paper guidance
+- Use **author-year citations**.
+- Use the bibliography style file bundled with the official JASA template. `[VERIFY AT SUBMISSION]`
+- Public ASA-journal helper templates currently use `agsm.bst`. This is a useful clue but should not override the official journal package if it differs.
 
-**Note on choosing track:** If the paper would not exist without a specific dataset and scientific question, submit to ACS. If the method is the primary contribution and the data is illustrative, submit to T&M.
+### Supplementary material
+
+- Treat supplementary material as **separate uploaded file(s)** for both T&M and ACS.
+- Keep the main manuscript within the page limit and move overflow material to the supplement:
+  - T&M: long proofs, technical lemmas, extended simulations
+  - ACS: extended data description, additional validation, software / reproducibility documentation, extra analyses
+- Do not assume cross-file LaTeX linking will be preserved in production. Prefer textual references to supplementary sections.
+
+### Reproducibility
+
+JASA has an established reproducibility-review workflow covering **all original research manuscripts**.
+
+- As of September 1, 2021, all original research manuscripts submitted to JASA undergo reproducibility review. Authors are required to provide reproducibility materials when invited to revise.
+- Authors must complete the **Author Contributions Checklist (ACC)** form. The ACC documents the data and code artifacts supporting computational findings.
+  - ACC guide: https://jasa-acs.github.io/repro-guide/pages/acc.html
+  - The ACC form is submitted as supplementary material at initial submission; the final version is published online with the article.
+- A separate **reproducibility-package template** (not a LaTeX manuscript template) is suggested by the JASA Associate Editors of Reproducibility, providing a skeletal directory structure for `manuscript/`, `data/`, `code/`, `output/`, plus environment management (renv, conda, Docker).
+  - Repository: https://github.com/jasa-acs/repro-template
+  - Use is suggested but not required.
+
+### AI disclosure
+
+The Taylor & Francis publisher-level AI policy applies unless the live JASA instructions state a stricter journal-specific rule.
+
+- AI tools must not be listed as authors.
+- Authors must clearly disclose any generative-AI use within the article.
+- The disclosure should include the tool name, version, how it was used, and why it was used.
+- Authors remain fully responsible for accuracy, originality, references, and integrity.
+- Generative AI must not be used to create or manipulate research results, clinical images, or other research-output figures.
+- Official policy: https://taylorandfrancis.com/our-policies/ai-policy/
+- `[VERIFY AT SUBMISSION]` whether JASA asks for the disclosure in a specific section or also requires a cover-letter statement.
+
+### Peer review and anonymity
+
+- No accessible official source retrieved confirmed double-anonymized review at JASA.
+- Do not assume anonymous submission.
+- `[VERIFY AT SUBMISSION]` whether the current JASA submission portal requests named or anonymized files. Until confirmed, treat JASA as non-double-anonymous.
+
+### Cover letter
+
+Prepare a cover letter for first submission even if the portal labels it optional. At minimum include:
+
+- manuscript title
+- target track (Theory and Methods or Applications and Case Studies)
+- statement that the work is original and not under review elsewhere
+- brief fit argument for JASA
+- note any preprint, conference abstract, or prior public dissemination
+- note any restricted-data or reproducibility constraints
+- AI-use disclosure if requested by the journal or portal
+
+For ACS, state the applied significance clearly.
+
+### Track-specific editorial expectations
+
+**JASA Theory and Methods (T&M):**
+- Strong methodological contribution
+- Real theoretical content (proofs in the supplement if necessary to stay within the page limit)
+- Empirical validation through simulation studies
+- Real-data analysis expected in most cases
+
+**JASA Applications and Case Studies (ACS):**
+- Application-driven paper
+- Specific scientific question and dataset required
+- Application section must carry real weight
+- Reproducibility and practical utility matter heavily
+- ACS has its own editorial team and reviewer pool of applied statisticians and domain experts
+- Reproducibility editor may review code and data
+
+### Other first-submission checks
+
+- JASA is a hybrid open-access journal under Taylor & Francis Open Select.
+- Add a concrete data-availability path and code-availability path.
+- `[VERIFY AT SUBMISSION]` whether JASA currently requires author-supplied alt text at submission. Taylor & Francis is rolling out alt-text support across journals starting in early 2026.
+- If using figures, follow Taylor & Francis image and artwork rules:
+  - images and figures policy: https://authorservices.taylorandfrancis.com/editorial-policies/images-and-figures/
+  - manuscript layout guide: https://authorservices.taylorandfrancis.com/publishing-your-research/writing-your-paper/journal-manuscript-layout-guide/
+
+### Final-check implications
+
+- Verify the LaTeX template comes from the live JASA Instructions for Authors page or its linked Taylor & Francis template.
+- Confirm 35 double-spaced pages and what is counted; if in doubt, treat the limit as inclusive (abstract through references).
+- Confirm `12pt`, double-spaced, 1-inch margins as the first-submission baseline.
+- Author Contributions Checklist completed and uploaded as supplementary material at initial submission.
+- Code repository prepared in the reproducibility-template structure if practical; even when not strictly required, this matches the form the reproducibility editors expect at revision.
+- AI disclosure prepared per the Taylor & Francis policy.
+- Verify the current JASA peer-review anonymity setting on the live submission portal.
+
+### Note on choosing track
+
+If the paper would not exist without a specific dataset and scientific question, submit to ACS. If the method is the primary contribution and the data is illustrative, submit to T&M.
 
 ## Journal of the Royal Statistical Society, Series B (JRSS-B)
 

@@ -72,25 +72,36 @@ Read these shared references when they improve writing quality:
 
 For **AOAS** (Annals of Applied Statistics), use `\documentclass[aoas]{imsart}` and additionally include subject area classification.
 
-**JASA Theory and Methods:**
+**JASA Theory and Methods and Applications and Case Studies (both tracks):**
+
+Use the official JASA / Taylor & Francis LaTeX template linked from the JASA Instructions for Authors page; check `https://www.tandfonline.com/action/authorSubmission?show=instructions&journalCode=uasa20` at submission time. The bibliography style file (`.bst`) should be the one bundled with the official template.
+
+If working from a conservative baseline before the official template is in hand, use:
+
 ```latex
-% Use JASA template from journal website
 \documentclass[12pt]{article}
+\usepackage[doublespacing]{setspace}      % JASA expects double-spaced manuscript
+\usepackage[margin=1in]{geometry}         % 1-inch margins
+\usepackage{times}                         % Times Roman
 \usepackage{natbib}
-\bibliographystyle{asa}  % Chicago-style author-year
-% Standard article setup with JASA formatting macros
-% Submission category: "Theory and Methods"
+\bibliographystyle{agsm}                   % ASA-journal helper templates use agsm.bst;
+                                            % override with the JASA-bundled .bst when available
+% Author-year citations: \citet{}, \citep{}
+% Submission category: "Theory and Methods" (T&M) or "Applications and Case Studies" (ACS)
 ```
 
-**JASA Applications and Case Studies (JASA ACS):**
-```latex
-% Same JASA template as T&M
-\documentclass[12pt]{article}
-\usepackage{natbib}
-\bibliographystyle{asa}
-% Submission category: "Applications and Case Studies"
-% Application papers should include code/data availability statements
-```
+Operative working limit: **35 double-spaced pages** for the main manuscript (roughly 26-27 lines per page). Move proofs, technical lemmas, extended simulations, and overflow tables and figures to the supplement. Verify the counting boundary on the live Instructions for Authors page before submission.
+
+Reproducibility (JASA, both tracks):
+
+- Complete the Author Contributions Checklist (ACC) form (https://jasa-acs.github.io/repro-guide/pages/acc.html) and upload it as supplementary material at initial submission.
+- A reproducibility-package skeleton (https://github.com/jasa-acs/repro-template) is suggested but not required. Using it makes the revision-stage reproducibility review easier.
+
+Public helper templates if useful (treat as convenience, not source of record):
+
+- ASA-journal Quarto template: https://github.com/quarto-journals/jasa
+
+See `../stat-shared-references/stat-venue-checklists.md` for the full JASA block including AI disclosure, peer-review anonymity, alt text, and cover-letter expectations.
 
 **Biostatistics (Oxford):**
 ```latex
