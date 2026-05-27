@@ -68,12 +68,14 @@ Use this reference when setting the target venue in `stat-paper-plan` and during
 - Public helper templates exist but should be treated as convenience tools rather than the binding source of record:
   - ASA-journal Quarto template: https://github.com/quarto-journals/jasa
   - Taylor & Francis author-template guidance: https://authorservices.taylorandfrancis.com/publishing-your-research/writing-your-paper/formatting-and-templates/
-- Use a conservative review-manuscript format unless the live JASA page says otherwise:
-  - 12-point Times New Roman
-  - margins of at least 2.5 cm (1 inch)
-  - **Line spacing**: JASA templates in current circulation use either `\onehalfspacing` (1.5) or `\doublespacing` (2.0). A working baseline that has been observed in practice for JASA submissions is `\onehalfspacing`. `\doublespacing` is the conservative submission default. `[VERIFY AT SUBMISSION]` which the live IFA page currently requires.
+- JASA requires the manuscript to use:
+  - **12-point font**
+  - **Fully double-spaced line spacing** (use `\doublespacing` from the `setspace` package, not `\onehalfspacing` or LaTeX default single spacing)
+  - Margins of at least 2.5 cm (1 inch)
+  - Times New Roman or similar serif font
+- Drafts that use `\onehalfspacing` are non-compliant and must be changed to `\doublespacing` before submission. The 35-page limit assumes fully double-spaced pages.
 
-A working baseline preamble that has been observed in practice for JASA submissions (verify against the live IFA page before relying on it):
+JASA submission preamble:
 
 ```latex
 \documentclass[12pt]{article}
@@ -93,7 +95,7 @@ A working baseline preamble that has been observed in practice for JASA submissi
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
-\onehalfspacing   % or \doublespacing for the conservative submission default
+\doublespacing
 ```
 
 ### Length

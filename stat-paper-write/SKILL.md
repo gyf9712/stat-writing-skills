@@ -76,7 +76,7 @@ For **AOAS** (Annals of Applied Statistics), use `\documentclass[aoas]{imsart}` 
 
 Use the official JASA / Taylor & Francis LaTeX template linked from the JASA Instructions for Authors page; check `https://www.tandfonline.com/action/authorSubmission?show=instructions&journalCode=uasa20` at submission time. The bibliography style file (`.bst`) should be the one bundled with the official template.
 
-If working from a conservative baseline before the official template is in hand, use:
+JASA submission preamble:
 
 ```latex
 \documentclass[12pt]{article}
@@ -96,14 +96,14 @@ If working from a conservative baseline before the official template is in hand,
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
-\onehalfspacing            % or \doublespacing for the conservative submission default
+\doublespacing            % JASA: fully double-spaced (required)
 \bibliographystyle{agsm}   % ASA-journal helper templates use agsm.bst;
                             % override with the JASA-bundled .bst when available
 % Author-year citations: \citet{}, \citep{}
 % Submission category: "Theory and Methods" (T&M) or "Applications and Case Studies" (ACS)
 ```
 
-**Line spacing**: JASA templates in current circulation use either `\onehalfspacing` (1.5) or `\doublespacing` (2.0). The user-supplied templates observed in practice use `\onehalfspacing`; the conservative submission default is `\doublespacing`. Verify on the live IFA page before submitting.
+**Required formatting**: 12-point font and fully double-spaced manuscript (`\doublespacing` from the `setspace` package). Drafts using `\onehalfspacing` or LaTeX default single spacing are non-compliant. The 35-page limit assumes fully double-spaced pages.
 
 **Length**: 35 double-spaced pages for the main manuscript (roughly 26-27 lines per page) as the operative working limit. Move proofs, technical lemmas, extended simulations, and overflow tables and figures to the supplement. Verify the counting boundary on the live Instructions for Authors page before submission.
 

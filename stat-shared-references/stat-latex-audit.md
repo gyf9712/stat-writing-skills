@@ -54,6 +54,15 @@ For IEEE venues:
 For Biometrika, Biostatistics, and other Oxford journals:
 - First submission is typically format-neutral; exact style is required only at acceptance
 
+For JASA (Theory and Methods and Applications and Case Studies):
+- `\documentclass[12pt]{article}` — JASA requires 12-point font
+- `\usepackage[margin=1in]{geometry}` — 1-inch margins
+- `\usepackage{setspace}` with `\doublespacing` — JASA requires fully double-spaced manuscript; flag `\onehalfspacing` or default single spacing as FAIL
+- `\usepackage{natbib}` with `\citet{}` and `\citep{}` — author-year citations; flag `\cite{}` as FAIL
+- Bibliography style file from the official JASA template (`agsm.bst` in helper templates is acceptable as a baseline)
+- Abstract length 200-250 words; flag drafts over 250 as FAIL
+- The 35-page limit assumes fully double-spaced pages
+
 ### Step T.3: Check for venue-required blocks
 
 Some venues require specific blocks in the preamble or front matter:
