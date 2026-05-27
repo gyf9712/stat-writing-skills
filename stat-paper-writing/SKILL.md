@@ -257,26 +257,30 @@ Compilation complete:
 Shall I proceed with the improvement loop?
 ```
 
-### Phase 5: Auto Improvement Loop with Codex External Review
+### Phase 5: Auto Improvement Loop with Codex External Dialogue
 
-The improvement loop combines internal Claude review (every round, fast structural fixes) with external Codex MCP review (final round, senior-statistician depth at GPT-5.4 xhigh).
+The improvement loop combines internal Claude review (every round, fast structural fixes) with external Codex MCP dialogue (final round, senior-statistician depth at GPT-5.4 xhigh).
+
+**The dialogue principle applies in Phase 5.** Codex's review is one senior reader's opinion, not a directive. The loop discusses with Codex until both sides converge on what the draft needs, not applies Codex's feedback wholesale. Read `../stat-shared-references/stat-codex-dialogue.md` before starting Round 2.
 
 **Default flow when `REVIEW_MODE = both`:**
 
 Round 1 (Claude internal review):
-- Claude subagent reviews the compiled draft
-- Implements CRITICAL and MAJOR fixes
-- Recompiles to `main_round1.pdf` and `supplement_round1.pdf`
+- Claude subagent reviews the compiled draft.
+- Implements CRITICAL and MAJOR fixes.
+- Recompiles to `main_round1.pdf` and `supplement_round1.pdf`.
 
-Round 2 (Codex external review):
-- Codex MCP review at GPT-5.4 with xhigh reasoning (see stat-paper-write Step 6 Pass B for the prompt template)
-- Apply CRITICAL and MAJOR fixes
-- Recompile to `main_round2.pdf` and `supplement_round2.pdf`
+Round 2 (Codex external dialogue):
+- Initial Codex MCP review at GPT-5.4 with xhigh reasoning (see stat-paper-write Step 6 Pass B for the prompt template).
+- For each Codex criticism, decide per `../stat-shared-references/stat-codex-dialogue.md`: accept, push back via `mcp__codex__codex-reply`, or log disagreement.
+- Apply accepted criticisms only (not all criticisms).
+- Recompile to `main_round2.pdf` and `supplement_round2.pdf`.
 
-Optional Round 3 (Codex follow-up):
-- For high-stakes submissions, use `mcp__codex__codex-reply` to dig into the most important issues from Round 2
-- Apply additional fixes
-- Recompile to `main_round3.pdf`
+Optional Round 3 (extended Codex dialogue):
+- For high-stakes submissions, continue `mcp__codex__codex-reply` on the most important remaining issues from Round 2.
+- The goal is convergence, not unanimity. Stop when both sides agree, when disagreements are documented, or after diminishing returns (typically after 2 to 4 dialogue rounds total).
+- Apply additional accepted criticisms.
+- Recompile to `main_round3.pdf`.
 
 **Codex prompt template for the improvement loop:**
 

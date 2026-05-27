@@ -29,6 +29,7 @@ Located in `stat-shared-references/`. These are reusable across the four skills.
 | `stat-theory-writing.md` | Theorem statement patterns, assumption blocks, proof sketches, rate comparison tables, minimax lower bound arguments |
 | `stat-application-writing.md` | Application paper structure (data-first narrative), §2 Data and Background, §6 Application section, validation, domain interpretation |
 | `stat-positioning-and-claims.md` | Positioning audit, technical claim strength audit, `CLAIM_SUPPORT_MAP.md` artifact, literature search protocol, common overclaim patterns |
+| `stat-codex-dialogue.md` | Dialogue discipline for Codex MCP reviews: discuss until convergence rather than apply wholesale; when to accept, when to push back, when to log disagreement |
 | `stat-venue-checklists.md` | Per-venue formatting, supplement, anonymity, AI disclosure, alt text, reproducibility rules with `Last checked` dates |
 
 ## Design Philosophy
@@ -46,6 +47,10 @@ Three principles shaped the family.
 Every skill integrates [Codex MCP](https://github.com/openai/codex) for an independent senior-statistician review at `gpt-5.4` with `model_reasoning_effort: xhigh`. Codex catches positioning and claim-strength issues that Claude polishing misses, because it brings a different model family's judgment.
 
 The default `REVIEW_MODE = both` runs Claude internal review on every round and Codex external review on the final round.
+
+**Codex is a dialogue partner, not an oracle.** The skill family treats Codex review as a conversation toward convergence, not a directive to be applied wholesale. For each Codex criticism, the author decides one of three outcomes: accept (apply the fix), push back via `mcp__codex__codex-reply` (provide context Codex lacked), or log disagreement (document both positions). The dialogue typically runs 2 to 4 rounds before convergence or diminishing returns. `stat-shared-references/stat-codex-dialogue.md` codifies the protocol.
+
+This matters in practice: Codex is reliably right on AI-template detection, vague positioning, and missing assumptions, but reliably less accurate on very recent papers, specific theorem numbers, and numerical constants. The author's job is to evaluate each criticism on its merits, not to apply it on authority.
 
 ## Pipeline
 

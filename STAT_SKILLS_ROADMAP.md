@@ -37,6 +37,22 @@ The combined effect: every positioning claim and every comparative technical cla
 
 This directly addresses Codex's diagnosis that the skills had not yet protected against the two things that actually kill top-stat submissions: weak positioning and unverified technical overclaim.
 
+### Dialogue discipline iteration (May 2026, same session)
+
+The initial Codex integration was phrased as if Codex feedback should be applied wholesale ("apply CRITICAL and MAJOR fixes from Codex"). That framing was wrong. Codex is a senior reader, not an oracle, and is frequently mistaken about specific theorem numbers, numerical constants, and very recent papers. The author's job is to evaluate each criticism on its merits.
+
+The following were updated to reflect this:
+
+- Created `stat-shared-references/stat-codex-dialogue.md`. The new file codifies the dialogue principle: discuss with Codex until convergence rather than apply wholesale. Three outcomes per criticism (accept, push back, log disagreement), when Codex is most likely right or wrong, the convergence test, the documentation expectations, common failure modes of the dialogue.
+- Updated `stat-paper-plan/SKILL.md` Step 7 Pass B to invoke the dialogue principle and link to the new reference. The closing language changed from "apply the accepted feedback" to "apply accepted criticisms (not all criticisms); carry documented disagreements forward".
+- Updated `stat-paper-write/SKILL.md` Step 6 Pass B with the same reframing. The three-outcome decision is now explicit. The closing instruction to verify proposed replacement sentences before pasting is new.
+- Updated `stat-paper-writing/SKILL.md` Phase 5 to apply the dialogue principle to the improvement loop. Round 2 is now an "external dialogue" rather than an "external review", and Round 3 is an "extended dialogue" up to 2 to 4 total rounds.
+- Updated `stat-polishing/SKILL.md` Step 11 to reframe "apply Codex feedback" as the three-outcome dialogue. Added the new reference to the file's reference table.
+- Updated `stat-shared-references/stat-positioning-and-claims.md` Codex integration section. The opening call is now described as starting a conversation; pushback patterns are explicit ("On the criticism of claim CS3: I disagree...").
+- Updated `stat-shared-references/stat-writing-principles.md` companion-references list to include the new reference.
+
+The effect: the skills no longer treat Codex as authoritative. They use Codex as a senior dialogue partner whose criticism the author evaluates and decides on, criticism by criticism. Documented disagreements carry forward to the submission and rebuttal stages.
+
 ## Roadmap for next iteration (priority order)
 
 These are the items Codex identified as important but that are deferred to a future iteration rather than applied immediately.

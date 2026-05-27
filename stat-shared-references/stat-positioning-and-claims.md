@@ -211,7 +211,9 @@ The Codex review of a fresh draft tends to surface the same set of failure modes
 
 ## Codex Integration for the Audit
 
-The audit is well-suited to a Codex MCP call because Codex (GPT-5.4 xhigh) can independently bring positioning and claim-strength judgments. Use this prompt template:
+The audit is well-suited to a Codex MCP call because Codex (GPT-5.4 xhigh) can independently bring positioning and claim-strength judgments. The call is a dialogue, not a directive. Read `stat-codex-dialogue.md` before starting. The initial Codex review opens the conversation; the value comes from pushback and convergence using `mcp__codex__codex-reply`.
+
+Use this prompt template for the opening call:
 
 ```yaml
 mcp__codex__codex:
@@ -270,10 +272,19 @@ mcp__codex__codex:
     reviewer would notice on first read.
 ```
 
-Follow-up calls with `mcp__codex__codex-reply` can target specific claims:
+Follow-up calls with `mcp__codex__codex-reply` are where the dialogue happens. Use them both to accept-and-extend and to push back. Useful patterns:
 
+Accept-and-extend:
 - "For claim CS4, please search your memory for the closest 2024-2026 papers on `[topic]`. Confidence on each."
 - "Please write the exact replacement for the contribution-list bullet that says `[overclaim]`."
+
+Push back when Codex is wrong:
+- "On the criticism of claim CS3: I disagree. The cited paper [Smith 2023, Theorem 2] actually states `[exact statement]`, not what you indicated. Please reconsider; if you still think CS3 is overclaim, identify what specifically is wrong in light of this."
+- "You flagged CS7 as 'missing recent work'. The paper you have in mind may be [name]; we already cite it as [our reference key]. Is there a different paper you intended, or does the criticism stand?"
+
+Verify any specific paper, theorem number, page reference, or numerical constant Codex cites; LLMs are confident even when wrong on these.
+
+Per `stat-codex-dialogue.md`, for each Codex criticism decide one of three outcomes: accept (apply), push back with the context Codex lacked, or log disagreement. Stop after 2 to 4 dialogue rounds, when both sides converge or when remaining disagreements are documented.
 
 ## How Positioning and Claims Differ from the Style Pass
 

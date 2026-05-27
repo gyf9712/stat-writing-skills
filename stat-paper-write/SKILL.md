@@ -854,9 +854,11 @@ Agent(subagent_type="general-purpose"):
 
 Apply CRITICAL and MAJOR fixes from Pass A before moving to Pass B.
 
-#### Pass B: External senior-statistician review with Codex MCP
+#### Pass B: External senior-statistician dialogue with Codex MCP
 
 Use when `REVIEW_MODE = codex` or `both`. This is the high-stakes pass that brings independent judgment from GPT-5.4 with xhigh reasoning. Recommended before any journal submission.
+
+**The dialogue principle.** Codex's review is one senior reader's opinion, not a directive. The job of Pass B is to discuss with Codex until both sides converge on what the draft needs, not to apply Codex's feedback wholesale. Read `../stat-shared-references/stat-codex-dialogue.md` before starting.
 
 **Step B.1: Initial review call.**
 
@@ -999,20 +1001,31 @@ mcp__codex__codex:
     Do not soften.
 ```
 
-**Step B.2: Targeted follow-ups.**
+**Step B.2: Targeted dialogue rounds.**
 
-Use `mcp__codex__codex-reply` with the `threadId` to dig into specific issues. Useful patterns:
+Use `mcp__codex__codex-reply` with the `threadId` to dig in. The dialogue is the value, not the initial review. Useful patterns:
 
+- "On issue N: I disagree because [specific reason and evidence]. Please reconsider in light of this. If you still think the issue stands, identify what specifically remains wrong; if you withdraw the criticism, say so."
 - "Issue 2 is the most important. Please draft three sentences that would replace lines [X-Y] and resolve the criticism."
 - "If we move Theorem 3 to the supplement and replace it with a corollary, does the main contribution still hold?"
 - "Show me what the rate comparison table should look like if we run it for the closest three prior works."
 - "Write a mock author response to your referee report, identifying which points we can address in revision and which require new experiments."
 
-**Step B.3: Application of feedback.**
+Verify any specific paper, theorem number, page reference, or numerical constant that Codex cites. LLMs are confident even when wrong on these.
 
-Apply CRITICAL and MAJOR fixes from Codex. Document MINOR issues for the user. If Codex and Claude reviews disagree on something, surface this to the user — disagreement often signals genuine ambiguity that benefits from human judgment.
+**Step B.3: Convergence and documentation.**
 
-Save the Codex dialogue to `PAPER_DRAFT_REVIEW.md` in the project root.
+For each Codex criticism, the author decides one of three outcomes per `../stat-shared-references/stat-codex-dialogue.md`:
+
+- Accept: the criticism is clearly correct; apply the fix.
+- Push back: the criticism is wrong or based on a misunderstanding; use `mcp__codex__codex-reply` to provide the context Codex lacked, then re-decide.
+- Log disagreement: after a round or two without convergence, document both positions and move on.
+
+Apply accepted criticisms (not all criticisms). Read any proposed replacement sentence carefully; Codex is good at structure but can introduce technical inaccuracies that need verification before paste.
+
+Where Codex and Claude reviews disagree, surface the disagreement to the user. These disagreements often signal genuine ambiguity that benefits from human judgment.
+
+Save the Codex dialogue to `PAPER_DRAFT_REVIEW.md` in the project root, with the format specified in `../stat-shared-references/stat-codex-dialogue.md`: `threadId`, initial review verbatim, round-by-round pushback log, accepted criticisms with fixes, rejected criticisms with reasoning, outstanding disagreements.
 
 ### Step 7: Reverse Outline Test
 

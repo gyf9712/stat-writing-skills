@@ -48,6 +48,7 @@ These files are reference support. Open them after the section's rhetorical job 
 | `../stat-shared-references/stat-figure-design.md` | Auditing figures and tables, caption discipline, legend placement |
 | `../stat-shared-references/stat-venue-checklists.md` | Final-pass venue conformance check |
 | `../shared-references/citation-discipline.md` | Auditing citations, fabricated references, citation key consistency |
+| `../stat-shared-references/stat-codex-dialogue.md` | **Read before any Codex MCP call.** Dialogue discipline: when to accept, when to push back via `mcp__codex__codex-reply`, when to log disagreement, common areas where Codex is right or wrong, convergence test, documentation expectations. |
 
 ## Big Four Standards
 
@@ -467,11 +468,13 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
 12. **Final venue check.** Read the venue checklist; confirm format conformance.
 13. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, even when the polisher has already run one. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
 
-## Optional Codex MCP second-pass review
+## Optional Codex MCP second-pass dialogue
 
-When `CODEX_PASS` is `optional` or `mandatory`, or whenever the polished text is destined for a Big Four submission, run an external senior-statistician review via Codex MCP. The polisher's job is to produce text that *passes* this review; Codex provides the test.
+When `CODEX_PASS` is `optional` or `mandatory`, or whenever the polished text is destined for a Big Four submission, run an external senior-statistician dialogue via Codex MCP. The polisher's job is to produce text that *passes* this review; Codex provides the test.
 
 This second-pass is independent of Claude. It frequently catches AI-shaped patterns that Claude polishing misses, since Claude and the polished text share a common authorial fingerprint.
+
+**The dialogue principle.** Codex's review is one senior reader's opinion, not a directive. The job of the second-pass is to discuss with Codex until both sides converge on what the prose needs, not to apply Codex's feedback wholesale. Read `../stat-shared-references/stat-codex-dialogue.md` before starting.
 
 ### Step 11.1: Send polished text to Codex
 
@@ -579,13 +582,18 @@ mcp__codex__codex:
     would notice on first read.
 ```
 
-### Step 11.2: Apply Codex feedback
+### Step 11.2: Run the dialogue with Codex
 
-For each issue Codex raises:
+For each issue Codex raises, decide one of three per `../stat-shared-references/stat-codex-dialogue.md`:
 
-- If the fix is local and unambiguous, apply it directly.
-- If the fix requires altering the meaning, flag for author attention rather than applying.
-- If Codex misunderstands the substance (rare but possible), push back with `mcp__codex__codex-reply` using the threadId. Provide context that resolves the misunderstanding.
+- **Accept**: the criticism is clearly correct and the fix is unambiguous. Apply it.
+- **Push back**: the criticism is wrong, partial, or based on a misunderstanding. Use `mcp__codex__codex-reply` with the `threadId` to provide the context Codex lacked, then re-decide. Example: "On issue N: I disagree because [the cited paper actually states X, not Y]. Please reconsider; if you still think the issue stands, identify what specifically remains wrong."
+- **Log disagreement**: after a round or two without convergence, document both positions in `POLISHING_REVIEW.md` and move on.
+
+Special cases:
+- If the fix requires altering the meaning of a claim, flag for author attention rather than applying.
+- If Codex proposes a replacement sentence, read it before pasting; Codex is good at structure but can introduce technical inaccuracies.
+- If Codex cites a specific paper, theorem number, or numerical constant, verify it; LLMs are confident even when wrong on these.
 
 ### Step 11.3: Optional second iteration
 
@@ -605,14 +613,20 @@ mcp__codex__codex-reply:
        the single next change that would raise it most?
 ```
 
-### Step 11.4: Document the review
+### Step 11.4: Document the dialogue
 
-Save the Codex dialogue summary to `POLISHING_REVIEW.md` in the project root for the author's reference. Include:
-- Initial voice verdict and score
-- Final voice verdict and score (after revision)
-- AI-tell audit counts (before/after)
-- The most important remaining issues, if any
-- Any disagreements where the polisher pushed back on Codex (with justification)
+Stop iterating when both sides converge, or when remaining disagreements are documented with the author's reasoning, or when the dialogue reaches diminishing returns (typically 2 to 4 rounds). Do not iterate indefinitely.
+
+Save to `POLISHING_REVIEW.md` in the project root, in the format from `../stat-shared-references/stat-codex-dialogue.md`:
+- `threadId` for resumability
+- Initial Codex review verbatim
+- Round-by-round summary of pushback and Codex's replies
+- Final list of accepted criticisms with applied fixes
+- Final list of rejected criticisms with the author's reasoning
+- Initial voice verdict and COPSS-style score
+- Final voice verdict and COPSS-style score
+- AI-tell audit counts before and after
+- Outstanding disagreements between Claude polishing and Codex review
 
 ### When to skip the Codex pass
 

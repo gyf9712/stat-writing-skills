@@ -8,6 +8,8 @@ Use this reference when `stat-paper-plan` needs help shaping the paper's story o
 - `stat-figure-design.md` covers figure design rules (no titles, caption discipline, legend placement, sizing). Read it before generating any figure.
 - `stat-theory-writing.md` covers theorem statements, assumption patterns, proof sketches, rate comparison tables. Read it before writing the main results section.
 - `stat-application-writing.md` covers application paper structure (data-first narrative, EDA, application section). Read it before writing an application paper.
+- `stat-positioning-and-claims.md` covers the positioning audit, the technical claim strength audit, and the `CLAIM_SUPPORT_MAP.md` artifact. Read it before drafting or polishing any front matter.
+- `stat-codex-dialogue.md` covers the dialogue principle for any Codex MCP review: discuss until convergence rather than apply wholesale. Read it before any Codex call.
 - `stat-venue-checklists.md` covers venue-specific requirements. Read it when setting the target venue.
 
 ## Contents

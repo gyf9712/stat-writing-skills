@@ -593,9 +593,11 @@ Agent(subagent_type="general-purpose"):
 
 Apply feedback before moving to Pass B.
 
-#### Pass B: External senior-statistician review with Codex MCP (GPT-5.4, xhigh)
+#### Pass B: External senior-statistician dialogue with Codex MCP (GPT-5.4, xhigh)
 
 Use when `REVIEW_MODE = codex` or `both`. The external review brings independent judgment from a different model family. This is the recommended final check before drafting begins for serious submissions.
+
+**The dialogue principle.** Codex's review is one senior reader's opinion, not a directive. The job of Pass B is to discuss with Codex until both sides converge on what the plan needs, not to apply Codex's feedback wholesale. Read `../stat-shared-references/stat-codex-dialogue.md` before starting. The reference covers when to accept, when to push back with `mcp__codex__codex-reply`, when to log disagreement, common areas where Codex is right or wrong, and the convergence test.
 
 **Step B.1: Initial review call.**
 
@@ -658,35 +660,34 @@ mcp__codex__codex:
     than aggressive ones do; do not soften.
 ```
 
-Save the returned `threadId`. The plan author should:
-- Accept findings that are clearly correct
-- Push back on misunderstandings or factual errors, using `mcp__codex__codex-reply` with the same `threadId`
-- Refine the plan based on accepted findings
+Save the returned `threadId`. The plan author then runs the dialogue per `../stat-shared-references/stat-codex-dialogue.md`. For each issue Codex raises, decide one of three: accept (apply the fix), push back (use `mcp__codex__codex-reply` with the same `threadId` and provide the context Codex lacked), or log disagreement (after a round or two without convergence, record both sides in the review log).
 
 **Step B.2: Targeted follow-up rounds.**
 
-Use `mcp__codex__codex-reply` to iterate on the most actionable items. Useful patterns:
+Use `mcp__codex__codex-reply` to iterate. The dialogue is the value, not the initial review. Useful patterns:
 
 - "If we add [specific simulation], does that close the gap on issue 2?"
+- "On issue 3: I disagree because [specific reason and evidence]. Please reconsider in light of this; if you still think the issue stands, identify what specifically remains wrong."
 - "Please write the rate comparison table you would expect to see in this paper. We'll compare with what we have."
 - "For the application paper, name three domain-standard methods you would expect to see as comparison."
 - "Give me a mock referee report at the level of [JASA / AoS] with: Summary, Strengths, Weaknesses, Recommendation."
 
+Verify any specific paper, theorem number, or numerical constant Codex cites; LLMs are confident even when wrong on these.
+
 **Step B.3: Convergence and documentation.**
 
-Stop iterating when:
-- Both sides agree on what the plan needs to be competitive
-- Specific actionable items are listed
-- The author has a clear next step
+Stop iterating when both sides agree on what the plan needs, or when remaining disagreements are documented with the author's reasoning, or when the dialogue reaches diminishing returns (typically 2 to 4 rounds). Do not iterate indefinitely.
 
-Save the Codex dialogue summary to `PAPER_PLAN_REVIEW.md` in the project root, including:
+Save the dialogue to `PAPER_PLAN_REVIEW.md` in the project root, including:
+- `threadId` for resumability
 - Initial verdict
-- Top issues with proposed fixes
-- Specific simulations, theorems, or comparisons recommended
-- Mock referee report if requested
+- Round-by-round summary of pushback and Codex's replies
+- Final list of accepted criticisms with applied fixes
+- Final list of rejected criticisms with the author's reasoning
 - Outstanding disagreements between Claude review and Codex review (these often signal genuine ambiguity worth checking with a human supervisor)
+- Mock referee report if requested
 
-Apply the accepted feedback before finalizing the plan.
+Apply the accepted criticisms (not all criticisms) before finalizing the plan. Carry the documented disagreements forward; they may matter at submission time.
 
 ### Step 8: Output
 
