@@ -1,0 +1,30 @@
+# Editor / OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Project-local artifacts that should not be committed when these skills run
+PAPER_PLAN.md
+PRIOR_WORK_MATRIX.md
+TECHNICAL_RISK_REGISTER.md
+CLAIM_SUPPORT_MAP.md
+PAPER_PLAN_REVIEW.md
+PAPER_DRAFT_REVIEW.md
+PAPER_IMPROVEMENT_LOG.md
+POLISHING_REVIEW.md
+paper/
+paper-backup-*/
+figures/
+supplement/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.run.xml
