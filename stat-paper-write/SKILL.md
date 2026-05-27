@@ -80,17 +80,34 @@ If working from a conservative baseline before the official template is in hand,
 
 ```latex
 \documentclass[12pt]{article}
-\usepackage[doublespacing]{setspace}      % JASA expects double-spaced manuscript
 \usepackage[margin=1in]{geometry}         % 1-inch margins
-\usepackage{times}                         % Times Roman
-\usepackage{natbib}
-\bibliographystyle{agsm}                   % ASA-journal helper templates use agsm.bst;
-                                            % override with the JASA-bundled .bst when available
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx,booktabs,natbib,caption,subcaption,setspace}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bm,xcolor,microtype,threeparttable,multirow,mathtools}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\onehalfspacing            % or \doublespacing for the conservative submission default
+\bibliographystyle{agsm}   % ASA-journal helper templates use agsm.bst;
+                            % override with the JASA-bundled .bst when available
 % Author-year citations: \citet{}, \citep{}
 % Submission category: "Theory and Methods" (T&M) or "Applications and Case Studies" (ACS)
 ```
 
-Operative working limit: **35 double-spaced pages** for the main manuscript (roughly 26-27 lines per page). Move proofs, technical lemmas, extended simulations, and overflow tables and figures to the supplement. Verify the counting boundary on the live Instructions for Authors page before submission.
+**Line spacing**: JASA templates in current circulation use either `\onehalfspacing` (1.5) or `\doublespacing` (2.0). The user-supplied templates observed in practice use `\onehalfspacing`; the conservative submission default is `\doublespacing`. Verify on the live IFA page before submitting.
+
+**Length**: 35 double-spaced pages for the main manuscript (roughly 26-27 lines per page) as the operative working limit. Move proofs, technical lemmas, extended simulations, and overflow tables and figures to the supplement. Verify the counting boundary on the live Instructions for Authors page before submission.
+
+**Abstract**: **JASA abstracts target 200-250 words**. Long drafts of 300-400 words should be cut to this range before submission. Drop the second motivating paragraph (the introduction carries that material), and merge result-and-implication sentences.
 
 Reproducibility (JASA, both tracks):
 
@@ -300,6 +317,8 @@ Theorem 1 establishes the rate of convergence; the full proof,
 together with additional technical lemmas, is given in Section S.1
 of the Supplement.
 ```
+
+In the supplement, do **not** write subsection headings like `\subsection{Proof of Theorem~\ref{thm:saturation}}` if `thm:saturation` is a label defined in the main paper. When the supplement compiles standalone, that `\ref` becomes `??` and the heading reads "Proof of Theorem ??". Instead, use a textual reference and (recommended) restate the theorem at the start of its proof. See `../stat-shared-references/stat-latex-audit.md` Step L.6 for a worked example of the bug and both correct patterns.
 
 This pattern avoids LaTeX cross-reference fragility and ensures that the supplement can be downloaded and read on its own.
 

@@ -203,6 +203,52 @@ If `SUPPLEMENT_MODE = separate_self_contained` (default for JASA, AoS, AOAS, etc
 
 For each file, run the label/ref audit independently, treating the main paper and the supplement as separate compilation units. Any `\ref{}` that resolves only by reading both files at once is a broken cross-file reference and must be replaced with a textual reference (e.g., "Section S.2 of the Supplement").
 
+**A worked example of the bug.** A common pattern in supplement files looks like this:
+
+```latex
+% supplementary_proofs.tex
+\documentclass[12pt]{article}
+% ... preamble ...
+\renewcommand{\thetheorem}{S\arabic{theorem}}
+
+\section{Proofs of Main Results}
+
+\subsection{Proof of Theorem~\ref{thm:saturation}}     % <-- BUG
+\begin{proof}
+By Theorem~\ref{thm:saturation}, ...                    % <-- BUG
+...
+\end{proof}
+
+\subsection{Proof of Corollary~\ref{cor:prepolicy}}     % <-- BUG
+```
+
+The labels `thm:saturation` and `cor:prepolicy` are defined in the main paper, not in the supplement. When the supplement compiles standalone, every `\ref{thm:saturation}` and `\ref{cor:prepolicy}` becomes `??`. The submitted PDF then shows "Proof of Theorem ??" in subsection headings, which a reviewer notices immediately.
+
+Two correct patterns:
+
+**Pattern A: textual reference (simple, robust).**
+```latex
+\subsection{Proof of Theorem~1 (Post-Policy Saturation)}
+\begin{proof}
+By Theorem 1 of the main paper, ...
+...
+\end{proof}
+```
+The theorem number is written as text. The supplement compiles standalone with no missing references. The downside is that if the main paper's theorem numbering changes, the supplement's textual references must be updated manually.
+
+**Pattern B: restate the theorem (more verbose, fully self-contained).**
+```latex
+\subsection{Proof of Theorem 1 (Post-Policy Saturation)}
+\textit{Theorem~1 (restated from the main paper).} ...full statement...
+
+\begin{proof}
+...
+\end{proof}
+```
+Restating the theorem at the start of its proof makes the supplement readable on its own. This is the most reviewer-friendly pattern and is recommended for theorems whose statements are short. For long theorem statements, Pattern A is acceptable.
+
+Detect this bug by compiling the supplement standalone and grepping for `Reference 'thm:`, `Reference 'cor:`, `Reference 'lem:`, `Reference 'prop:`, `Reference 'eq:`, `Reference 'sec:` in the log. Any unresolved reference in the supplement that points to a main-paper-style label is the bug.
+
 ### Step L.7: Report findings
 
 Produce a `LATEX_INTEGRITY_REPORT.md` (or include in the polishing review log) with:

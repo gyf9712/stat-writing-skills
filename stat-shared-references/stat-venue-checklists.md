@@ -70,14 +70,43 @@ Use this reference when setting the target venue in `stat-paper-plan` and during
   - Taylor & Francis author-template guidance: https://authorservices.taylorandfrancis.com/publishing-your-research/writing-your-paper/formatting-and-templates/
 - Use a conservative review-manuscript format unless the live JASA page says otherwise:
   - 12-point Times New Roman
-  - **double line spacing** for the manuscript
   - margins of at least 2.5 cm (1 inch)
+  - **Line spacing**: JASA templates in current circulation use either `\onehalfspacing` (1.5) or `\doublespacing` (2.0). A working baseline that has been observed in practice for JASA submissions is `\onehalfspacing`. `\doublespacing` is the conservative submission default. `[VERIFY AT SUBMISSION]` which the live IFA page currently requires.
+
+A working baseline preamble that has been observed in practice for JASA submissions (verify against the live IFA page before relying on it):
+
+```latex
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx,booktabs,natbib,caption,subcaption,setspace}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bm,xcolor,microtype,threeparttable,multirow,mathtools}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\onehalfspacing   % or \doublespacing for the conservative submission default
+```
 
 ### Length
 
 - Use **35 double-spaced pages** as the operative JASA main-manuscript working limit.
 - The accessible source citing JASA standards defines this as roughly **26-27 lines of text per page**.
 - `[VERIFY AT SUBMISSION]` what exactly counts toward the 35-page limit. Because the live JASA instructions page was blocked at last check, use the **conservative assumption** that the counted manuscript runs **from abstract through references**, and move long appendices, proofs, extra simulations, and overflow tables and figures to supplementary material.
+
+### Abstract length
+
+- **JASA abstracts are short: aim for 200 to 250 words.** This is consistent with the abstract length observed in recent published JASA T&M and ACS papers. Longer abstracts (300 to 400 words) are common in drafts but should be cut before submission.
+- An abstract that runs to 350 to 400 words usually has two fixes: cut the second motivating paragraph (the introduction will carry that material), and merge the result-and-implication sentences.
+- `[VERIFY AT SUBMISSION]` whether the live IFA page imposes a specific cap or only a soft target.
 
 ### Citation style
 

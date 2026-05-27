@@ -198,6 +198,13 @@ Most statistics reviewers read:
 5. Verification: simulation or data confirmation
 6. Implication: what this enables or resolves
 
+**Venue-specific length norms** (verify against `stat-venue-checklists.md`):
+- JASA T&M and JASA ACS: **200-250 words**. Longer abstracts (300-400 words) are common in drafts but should be cut before submission. Two cuts that usually work: drop the second motivating paragraph (the introduction carries that material), and merge the result-and-implication sentences.
+- AOS, Bernoulli, EJS (IMS): 150-200 words is typical; the IMS template uses a short, dense abstract.
+- AOAS: 150-250 words; the substantive finding must be named.
+- Biometrika: very short, often 100-150 words; the abstract is part of the journal's compressed style.
+- COLT, ALT: 150-300 words; the technical result should be stated.
+
 ### Methodology Paper Abstract (5-6 sentences)
 
 1. Problem motivation: what practical problem, why it matters

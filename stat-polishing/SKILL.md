@@ -469,7 +469,21 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
 12. **LaTeX integrity audit.** Same reference. Compile with `latexmk -pdf -interaction=nonstopmode`, search the log for undefined references, undefined citations, multiply-defined labels, missing image files, font-shape warnings, overfull boxes. Cross-check `\ref{}` and `\label{}`. Cross-check `\cite{}` and the `.bib` file. Cross-check `\includegraphics` and image files on disk. For `SUPPLEMENT_MODE = separate_self_contained`, also verify the supplement contains no `\ref` to labels in the main paper and vice versa. Produce `LATEX_INTEGRITY_REPORT.md` with HIGH and CRITICAL findings and the exact fix for each. All HIGH and CRITICAL findings must be fixed before polishing is declared complete.
 13. **Audit citations.** Verify that no fabricated citations exist; verify cited claims match cited papers.
 14. **Journal-style match check.** Compare the polished prose against the 2-3 recent venue papers identified in Step 2. Does the polished draft match their voice, density, and structural choices? If not, identify the specific deltas (e.g., "this introduction is much longer than typical Biometrika introductions; consider compressing"). For JASA, JRSS-B, AOS, AOAS, this check is usually done by Codex in the optional second-pass; for first-pass polishing, a quick comparison by the polisher is sufficient.
-15. **Final venue check.** Read `stat-venue-checklists.md` for the target venue and confirm every venue-specific requirement is met (cover letter ready, AI disclosure block present, ACC form completed for JASA, alt text under figures for Biometrika and Biostatistics, etc.).
+15. **Final venue check.** Read `stat-venue-checklists.md` for the target venue and confirm every venue-specific requirement is met. Always include:
+    - **Abstract word count** against the venue norm. JASA: 200-250 words; Biometrika: 100-150; AOAS: 150-250; AOS / Bernoulli / EJS: 150-200; COLT / ALT: 150-300. A 350-word draft abstract must be cut before submission.
+    - **Cover letter** is ready (separate file or portal text box per the venue)
+    - **AI disclosure** block is present in the manuscript
+    - **Data and code availability statements** are present
+    - **Reproducibility artifacts** for JASA: the Author Contributions Checklist (ACC) form is filled in and uploaded as supplementary material
+    - **Alt text** under each figure for Biometrika and Biostatistics (preceded by `Alt text:`)
+    - **AMS subject classification** for IMS venues (AOS, AOAS, EJS, Bernoulli)
+    - **Author anonymization** matches the venue's peer-review setting
+
+    A quick word-count check on the abstract:
+    ```bash
+    awk '/\\begin\{abstract\}/{flag=1; next} /\\end\{abstract\}/{flag=0} flag' main.tex \
+      | tr -s ' \n' '\n' | grep -E '\S' | wc -l
+    ```
 16. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, a journal-style-match assessment against the venue, and an AI-tell line-level audit. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
 
 ## Optional Codex MCP second-pass dialogue
