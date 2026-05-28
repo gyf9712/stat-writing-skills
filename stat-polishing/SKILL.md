@@ -245,102 +245,30 @@ A polished statistics title:
 - Avoids slogans, grant-style aims, and field-wide overclaims
 - Is searchable: contains terms a reviewer would search for
 
-## Sentence and paragraph control
+## Sentence, paragraph, bullet, and punctuation discipline (priority)
 
-### Sentence rules
-
-- Aim for sentences in the 10 to 30 word range
-- Keep every sentence at no more than 30 words
-- If a sentence exceeds 20 words, check whether it contains more than one main proposition
-- Split overloaded sentences rather than polishing them cosmetically
-- The last sentence of a paragraph often becomes the longest and weakest. Check it explicitly.
-- Prefer one core subject-verb proposition per sentence
-- Do not use em-dashes as sentence-connecting punctuation. Use commas, periods, or parentheses instead.
-- Use colons only to introduce lists or in figure/table captions.
-- Convert most semicolons to periods.
-
-### Paragraph rules
-
-- Statistics paragraphs are typically 4 to 8 sentences
-- Each paragraph should develop one main idea
-- Move from old information to new information
-- End on the point that matters most
-- Vary paragraph openings; not every paragraph needs an explicit topic sentence
-- Avoid one-sentence paragraphs except in rare emphatic contexts
-- Avoid stacked connectives ("Moreover, ...", "Furthermore, ...", "Additionally, ...")
-
-### Bullet point rules
-
-- Bullets only in: contribution lists in §1, assumption lists, algorithm pseudocode, simulation-setup item lists
-- Convert other bullets to prose
-- For contribution lists: use a numbered list (1, 2, 3) of 2 to 4 items
-- Each contribution should be 1 to 3 lines, specific and falsifiable
-
-### Results vs Discussion sentence types
-
-Results sentences usually report:
-- "was estimated"
-- "increased by"
-- "showed"
-- "achieved"
-- "the coverage rate was"
-
-Discussion sentences usually interpret:
-- "suggests that"
-- "is consistent with"
-- "may reflect"
-- "could indicate"
-- "is likely due to"
-
-Do not let a Results paragraph drift into Discussion syntax unless the transition is intentional.
-
-## Punctuation discipline (priority)
-
-Read `../stat-shared-references/stat-style-discipline.md` for full guidance. The headline rules:
+Read `../stat-shared-references/stat-style-discipline.md` for the full rules. Headline items, in priority order:
 
 1. **Em-dashes**: cut to at most one per paper. Replace with commas, periods, or restructured sentences.
-2. **Colons**: keep only those introducing lists, figure captions, or table captions. Cut stylistic colons that connect clauses.
+2. **Colons**: only to introduce lists, figure captions, or table captions. Cut stylistic colons that connect clauses.
 3. **Semicolons**: convert most to periods. Keep only for joining two short, closely related parallel clauses.
+4. **Sentence length**: 10-30 word range; check any sentence > 20 words for multiple propositions.
+5. **Paragraph length**: 4-8 sentences; one idea per paragraph; old-info to new-info movement; end on the load-bearing point.
+6. **Bullets**: only in contribution lists, assumption lists, algorithm pseudocode, simulation setups. Convert other bullets to prose.
+7. **Results vs Discussion register**: Results sentences report ("was estimated", "increased by", "showed"); Discussion sentences interpret ("suggests that", "is consistent with", "may reflect"). Do not let a Results paragraph drift into Discussion syntax unless the transition is intentional.
 
 ## AI-template removal (priority)
 
-Cut the following on sight.
+Read `../stat-shared-references/stat-style-discipline.md` "AI-Template Patterns to Avoid" + "AI Watchwords (Watchlist, Not Blacklist)" + "Biometrika-Style House Bans" for the full lists. Cut on sight:
 
-Section openings:
-- "In this section, we ..."
-- "This section is organized as follows."
-- "Here, we present ..."
-- "We now turn to ..."
-
-Empty connectives:
-- "It is worth noting that"
-- "Importantly,"
-- "Notably,"
-- "Crucially,"
-- "Interestingly,"
-- "Of particular note,"
-
-Watchwords:
-- delve, pivotal, landscape, tapestry, underscore, elucidate, noteworthy, intriguingly, leveraging, holistic, robust (when no robustness tested), novel (when no novelty established), comprehensive (when nothing comprehensive)
-
-Padding phrases:
-- "perform an analysis of" → "analyze"
-- "make use of" → "use"
-- "in order to" → "to"
-- "due to the fact that" → "because"
-- "at this point in time" → "now"
-- "the question of whether" → "whether"
-
-Hedge stacking:
-- "may potentially suggest" → "suggests"
-- "could possibly indicate" → "indicates"
-
-Generic conclusions:
-- "opens exciting new avenues"
-- "wide-ranging implications"
-- "we hope this work will inspire"
-
-The rule-of-three tic: vary list lengths. Single items, pairs, and quadruples are fine. Cut items that do not pull weight.
+- Templated section openings ("In this section, we ...", "Here, we present ...")
+- Empty connectives ("It is worth noting that", "Importantly,", "Notably,", "Crucially,")
+- AI watchwords (delve / pivotal / underscore / unveil / leveraging / etc.) used as decoration
+- Biometrika-style hard bans ("Note that" at sentence start; "is given by"; homemade method acronyms; in-text `w.r.t.` / `s.t.` / `i.f.f.`)
+- Padding phrases ("in order to" → "to"; "perform an analysis of" → "analyze")
+- Hedge stacking ("may potentially" → "suggests")
+- Generic conclusions ("opens exciting new avenues", "wide-ranging implications")
+- Rule-of-three tic when all three items are not pulling weight
 
 ## COPSS-style scholar voice
 
