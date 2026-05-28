@@ -15,7 +15,8 @@ The skills support three paper types with distinct section structure and theory 
 | `stat-paper-plan` | Build a structured outline from a narrative report or research notes. Produces `PAPER_PLAN.md`, `PRIOR_WORK_MATRIX.md`, `TECHNICAL_RISK_REGISTER.md` |
 | `stat-paper-write` | Draft section-by-section LaTeX from the plan. Builds and audits `CLAIM_SUPPORT_MAP.md`. Handles main/supplement separation per venue. |
 | `stat-paper-writing` | Full pipeline orchestrator: plan → figures → write → compile → improvement loop with Claude internal + Codex external review |
-| `stat-polishing` | Polish existing prose to Big Four standards. Positioning audit, technical claim strength audit, then style discipline pass |
+| `stat-polishing` | Polish existing prose to Big Four standards. Positioning audit, technical claim strength audit, then style discipline pass. Includes page-fit micro-edit and three-reader pre-submission test modes. |
+| `stat-mock-review` | Single-pass AE-style pre-submission mock review. Produces `MOCK_REVIEW.md` with synopsis, fatal / major / minor concerns, venue-fit risk, likely initial editorial action (verb, not number), and a prioritized rescue plan. |
 
 ## Shared References
 
@@ -24,13 +25,15 @@ Located in `stat-shared-references/`. These are reusable across the four skills.
 | File | What it covers |
 |---|---|
 | `stat-writing-principles.md` | Narrative arc, paper types, abstract formulas, introduction structure |
-| `stat-style-discipline.md` | Punctuation discipline (em-dash, colon, semicolon), AI-template removal, COPSS-style scholar voice, paragraph and bullet discipline |
-| `stat-figure-design.md` | No titles in figures, caption discipline, legend placement, sizing for journal columns, multi-panel rules |
+| `stat-style-discipline.md` | Punctuation discipline (em-dash, colon, semicolon), emphasis-formatting discipline (no bold/italic in prose, venue table), AI-template removal, AI-vocab watchlist, Biometrika-style house bans (note that, is given by, homemade acronyms), COPSS-style scholar voice, paragraph and bullet discipline |
+| `stat-figure-design.md` | No titles in figures, caption discipline with sentence-style + per-venue table, statistical-question-driven figure-type selection, Big Four guardrails (no violins without sample support, no broken axes, no dual-y, no inset legends in Biometrika, no 3D, no pie, no splash framework figures), legend placement, sizing for journal columns, multi-panel rules |
 | `stat-theory-writing.md` | Theorem statement patterns, assumption blocks, proof sketches, rate comparison tables, minimax lower bound arguments |
 | `stat-application-writing.md` | Application paper structure (data-first narrative), §2 Data and Background, §6 Application section, validation, domain interpretation |
 | `stat-positioning-and-claims.md` | Positioning audit, technical claim strength audit, `CLAIM_SUPPORT_MAP.md` artifact, literature search protocol, common overclaim patterns |
 | `stat-codex-dialogue.md` | Dialogue discipline for Codex MCP reviews: discuss until convergence rather than apply wholesale; when to accept, when to push back, when to log disagreement |
 | `stat-latex-audit.md` | Template conformance (documentclass, packages, font, line spacing, margins, bibliography style, venue-required blocks) and LaTeX integrity (undefined refs, undefined citations, missing images, log warnings, cross-file references) |
+| `stat-reproducibility-audit.md` | Code, data, simulation reproducibility, and submission statements per Big Four expectations; per-venue table (JASA ACC, JRSS-B data/code policy, Biometrika code supplement, AOAS replication, Biostatistics D/C/R kite-marks); audit checklist and common failure modes |
+| `stat-notation-audit.md` | Two-layer audit: every symbol defined on first use, and every acronym either standard or defined. Discipline for new method names (descriptive phrase preferred over homemade acronym, especially at Biometrika); standard statistics acronym list |
 | `stat-venue-checklists.md` | Per-venue formatting, supplement, anonymity, AI disclosure, alt text, reproducibility rules with `Last checked` dates |
 
 ## Design Philosophy
@@ -39,7 +42,7 @@ Three principles shaped the family.
 
 **Positioning and technical claim strength are the highest-priority risks.** Big Four submissions are killed more often by weak positioning or unverified overclaim than by any other problem. `stat-positioning-and-claims.md` requires every comparative claim in the abstract, introduction, contribution list, theorem statements, and discussion to trace through `CLAIM_SUPPORT_MAP.md` to a verified row of `PRIOR_WORK_MATRIX.md` and `TECHNICAL_RISK_REGISTER.md` with a piece of read-in-full literature support.
 
-**The prose should read like a senior statistician wrote it.** `stat-style-discipline.md` is strict about punctuation (no em-dashes for clause connection, colons restricted to lists and captions, reduced semicolons), AI-template removal (no formulaic openings, empty connectives, watchwords like "delve" or "pivotal", hedge-stacking), and COPSS-style voice (confidence without hype, plain verbs, connective restraint, mathematical precision over praise).
+**The prose should read like a senior statistician wrote it.** `stat-style-discipline.md` is strict about punctuation (no em-dashes for clause connection, colons restricted to lists and captions, reduced semicolons), emphasis formatting (no manual bold or italic for rhetorical importance; reserved for journal-conventional objects like theorem class headers and first-use term definitions), AI-template removal (no formulaic openings, empty connectives, watchwords like "delve" or "pivotal", hedge-stacking), Biometrika-style house bans (`Note that`, `is given by`, homemade method acronyms), and COPSS-style voice (confidence without hype, plain verbs, connective restraint, mathematical precision over praise).
 
 **Figures and tables have one rule above all: no titles inside the figure.** Information moves to the caption. Legends do not overlap data. Captions are self-contained. `stat-figure-design.md` enforces this.
 
@@ -87,7 +90,7 @@ cp -r stat-writing-skills/stat-* ~/.claude/skills/
 cp stat-writing-skills/STAT_SKILLS_ROADMAP.md ~/.claude/skills/
 ```
 
-Claude Code will pick up the skills automatically. Invoke them with `/stat-paper-plan`, `/stat-paper-write`, `/stat-paper-writing`, or `/stat-polishing`.
+Claude Code will pick up the skills automatically. Invoke them with `/stat-paper-plan`, `/stat-paper-write`, `/stat-paper-writing`, `/stat-polishing`, or `/stat-mock-review`.
 
 For Codex MCP integration, the Codex MCP server must be configured in Claude Code:
 

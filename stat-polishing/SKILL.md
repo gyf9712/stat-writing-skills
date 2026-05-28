@@ -50,6 +50,8 @@ These files are reference support. Open them after the section's rhetorical job 
 | `../shared-references/citation-discipline.md` | Auditing citations, fabricated references, citation key consistency |
 | `../stat-shared-references/stat-codex-dialogue.md` | **Read before any Codex MCP call.** Dialogue discipline: when to accept, when to push back via `mcp__codex__codex-reply`, when to log disagreement, common areas where Codex is right or wrong, convergence test, documentation expectations. |
 | `../stat-shared-references/stat-latex-audit.md` | **Read before the mechanical audit pass.** Template conformance check (documentclass, packages, font, line spacing, margins, bibliography style, venue-required blocks, anonymization) and LaTeX integrity check (undefined references, undefined citations, missing image files, broken cross-file references, log warnings). |
+| `../stat-shared-references/stat-reproducibility-audit.md` | Read before final submission. Big Four expectations on data and code availability, reproducible simulations, venue-specific reproducibility artifacts (JASA ACC, Biostatistics D/C/R, AOAS replication code, Biometrika supplementary code). Includes the three submission statements (data availability, code availability, reproducibility). |
+| `../stat-shared-references/stat-notation-audit.md` | Read before final compile. Two-layer audit: every symbol defined on first use, every acronym either standard or defined. Discipline against homemade method acronyms, especially for Biometrika. |
 
 ## Big Four Standards
 
@@ -693,6 +695,81 @@ Save to `POLISHING_REVIEW.md` in the project root, in the format from `../stat-s
 - Final voice verdict and COPSS-style score
 - AI-tell audit counts before and after
 - Outstanding disagreements between Claude polishing and Codex review
+
+### Mode: Page-Fit Micro-Edit
+
+When the manuscript is over the venue's page limit by a small amount (one to three pages), or when a single section needs to be trimmed to fit a column-balanced layout, run a page-fit micro-edit pass rather than restructuring.
+
+Big Four page caps that commonly trigger this pass:
+
+- JASA T&M: 32 pages, double-spaced, 12 pt
+- JASA ACS: 32 pages
+- AoS: 30 pages double-spaced
+- Biometrika main paper: 25 pages typeset (Miscellanea: 8 pages)
+- JRSS-B: no hard cap but length is screened editorially; papers over 30 typeset pages face headwinds
+- AOAS: typically 20-25 pages
+
+The pass is local, reversible compression or expansion with a target word or page delta. Apply paragraph by paragraph.
+
+What to preserve:
+
+- Assumptions, quantifiers, caveats, and theorem conditions verbatim
+- Every cited paper and bibliographic reference
+- Numerical values, rates, and constants in theorems and tables
+- The strength of every claim (do not weaken `we prove` to `we show`; do not weaken `minimax optimal` to `near-optimal`)
+- Notation introduced earlier and used later
+
+What to cut first:
+
+- Meta-discourse ("In this section, we ...", "As discussed above, ...", "We now turn to ...")
+- Duplicated signposting ("This result, which we prove in Section 4, ...")
+- Soft intensifiers ("very", "quite", "rather", "particularly", "especially" used as decoration)
+- Hedge stacking ("may potentially", "could possibly")
+- Derivations that belong in the supplement (a four-line algebraic manipulation in the body that the reader will skip)
+- Restatements of definitions already given
+- Bullet items that repeat the surrounding prose
+
+What to expand only when needed:
+
+- An assumption that the reader cannot follow without an extra sentence
+- A theorem statement whose contribution is unclear from the formal claim alone
+- A figure caption whose takeaway is not stated
+
+After the pass, recompute the page count. Do not loop endlessly: if two passes have removed less than half a page each, the manuscript is at its natural length and the cut must come from structure, not from prose.
+
+### Mode: Three-Reader Pre-Submission Test
+
+Run this pass after the line-level polish is complete and before the Codex external pass, or as a final standalone read before submission. The goal is to find the first point where each of three intended readers stops trusting or following the paper.
+
+Simulate three readers in sequence. For each reader, read the manuscript end-to-end and stop at the first point of friction.
+
+**Reader 1: the Associate Editor.** They are screening the paper in fifteen minutes for desk-reject or send-out-for-review. They ask: "Why should statisticians care?" Mark the first place where the answer is not on the page. Likely failure modes:
+
+- Abstract that does not state the contribution in the first two sentences
+- Introduction that frames the problem too narrowly or too vaguely for the venue
+- Contribution list whose items are not distinguishable from prior work
+- Theorem statement that requires reading the assumption block to understand the claim
+- Application section that does not name the substantive scientific finding
+
+**Reader 2: the technical referee.** They are reading the math carefully and ask: "Is this correct and useful?" Mark the first place where the math, the proof sketch, or the simulation does not support the prose claim. Likely failure modes:
+
+- Theorem that uses an assumption introduced two pages later
+- Proof sketch that says "by standard arguments" for a step that is the technical novelty
+- Simulation design that does not match the assumption set in the theorem (e.g., heavy-tailed errors claimed in theory, Gaussian errors in simulation)
+- Rate in the abstract that does not match the rate in the theorem
+- Citation that does not say what the paper claims it says
+
+**Reader 3: the applied statistician.** For methodology and application papers, they ask: "Could I use this on my data?" Mark the first place where the method becomes inaccessible. Likely failure modes:
+
+- Method introduced before the problem it solves is motivated by data
+- Tuning parameter without a recommendation or default
+- Implementation not described or not pointed at
+- Simulation evidence that does not cover the data regime the reader works in
+- Validation that does not include a comparison with the method the domain currently uses
+
+For each reader, record the first-friction location, the diagnosis, and the smallest change that would clear the friction. Fix in order of severity, not in order of reader; an AE-level friction blocks all three readers.
+
+Do not try to satisfy all three readers in the same paragraph. The introduction belongs to the AE; the main results to the referee; the application section to the applied statistician. Each reader gets a section where their needs dominate.
 
 ### When to skip the Codex pass
 

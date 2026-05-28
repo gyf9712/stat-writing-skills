@@ -57,6 +57,23 @@ What captions should not contain:
 - Citations except when the data source itself is the citation
 - Discussion of why the result matters at length (that goes in the text)
 
+### Caption Capitalization and Punctuation
+
+Capitalization and terminal punctuation are venue-specific, not author preference. Statistics journals overwhelmingly use sentence-style captions, in contrast to the title-case captions common in ML conferences. Default to sentence style: capitalize only the first word and proper nouns; end the caption with a full stop. Do not place a title inside the figure or table; that information moves to the caption.
+
+| Venue | Figure caption | Table title |
+|---|---|---|
+| Biometrika | Sentence-style, full stop at end. Each subsequent sentence in the caption also ends with a full stop. | Sentence-style; the last sentence of the title does not take a full stop. |
+| Annals of Statistics | Sentence-style, full stop at end. | Sentence-style, full stop at end. |
+| JASA / ASA journals | Sentence-style, full stop at end. | Sentence-style, full stop at end. |
+| JRSS-B (and JRSS-A, JRSS-C) | Sentence-style; brief, clear, self-explanatory; substantive comments belong in the main text, not in the caption. | Sentence-style. |
+| AOAS, Bernoulli, EJS | Sentence-style following `imsart` class defaults. | Sentence-style. |
+| Biostatistics, JCGS | Sentence-style. | Sentence-style. |
+
+Title case (`Performance Comparison Across Sample Sizes`) is an ML conference convention and is wrong for the Big Four. Convert to sentence style (`Performance comparison across sample sizes.`) before submission.
+
+Symbol descriptions, line type explanations, and abbreviation expansions belong in the caption or table note, written in plain text. Do not bold them, italicize them, or set them as a subtitle inside the figure.
+
 ## Legend Discipline
 
 Legends are the most frequent source of figure ugliness. The two killers are:
@@ -140,6 +157,47 @@ Font size at final size:
 - Legend: 8 to 10 pt
 - Panel labels (a, b, c): 10 to 12 pt, bold
 - Never use fonts smaller than 7 pt, since they become illegible after PDF compression
+
+## Choosing the Figure Type
+
+Before drawing anything, name the statistical question the figure must answer. Big Four figures are read for content, not for visualization fluency. A figure that does not answer a clean statistical question (estimand, comparison, rate, distribution, calibration, sensitivity, or trade-off) does not belong in the paper.
+
+### Question-driven mapping
+
+| Statistical question | Default display | Notes |
+|---|---|---|
+| Does $\hat\theta_n$ converge at the predicted rate? | Log-log line plot of error vs $n$ with reference slope | Mark the theoretical slope; do not extrapolate beyond simulated range. |
+| Are competing estimators distinguishable across $n$ or signal-to-noise? | Lines with shaded Monte Carlo bands across the design grid | Use the same color and line-type encoding across all figures in the paper. |
+| Is the distribution of an estimator non-normal? | Histogram with overlaid density or theoretical reference | Show sample size in the caption. |
+| Are the two methods' performance distributions different? | Box plot or strip plot of the replication-level metric | Use box plots when $n_{\text{rep}} \ge 30$; do not use violin plots unless $n_{\text{rep}}$ is large enough to support a stable density estimate. |
+| Is there a speed/accuracy or bias/variance trade-off? | Scatter of one metric vs the other with method labels | Avoid the "Pareto frontier" term and the highlighted-frontier line unless the trade-off is the contribution. |
+| Is the model well-calibrated? | Calibration plot (predicted vs empirical) with reference line $y=x$ | Show confidence bands or binning bin counts. |
+| What is the structure of the data motivating the model? | EDA figures: scatter with smoother, density, KM curves, spatial map, missingness pattern | See the EDA figures section. |
+| What is the effect estimate with uncertainty? | Coefficient or effect plot with CI bars; for many parameters, a forest plot | Always show uncertainty; ordering reveals or hides structure, so order intentionally. |
+| How does a binary classifier perform under class imbalance? | Precision-recall curve | ROC is acceptable for roughly balanced classes; for severely imbalanced data, PR is the standard. |
+| How does the model's behavior change with a tuning parameter? | Line plot vs the parameter, with confidence bands | Plot the metric the reader cares about, not the loss the optimizer minimizes. |
+| What is the dependence structure among $p$ variables? | Heatmap of the (estimated) covariance, correlation, or partial correlation matrix | Cluster rows and columns if structure exists; otherwise keep original order. |
+
+### Big Four guardrails
+
+The following defaults exist because they kill more figures than they save.
+
+- **No violin plots unless sample size supports density estimation.** A violin built on 10 or 20 replications is a smooth that lies about the shape. Box plots or strip plots are honest at small replication counts.
+- **No broken axes.** Broken y-axes hide the magnitude of effects and invite reviewer suspicion. If two scales differ by orders of magnitude, use a log scale or split the figure into two panels with consistent linear scales within each panel.
+- **Log scale for orders of magnitude; normalization for relative improvement.** Choose deliberately. Do not log-transform an axis to make small differences look bigger. Use a $\log_{10}$ scale only when the data span at least one full decade and the multiplicative structure matters.
+- **Avoid dual-y plots except for deterministic transformations.** A second y-axis with a different metric on the same plot misleads readers who cannot tell which series belongs to which axis. Two panels, or a single normalized scale, is almost always better. The narrow exception is a deterministic transformation of one axis (e.g., temperature in C and F, probability and log-odds), where the reader is not asked to compare two distinct quantities.
+- **No inset legends in Biometrika and similar tight-layout journals.** Move the legend outside the panel or replace it with direct labels on the curves. Some journals enforce this explicitly; treat it as a default everywhere.
+- **No facet grids over more than a 4-by-4 layout.** Beyond that, individual panels become unreadable at journal column width. Use small multiples sparingly and prioritize the comparison the paper actually makes.
+- **No 3D plots in statistics papers.** 3D wireframes, 3D bars, and 3D pie charts hide rather than reveal. Use a 2D heatmap, contour plot, or pairs plot instead.
+- **No pie charts in body content.** Pie charts compare angles, which readers do poorly. Use a horizontal bar chart for category proportions.
+- **Show uncertainty for every estimate that the reader is invited to interpret.** Bands, error bars, or posterior intervals. A point estimate without uncertainty is a half-finished figure.
+- **Use the same encoding across all figures in the paper.** Color, linetype, marker for each method must be fixed in Figure 1 and reused everywhere. Inconsistent encoding forces the reader to relearn the legend at every figure.
+
+### Architecture and splash figures
+
+Statistics papers rarely use the architecture-diagram-as-splash-figure style common at NeurIPS and ICML. A method-overview figure is acceptable only when it clarifies the statistical object, the data flow between stages, or the inferential target, and only when the verbal description alone is insufficient. Pastel flat-vector "framework figures" generated by image models are a CV/NLP convention and look like marketing in a Big Four manuscript. Avoid them. If the method genuinely benefits from a diagram, render it with TikZ or a vector drawing tool, use minimal labels, and let the caption carry the explanation.
+
+When AI image generation is used to draft figures, check the venue's AI disclosure policy. OUP journals (Biometrika, Biostatistics, JRSS-B) require disclosure of generative-AI tools used in the manuscript or its figures.
 
 ## Multi-Panel Figures
 
@@ -244,6 +302,7 @@ Oracle   & 3.89 (0.27) & 1.05 (0.07) & 0.41 (0.03) & 0.08 (0.01) \\
 |---------|-----|
 | Title inside the figure | Remove and move content to caption |
 | Legend overlapping data | Move outside the plot area or use direct labels |
+| Title-case caption | Convert to sentence style with terminal period |
 | Tiny fonts at journal size | Recompute font sizes at final figure size |
 | Tick labels colliding | Reduce tick density or rotate labels 45 degrees |
 | Caption requires the main text | Rewrite to be self-contained |
@@ -253,12 +312,22 @@ Oracle   & 3.89 (0.27) & 1.05 (0.07) & 0.41 (0.03) & 0.08 (0.01) \\
 | Raster output for line plots | Switch to PDF or EPS |
 | Multi-panel figure without panel labels | Add (a), (b), (c) in top-left of each panel |
 | Different axis ranges across comparable panels | Unify ranges so the visual comparison is direct |
+| Violin plot built on small replication count | Replace with a box plot or strip plot |
+| Broken y-axis | Use a log scale or split into two panels with consistent linear scales |
+| Dual-y plot comparing two distinct quantities | Split into two panels or use one normalized scale |
+| Inset legend in a tight-layout venue (e.g., Biometrika) | Move legend outside the panel or use direct labels |
+| 3D plot, pie chart in body content | Replace with a 2D heatmap, contour plot, or horizontal bar chart |
+| Pastel flat-vector "framework figure" | Remove or replace with a TikZ method diagram with minimal labels |
+| AI-generated figure not disclosed | Add to the venue's AI disclosure block |
 
 ## Pre-Submission Figure Checklist
 
 - [ ] No titles inside any figure
 - [ ] Every figure has a self-contained caption
+- [ ] Captions are sentence-style with terminal period (or venue equivalent)
+- [ ] No title-case captions; no manual bold or italic inside captions
 - [ ] Legends do not overlap data or extend beyond the plot area
+- [ ] No inset legends if the target venue forbids them (Biometrika)
 - [ ] Axis labels are concise and use main-text notation
 - [ ] Tick density is reasonable (5 to 7 major ticks)
 - [ ] Colorblind-safe palette
@@ -268,5 +337,8 @@ Oracle   & 3.89 (0.27) & 1.05 (0.07) & 0.41 (0.03) & 0.08 (0.01) \\
 - [ ] Font sizes are readable at journal column width
 - [ ] Multi-panel figures have panel labels and unified axes when appropriate
 - [ ] Uncertainty is shown for every estimate that matters
+- [ ] No violin plots without sufficient replication count
+- [ ] No broken axes, no dual-y axes (except deterministic transformations), no 3D plots, no pie charts
 - [ ] Figure references in the text guide the reader to what to notice
 - [ ] No figures depend on color alone for distinction (grayscale check)
+- [ ] AI-generated figures are disclosed per venue policy

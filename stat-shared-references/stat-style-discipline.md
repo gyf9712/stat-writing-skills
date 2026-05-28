@@ -87,6 +87,41 @@ Use standard double quotation marks for direct quotation. Avoid scare quotes aro
 
 Use parentheses sparingly. Long parenthetical remarks should usually be sentences in their own right or be cut. A parenthetical citation is fine; a parenthetical clause longer than five words is usually a sign the sentence needs restructuring.
 
+## Emphasis Formatting Discipline
+
+Avoid emphasis formatting in prose. Do not use bold, italics, underlining, small caps, color, boxed text, or display styling to make a sentence sound important. If a point needs emphasis, rewrite the sentence or promote it structurally to a heading, theorem, remark, table, or figure. Manual emphasis is permitted only for journal-conventional objects: theorem and proof headers supplied by the class, mathematically defined notation on first use, vectors or matrices when the target journal uses bold notation, table headers produced by the table style, and unavoidable bibliographic or title conventions. Do not manually bold or italicize assumption labels, theorem claims, contribution sentences, figure captions, abstract phrases, or "key findings."
+
+The rule is stricter than punctuation discipline because Big Four house styles ban or restrict prose emphasis directly, and because emphasis-as-rhetoric is a strong AI tell. A draft with three bolded sentences in the abstract and two italicized phrases in the introduction has already lost the senior-statistician voice before any other audit runs.
+
+### What counts as journal-conventional
+
+- Theorem, lemma, proposition, corollary, definition, assumption, and remark headers as styled by `amsthm` or the journal's class. These are typeset by the class; the author does not insert manual bold.
+- Mathematical objects rendered in their canonical typeface (boldface for vectors and matrices when the venue uses that convention; calligraphic for sets; blackboard for number systems). Do not invent a new bold convention.
+- Italics on the first defined use of a technical term (`the *propensity score* is defined as ...`). After the first use, plain text.
+- Table column headers and panel labels when produced by the table or figure code, not by manual emphasis in the prose.
+
+### What is banned regardless of venue
+
+- Bolded sentences or phrases in the body, abstract, introduction, theorem statements, or discussion to convey importance.
+- Italicized rhetorical phrases ("this is *crucial*", "we *strongly* emphasize").
+- Manual bolding of contribution items, claim sentences, or "main result" labels.
+- Color in body prose. Color belongs in figures, used for data, not for words.
+- Underlining anywhere in the manuscript.
+- Bolded text inside figure captions or table titles unless the journal class does it for you.
+
+### Venue-specific notes
+
+| Venue | Emphasis policy |
+|---|---|
+| Biometrika | Strictest. Verbal phrases in italic or bold are not used. Even vectors and matrices are not set in distinctive bold type by house convention; use the class's defaults. Captions carry symbol descriptions in plain text. |
+| Annals of Statistics | Avoid excessive italics and bold face. Theorem and remark headers are produced by the `imsart` class; do not add manual bold. |
+| JASA (and ASA journals) | Italics for emphasis are used sparingly. Vectors and matrices are typeset in bold by ASA convention. |
+| JRSS-B (and JRSS-A, JRSS-C) | Local macros and special formatting are discouraged. Theorem, caption, and heading formatting is left to the journal class. |
+| AOAS, Bernoulli, EJS | Follow `imsart` defaults; do not override with manual emphasis. |
+| Biostatistics, JCGS | Class-driven formatting; rhetorical emphasis is not part of the house voice. |
+
+When in doubt, fall back to the strictest rule: no manual emphasis. The senior-statistician voice carries its own weight; it does not need typography to assert importance.
+
 ## AI-Template Patterns to Avoid
 
 The following patterns appear with high frequency in LLM-generated academic prose. Remove them.
@@ -159,23 +194,44 @@ Avoid generic closing sentences:
 
 Replace with specific statements about what the work enables.
 
-### AI Watchwords
+### AI Watchwords (Watchlist, Not Blacklist)
 
-The following words appear with disproportionate frequency in LLM prose. Use them only when necessary, and never as decoration:
-- delve, delving
-- pivotal, crucial, paramount
+The following words appear with disproportionate frequency in LLM prose. Treat the list as a watchlist, not an automatic ban list. Many of these words have legitimate technical uses; flag rhetorical uses and keep technically necessary ones.
+
+- delve, delving, delve into
+- pivotal, crucial, paramount, vital
 - landscape, tapestry, realm
-- underscore, illuminate, elucidate
-- noteworthy, remarkable, striking
-- intriguingly, fascinatingly
+- underscore, underline, illuminate, elucidate
+- unveil, unearth, uncover (when no veil or earth was present)
+- noteworthy, remarkable, striking, intriguing
+- intriguingly, fascinatingly, notably (as a decoration)
+- foster, galvanize, harmonize, hone
+- paradigm, paradigm shift, transformative
 - robust (when no robustness is being tested)
 - novel (when no novelty is being established)
 - comprehensive (when no comprehensiveness is being demonstrated)
-- nuanced (often vague)
-- holistic
-- leveraging, leverage
+- nuanced, holistic (often vague)
+- leveraging, leverage (when "use" works)
+- in this paper, our work, our contribution (when redundant with section context)
 
-When you find these words, ask whether they carry information. If not, cut.
+For each candidate occurrence, ask three questions:
+
+1. Does the word carry information that a reader could not infer from the surrounding sentence?
+2. If the word were cut, would the sentence become weaker, or would it just shorten?
+3. Is the word doing real technical work (e.g., "leveraging the asymptotic equivalence in Lemma 3"), or is it rhetorical decoration?
+
+Keep when (1) or (3); cut otherwise.
+
+### Biometrika-Style House Bans
+
+Biometrika and similar concise-prose venues enforce additional hard bans that are useful Big-Four-wide:
+
+- **"Note that"** at the start of a sentence. Either the next clause is worth saying, in which case start with the content; or it is not, in which case cut. Replace `Note that the estimator is consistent.` with `The estimator is consistent.`
+- **"Is given by"** in mathematical phrasing. Prefer the direct relation: `The estimator $\hat\theta$ is given by $\hat\theta = (X^\top X)^{-1} X^\top y$.` becomes `The estimator is $\hat\theta = (X^\top X)^{-1} X^\top y$.` or `Define $\hat\theta = (X^\top X)^{-1} X^\top y$.`
+- **Homemade method acronyms.** Big Four journals, and Biometrika most aggressively, discourage acronyms for new methods. A method named `Doubly Robust Adaptive Kernel Estimator (DRAKE)` reads as ML-style branding, not statistics. Prefer a descriptive short name (`the adaptive kernel estimator`, `the proposed estimator`) and let the formal definition do the work. Acronyms for standard objects (MLE, MCMC, GLM, MSE, KL, OLS) are fine.
+- **Unnecessary abbreviations.** Avoid in-text abbreviations like `w.r.t.`, `s.t.`, `i.f.f.` in body prose; spell them out (`with respect to`, `subject to`, `if and only if`). Mathematical shorthand inside displayed equations is fine.
+- **"It can be shown that"** without saying where it is shown. Either prove it now, cite a result by number, or remove the claim.
+- **"In this paper" / "In this work"** repeated across sections. The reader knows where they are. Cut on sight in body sections; use sparingly in the abstract and introduction if at all.
 
 ### The Rule-of-Three Tic
 
@@ -414,9 +470,15 @@ Run this checklist on any section:
 - [ ] Count semicolons. Convert most to periods.
 - [ ] Count "however," "moreover," "furthermore," "additionally." Cut the unnecessary ones.
 - [ ] Look for "It is worth noting that," "Importantly,", "Notably,". Cut them all.
-- [ ] Look for "delve," "pivotal," "landscape," "underscore." Replace or cut.
+- [ ] Look for "Note that" at sentence start. Cut and rewrite.
+- [ ] Look for "is given by". Replace with a direct relation or `Define ...`.
+- [ ] Look for "delve," "pivotal," "landscape," "underscore," "unveil." Replace or cut.
 - [ ] Look for rule-of-three lists. Are all three items pulling weight?
 - [ ] Look for empty section openings. Replace with content.
+- [ ] Look for homemade method acronyms. Replace with a descriptive short name.
+- [ ] Look for in-text `w.r.t.`, `s.t.`, `i.f.f.`. Spell out in body prose.
+- [ ] Count manual `\textbf{...}` and `\emph{...}` in body prose. Justify each one or remove. Theorem/class-supplied bold does not count.
+- [ ] Count italic phrases used for emphasis (not for term definition). Cut.
 - [ ] Check that every paragraph develops one idea.
 - [ ] Check that bullets only appear in contribution lists, assumption lists, algorithm descriptions, and other places where bullets are genuinely appropriate.
 - [ ] Check that each sentence either states a fact, makes an argument, or transitions. Cut sentences that do none of these.
