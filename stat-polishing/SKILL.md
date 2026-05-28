@@ -461,13 +461,61 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
 2. **Identify paper type, venue, and journal voice.** Apply the corresponding standards from `stat-venue-checklists.md`. Then calibrate to the target journal's voice by reading 2 or 3 recent papers from that venue (last 1-2 years, same paper type). Note their paragraph length, sentence rhythm, math display density, theorem density, figure density, citation density, and tone. The polished prose should feel at home alongside those papers. A draft that reads like a Bernoulli theory paper will not pass at JASA ACS, and vice versa.
 3. **Positioning audit.** Read `../stat-shared-references/stat-positioning-and-claims.md`. Extract every positioning claim from the prose, especially the abstract, introduction, contribution list, related work, and discussion. For each claim, verify it against `PRIOR_WORK_MATRIX.md` (if available) and against the literature. Flag OVERCLAIMED, UNVERIFIED, MISSING REFERENCE FRAME claims. Run a literature search for unverified claims using `/semantic-scholar`, `/arxiv`, `/novelty-check`, or `mcp__codex__codex`. Update or build `CLAIM_SUPPORT_MAP.md`.
 4. **Technical claim strength audit.** Same reference. Extract every technical claim (rates, bounds, "weaker assumptions", "first to", "minimax optimal", "efficient", "tight", "robust", "adaptive", computational complexity). Verify each against the theorem statements and the cited prior work. Flag the same statuses. For each OVERCLAIMED claim, draft a specific replacement sentence rather than leaving a TODO.
-5. **Diagnose at the paper level.** Are claims and evidence aligned? Is the supplement separated correctly per `SUPPLEMENT_MODE`?
-6. **Diagnose at the section level.** Is each section doing its job?
-7. **Polish at the paragraph level.** Does each paragraph develop one idea?
-8. **Polish at the sentence level.** Apply punctuation discipline and AI-template removal.
-9. **Polish at the word level.** Cut watchwords; replace with precise alternatives or remove.
-10. **Audit figures and tables.** Apply the figure design rules in `../stat-shared-references/stat-figure-design.md`.
-11. **Template conformance audit.** Read `../stat-shared-references/stat-latex-audit.md`. Verify `\documentclass` matches the venue, required packages are loaded, `\bibliographystyle` matches the venue, line spacing matches the venue, margins match, font matches, and venue-required blocks are present (keywords, AMS subject classification, alt text, AI disclosure block where required). Produce `TEMPLATE_CONFORMANCE_REPORT.md` with PASS / FAIL / NEEDS VERIFY for each check, and the exact LaTeX line to change for any FAIL.
+5. **Story spine audit.** Write a one-sentence spine for the paper or section in the form: "We study [problem], address the gap that [gap], contribute [contribution], support it with [evidence], under [boundary]." Then audit whether that spine stays visible throughout the manuscript. The goal is not verbal repetition. The goal is stable problem-gap-contribution-evidence-boundary alignment across the paper.
+
+    Checks:
+    - **Matching test.** Check that the abstract, the introduction's contribution paragraph, the first interpretation of the main result, and the opening of the discussion all instantiate the same spine, with differences in emphasis allowed but no drift in the actual contribution or boundary.
+    - **Section classification.** Classify each major section after the introduction as primarily `claim`, `evidence`, or `scaffold`. If a long section is only scaffold, or if the claim-bearing sections are hard to locate, flag that the story is buried.
+    - **Contribution traceability.** Check that each advertised contribution is tied to a specific theorem, method section, simulation result, figure, table, or application finding. If a contribution cannot be traced to supporting material, flag it.
+    - **Decisive-evidence placement.** Check that the paper reveals decisive evidence early enough for its type: the first main theorem early in a theory paper, the first decisive result table or figure early in a methodology or application paper, and the substantive finding early in an application paper. Flag when the reader must wait too long to see what carries the paper.
+    - **Unadvertised-claim test.** Flag claims that appear in the discussion, conclusion, or late-section interpretation but were not visible in the abstract or introduction, unless they are explicitly marked as secondary observations rather than central contributions.
+
+6. **Mathematical expression economy audit.** Audit theorem statements, displayed mathematics, definitions, and surrounding explanatory prose for local cognitive load. This is a soft-flag audit, not a hard-threshold audit. The goal is not to enforce a house notion of elegance, but to catch avoidable compression, fragmentation, and symbol overload that make correct mathematics harder to read.
+
+    Soft flags:
+    - **Object before symbol.** Flag sentences or displays that introduce notation before naming the mathematical object, quantity, map, or event the symbol denotes.
+    - **Dormant symbol introduction.** Flag symbols that are introduced and then not used again until much later, or that appear only once. Delay or remove them unless they are needed immediately.
+    - **Local notation load.** Flag theorem statements, definition blocks, or paragraphs that introduce too many fresh objects at once, bury the main conclusion under qualifiers, or force the reader to hold several new symbols before the claim is visible.
+    - **Display purpose clarity.** Flag displayed equations that mix multiple jobs at once. Each major display should have a clear role, such as definition, assumption, decomposition, update rule, or main claim. Long or multi-line displays are acceptable when the structure is visually clear; flag only when the display should be split, aligned differently, or partly converted to prose.
+    - **Theorem packaging.** Flag theorems whose assumptions, quantifiers, regimes, or special cases are scattered across the statement instead of being packaged cleanly in an assumption block, theorem preamble, or short remark.
+    - **Interpretive handoff.** Flag definitions, lemmas, and theorems that are left without a brief prose handoff telling the reader what the mathematical object or result buys them, how it should be read, or why it matters for the paper's contribution.
+
+7. **REVISION_PLAN.md gate (author approval required before applying changes).** Before applying any nontrivial edits, write `REVISION_PLAN.md` and obtain author approval. Approval is cluster-level by default, not line-level. Do not apply a cluster until its status is `APPROVED`.
+
+    Clustering rules:
+    - Each cluster contains a tightly related set of changes, typically 5 to 25 individual edits.
+    - A cluster may be organized by one issue type within one section, or by one cross-section consistency issue that must be changed together.
+    - Use a cross-section cluster only when the edits are logically coupled (e.g., abstract + introduction + discussion alignment).
+    - The governing rule: one rationale, one expected effect, one accept/reject decision.
+    - If partial acceptance within a cluster is likely, split before submitting for approval.
+
+    Schema (see also section "REVISION_PLAN.md schema" below for the full template):
+
+    ```md
+    # REVISION_PLAN
+
+    ## Approval Rule
+    No manuscript edits are applied until the author approves one or more clusters below.
+    Approval is cluster-level by default. If the author requests partial acceptance inside a cluster, mark that cluster `SPLIT_REQUESTED`, re-cluster it, and resubmit it for approval.
+
+    ## Cluster 1: [short action-oriented header]
+    - Scope: [section(s), theorem(s), figure(s), bib entries, or files affected]
+    - Severity: [CRITICAL | MAJOR | MINOR]
+    - Expected effect on the paper: [1-2 sentences on what improves and what risk is addressed]
+    - Proposed changes:
+      1. [specific proposed change]
+      2. [specific proposed change]
+    - Approval status: [PENDING | APPROVED | REJECTED | SPLIT_REQUESTED | APPLIED]
+    - Application notes: [dependencies, ordering constraints, "must apply with Cluster N"]
+    ```
+
+8. **Diagnose at the paper level.** Are claims and evidence aligned? Is the supplement separated correctly per `SUPPLEMENT_MODE`?
+9. **Diagnose at the section level.** Is each section doing its job?
+10. **Polish at the paragraph level.** Does each paragraph develop one idea?
+11. **Polish at the sentence level.** Apply punctuation discipline and AI-template removal.
+12. **Polish at the word level.** Cut watchwords; replace with precise alternatives or remove.
+13. **Audit figures and tables.** Apply the figure design rules in `../stat-shared-references/stat-figure-design.md`.
+14. **Template conformance audit.** Read `../stat-shared-references/stat-latex-audit.md`. Verify `\documentclass` matches the venue, required packages are loaded, `\bibliographystyle` matches the venue, line spacing matches the venue, margins match, font matches, and venue-required blocks are present (keywords, AMS subject classification, alt text, AI disclosure block where required). Produce `TEMPLATE_CONFORMANCE_REPORT.md` with PASS / FAIL / NEEDS VERIFY for each check, and the exact LaTeX line to change for any FAIL.
 
     **JASA-specific FAIL patterns to flag immediately**:
     - `\documentclass` without `[12pt]` → FAIL: JASA requires 12-point font
@@ -476,10 +524,20 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
     - Margins different from 1 inch → FAIL
     - Abstract over 250 words → FAIL: cut to 200-250
     - `\cite{}` used instead of `\citet{}` / `\citep{}` → FAIL: JASA uses author-year
-12. **LaTeX integrity audit.** Same reference. Compile with `latexmk -pdf -interaction=nonstopmode`, search the log for undefined references, undefined citations, multiply-defined labels, missing image files, font-shape warnings, overfull boxes. Cross-check `\ref{}` and `\label{}`. Cross-check `\cite{}` and the `.bib` file. Cross-check `\includegraphics` and image files on disk. For `SUPPLEMENT_MODE = separate_self_contained`, also verify the supplement contains no `\ref` to labels in the main paper and vice versa. Produce `LATEX_INTEGRITY_REPORT.md` with HIGH and CRITICAL findings and the exact fix for each. All HIGH and CRITICAL findings must be fixed before polishing is declared complete.
-13. **Audit citations.** Verify that no fabricated citations exist; verify cited claims match cited papers.
-14. **Journal-style match check.** Compare the polished prose against the 2-3 recent venue papers identified in Step 2. Does the polished draft match their voice, density, and structural choices? If not, identify the specific deltas (e.g., "this introduction is much longer than typical Biometrika introductions; consider compressing"). For JASA, JRSS-B, AOS, AOAS, this check is usually done by Codex in the optional second-pass; for first-pass polishing, a quick comparison by the polisher is sufficient.
-15. **Final venue check.** Read `stat-venue-checklists.md` for the target venue and confirm every venue-specific requirement is met. Always include:
+15. **LaTeX integrity audit.** Same reference. Compile with `latexmk -pdf -interaction=nonstopmode`, search the log for undefined references, undefined citations, multiply-defined labels, missing image files, font-shape warnings, overfull boxes. Cross-check `\ref{}` and `\label{}`. Cross-check `\cite{}` and the `.bib` file. Cross-check `\includegraphics` and image files on disk. For `SUPPLEMENT_MODE = separate_self_contained`, also verify the supplement contains no `\ref` to labels in the main paper and vice versa. Produce `LATEX_INTEGRITY_REPORT.md` with HIGH and CRITICAL findings and the exact fix for each. All HIGH and CRITICAL findings must be fixed before polishing is declared complete.
+16. **Citation identity and bibliography hygiene audit.** This is the polishing-time citation audit. It consults `../shared-references/citation-discipline.md` for the verification workflow, metadata rules, and placeholder policy. It does **not** replace the literature-relative novelty and comparative-claim audit in `../stat-shared-references/stat-positioning-and-claims.md`, the theorem-import checks in `proof-writer`'s `## Cited Results Audit`, or the undefined-citation and template checks in `../stat-shared-references/stat-latex-audit.md`.
+
+    Checks:
+    - **Canonical version discipline.** For works that exist as both preprint and published versions, choose the canonical version deliberately and use it consistently unless there is a clear reason to cite both.
+    - **Citation identity consistency.** Check that the same work is not represented under multiple keys, multiple year variants, or mixed preprint/published identities, and that author names and years are consistent across prose and bibliography.
+    - **Metadata sufficiency and cleanliness.** Check that cited entries contain enough metadata to identify the source unambiguously and look submission-ready: authors, year, title, venue or journal, and pages / volume / DOI / arXiv information when available and appropriate.
+    - **Surface citation discipline.** Check author-year surface form, `\citet{}` / `\citep{}` usage where the venue requires it, `et al.` usage, author-name spelling in prose, and local citation punctuation and grouping.
+    - **Direct-source and restraint discipline.** Prefer citing the direct source of a theorem, method, or empirical claim when that source is available, and flag citation clusters that look padded rather than informative, especially in theorem interpretation and related-work synthesis.
+
+    **Not in scope**: this step does not decide novelty, adjudicate whether a comparative claim is true in the literature, verify that an imported theorem justifies a proof step, or repair compile-level citation failures.
+
+17. **Journal-style match check.** Compare the polished prose against the 2-3 recent venue papers identified in Step 2. Does the polished draft match their voice, density, and structural choices? If not, identify the specific deltas (e.g., "this introduction is much longer than typical Biometrika introductions; consider compressing"). For JASA, JRSS-B, AOS, AOAS, this check is usually done by Codex in the optional second-pass; for first-pass polishing, a quick comparison by the polisher is sufficient.
+18. **Final venue check.** Read `stat-venue-checklists.md` for the target venue and confirm every venue-specific requirement is met. Always include:
     - **Abstract word count** against the venue norm. JASA: 200-250 words; Biometrika: 100-150; AOAS: 150-250; AOS / Bernoulli / EJS: 150-200; COLT / ALT: 150-300. A 350-word draft abstract must be cut before submission.
     - **Cover letter** is ready (separate file or portal text box per the venue)
     - **AI disclosure** block is present in the manuscript
@@ -494,7 +552,7 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
     awk '/\\begin\{abstract\}/{flag=1; next} /\\end\{abstract\}/{flag=0} flag' main.tex \
       | tr -s ' \n' '\n' | grep -E '\S' | wc -l
     ```
-16. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, a journal-style-match assessment against the venue, and an AI-tell line-level audit. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
+19. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, a story-spine assessment, a journal-style-match assessment against the venue, and an AI-tell line-level audit. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
 
 ## Optional Codex MCP second-pass dialogue
 
