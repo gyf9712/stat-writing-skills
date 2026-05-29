@@ -100,11 +100,13 @@ For any claim with `Status = UNVERIFIED` or for any claim where the supporting `
 
 Search strategy:
 
+0. **Cache-consult first** (mandatory). Read the durable literature cache at `~/.claude/literature_cache/`. The protocol lives in the sibling `stat-theory-skills/stat-shared-references/literature-cache-protocol.md` router (Minimum Load Map identifies which companion files to load). For positioning audits, the typical loads are the router plus `citation-purpose-protocol.md` (the audit's purpose is `benchmark_claim` for "first-to" / "improves on" claims, `lineage_positioning` for "we extend the line of", `comparative` for "we relax their X assumption"). Cache hits at `independently_checked` are admissible as positioning evidence without a fresh fetch.
 1. Start with the closest paper from `PRIOR_WORK_MATRIX.md` and follow its forward citations through Semantic Scholar (use the `/semantic-scholar` skill or `arxiv` skill where applicable).
 2. Search for the specific claim language: "minimax sparse GLM heavy-tail", "robust regression sub-exponential design", etc. Use precise terms, not generic ones.
 3. Check at least three sources: Semantic Scholar, arXiv, and DBLP. For statistics papers, also check MathSciNet when accessible.
 4. Read the abstracts of the top candidates; read the relevant section of any paper whose abstract looks close.
-5. Record what you found in the Literature Support column.
+5. Record what you found in the Literature Support column. For every new paper fetched, write a cache proposal to `~/.claude/literature_cache/inbox/<bibkey>.draft.md` per `cache-verification-states.md` so the next audit benefits from the work.
+6. Update the project's `papers/<project>/cited_results.lock.md` with the citation site, reference, citation purpose, verification level at decision, and any bridge recorded.
 
 If the search returns no close prior work, the claim "first to" is plausible but still subject to risk. Note in `Status` as SUPPORTED with the qualification "no close prior work identified by [date]" and reduce the strength of language slightly: "to the best of our knowledge" rather than "we are the first to".
 

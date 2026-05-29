@@ -487,11 +487,12 @@ Rules:
 - For each row, the `Our Exact Delta` column must be a sentence the author can defend in a referee report.
 - Any row with `Novelty Risk = HIGH` must be either reframed (so the delta is clearer) or matched to specific evidence the paper will show.
 - `Citation Verified` must be `yes` before the row is allowed to influence drafting. Use the DBLP/CrossRef workflow in the writing skill.
-- `Read In Full` records which parts of the cited paper were actually read (theorem, abstract, full paper). For comparative claims that depend on the cited paper's assumptions or rates, the relevant theorem must be read in full, not just the abstract. Citing a paper for what we assume it says is the most common source of overclaim in statistics papers.
+- `Read In Full` records which parts of the cited paper were actually read (theorem, abstract, full paper). For comparative claims that depend on the cited paper's assumptions or rates, the relevant theorem must be read in full, not just the abstract. Citing a paper for what we assume it says is the most common source of overclaim in statistics papers. **Each `Read In Full` value should resolve to a literature cache entry**: format `paper:<bibkey>#<result_id>` per `literature-cache-protocol.md` (router with Minimum Load Map at `~/.claude/literature_cache/` shared with `stat-theory-skills`). Cache hits at `independently_checked` or higher satisfy `Read In Full` without re-fetching; cache misses require the fresh-read protocol below and a cache write-back to the inbox.
+- `Citation Verified` reflects the cache entry's verification state: `yes` requires the cache entry at `source_checked` or higher.
 
-The matrix feeds directly into `CLAIM_SUPPORT_MAP.md`, built in `stat-paper-write` Step 2.5 from this matrix and from `TECHNICAL_RISK_REGISTER.md`. Every positioning claim and every technical comparative claim in the drafted paper must trace back through `CLAIM_SUPPORT_MAP.md` to a row of `PRIOR_WORK_MATRIX.md`.
+The matrix feeds directly into `CLAIM_SUPPORT_MAP.md`, built in `stat-paper-write` Step 2.5 from this matrix and from `TECHNICAL_RISK_REGISTER.md`. Every positioning claim and every technical comparative claim in the drafted paper must trace back through `CLAIM_SUPPORT_MAP.md` to a row of `PRIOR_WORK_MATRIX.md` and through the project's `papers/<project>/cited_results.lock.md` to a cache reference.
 
-Read `../stat-shared-references/stat-positioning-and-claims.md` for the full positioning-audit and claim-strength-audit protocol, including how to search for missing close prior work using `/semantic-scholar`, `/arxiv`, `/novelty-check`, and `mcp__codex__codex`.
+Read `../stat-shared-references/stat-positioning-and-claims.md` for the full positioning-audit and claim-strength-audit protocol, including how to search for missing close prior work using `/semantic-scholar`, `/arxiv`, `/novelty-check`, and `mcp__codex__codex`. The first step in any literature search is now a cache-consult per `literature-cache-protocol.md`.
 
 ### Step 5.6: Build the Technical Risk Register (required)
 

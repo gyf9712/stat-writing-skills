@@ -117,6 +117,8 @@ Read `../stat-shared-references/stat-venue-checklists.md` for the target venue. 
 
 Read `../stat-shared-references/stat-positioning-and-claims.md`. Extract the positioning and technical claims from the abstract, introduction, and contribution list. Flag each as `SUPPORTED`, `OVERCLAIMED`, `UNVERIFIED`, or `MISSING REFERENCE FRAME`. Any `OVERCLAIMED` claim in the abstract or introduction promotes its issue to Section 2 (fatal) or Section 3 (major) of the report.
 
+For every claim that names a specific theorem or rate of a cited paper, resolve it to the project's `papers/<project>/cited_results.lock.md` and the global literature cache. Schema and protocol in `../stat-shared-references/citation-purpose-protocol.md` (gate matrix) and the sibling `stat-theory-skills` `literature-cache-protocol.md` router. A fatal-or-major mock-review concern that depends on a specific theorem requires `independently_checked` verification floor; a lower state demotes the concern to a verification-request pending item rather than a load-bearing finding.
+
 ### Step 4: Write the seven sections in order
 
 Write Section 1 (Synopsis) first; this anchors the rest of the report. Then Sections 2 through 5 in order. Section 6 (likely action) and Section 7 (rescue plan) come last and follow from the preceding diagnosis.
