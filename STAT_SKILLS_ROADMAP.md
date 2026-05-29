@@ -37,6 +37,39 @@ The combined effect: every positioning claim and every comparative technical cla
 
 This directly addresses Codex's diagnosis that the skills had not yet protected against the two things that actually kill top-stat submissions: weak positioning and unverified technical overclaim.
 
+### Literature cache integration + SKILL.md compactification iteration (May 28, 2026, four-commit sequence)
+
+After the earlier token-economy iteration, the user identified literature reading as the dominant remaining cost (~100-300K tokens per session on stat-theory work). A Codex MCP review (threadId `019e70c3-1844-7181-b6a1-0b4041c657df` for rounds 1-2; `019e7112-283e-74b1-97e5-6344592cd820` for round 3 after the original expired) over three rounds shaped a four-commit response.
+
+The companion `gyf9712/stat-theory-skills` repo carries the heavy lifting in CHANGELOG v1.8.0 (commits 612f170, 668cc64, 3bd1e65, plus the round 3 cleanup commit). Stat-writing-skills hosts the protocol consumers.
+
+Applied to `stat-writing-skills` across the four commits:
+
+- `stat-polishing/SKILL.md`: 855 → 783 lines (-72, -8%). Sentence/paragraph/bullet/punctuation rules collapsed to a single 15-line block pointing to `stat-style-discipline.md`. AI-template removal section collapsed to a 13-line headline + pointer to the canonical lists in `stat-style-discipline.md`. (commit 28a3004)
+- `stat-shared-references/stat-positioning-and-claims.md`: Step 3 literature search gained a new step 0 cache-consult before the 5-source search strategy. Positioning citations now map to citation purposes (`benchmark_claim` / `lineage_positioning` / `comparative`). Cache hits at `independently_checked` admissible as positioning evidence without re-fetch. Cache write-back to inbox after every fresh fetch. Project lock manifest update at `papers/<project>/cited_results.lock.md`. (commit ea3594d)
+- `stat-paper-plan/SKILL.md` Step 5.5 `PRIOR_WORK_MATRIX`: the `Read In Full` column now resolves to a literature cache entry by `paper:<bibkey>#<result_id>`. Cache hits at `independently_checked` satisfy `Read In Full` without re-reading. `Citation Verified = yes` requires the cache entry at `source_checked` or higher. (commit ea3594d)
+- `stat-mock-review/SKILL.md` Step 3: fatal-or-major mock review concerns that name a specific theorem of a cited paper now resolve to the project lock manifest and the cache. Required verification floor: `independently_checked` for load-bearing fatal/major; lower states demote to verification-request-pending rather than load-bearing finding. (commit ea3594d)
+
+Cache protocol files (in sibling `stat-theory-skills/stat-shared-references/`, accessible to stat-writing skills via the shared cache infrastructure):
+
+- `literature-cache-protocol.md` (206-line router with Minimum Load Map for 12 use cases)
+- `citation-purpose-protocol.md` (7 citation purposes; trigger keyword table forcing explicit declaration on extension / improvement / priority / weakening / lineage / technique-borrow / standard-tool / contrast / match keywords; 2D verification gate matrix; 13+10 methodological roles split into historical and relational dimensions)
+- `applicability-axes.md` (8 axes; namespaced families per domain with conservative tightening — `tail_condition` split into `exponential_concentration` vs `moment_bounded` to prevent the `sub_gaussian = polynomial_p_moment` substitution Codex round 3 V9 flagged as too liberal)
+- `cache-verification-states.md` (4 evidence-based verification states; F1/F2/F3 workflows; inbox/queue + `/lit-cache verify` promotion; project-side pin manifest mechanics)
+
+Deferred to Commit 5 (next):
+
+- `/lit-cache verify` MVP — currently the protocol references `/lit-cache verify` and `/lit-cache audit` skill workflows but no implementation exists. Codex round 3 V7 marked this as REQUIRES FIX: without verification promotion, entries stay at `unverified_extract` and the strict gate ("background mention requires source_checked") blocks all citation use.
+- `cited_results.lock.md` ownership formalization — Codex round 3 V8 marked the absence of a designated owner as REQUIRES FIX. The lock manifest is referenced by every literature-touching skill but no skill currently has the canonical responsibility to create it.
+
+Token-savings update (replacing the prior estimate):
+
+- Cache miss (first time reading paper X): ~5-15K tokens for source fetch + extraction; ~1K tokens for inbox write
+- Cache hit at `source_checked` (subsequent project needing paper X): ~1-3K tokens for result-scoped Read
+- Cache hit at `independently_checked` (load-bearing use in another project): same ~1-3K; the Codex MCP cost of the original `independently_checked` upgrade was paid once when the entry was promoted
+- Compactification savings: instead of inline duplicated content in each SKILL.md, shared refs are loaded only by skills that need them per the Minimum Load Map. Per-invocation context load reduces by 200-300 lines for proof-repair, 70-80 lines for stat-polishing.
+- Aggregate target unchanged from prior iteration: 25-30% session-level token reduction with zero compromise on Big Four polish or proof verification quality. Cache hit rate above 30-50% (realistic for projects sharing anchor papers like Talagrand, Bickel-Levina, Tibshirani, van der Vaart) dominates the savings.
+
 ### Token economy iteration (May 28, 2026, late session)
 
 User surveyed [rtk-ai/rtk](https://github.com/rtk-ai/rtk) for token-saving strategies and asked which apply. A second Codex MCP review (threadId `019e6ed3-0b5d-7e72-b424-5428423a2276`, `model_reasoning_effort: xhigh`) evaluated seven candidate optimizations across both `stat-writing-skills` and `stat-theory-skills`. After a per-verdict deliberation pass and one round of push-back on OPT7 (Codex honestly self-assessed an anchoring effect on sequential per-repair stress-tests; the protocol now requires fresh threads per logically-independent repair), the converged plan executed the highest-ROI three for both repos and deferred the rest.
