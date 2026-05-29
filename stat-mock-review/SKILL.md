@@ -119,6 +119,8 @@ Read `../stat-shared-references/stat-positioning-and-claims.md`. Extract the pos
 
 For every claim that names a specific theorem or rate of a cited paper, resolve it to the project's `papers/<project>/cited_results.lock.md` and the global literature cache. Schema and protocol in `../stat-shared-references/citation-purpose-protocol.md` (gate matrix) and the sibling `stat-theory-skills` `literature-cache-protocol.md` router. A fatal-or-major mock-review concern that depends on a specific theorem requires `independently_checked` verification floor; a lower state demotes the concern to a verification-request pending item rather than a load-bearing finding.
 
+This step is **read-only** with respect to the lock manifest. The mock review does not append rows. If a fatal-or-major concern references a citation site not yet in the lock manifest, that itself is flagged as a gap requiring the upstream skill (stat-paper-write or proof-repair) to add the row before submission. The mock-review report's Rescue Plan (Section 7) lists missing lock entries as `Effort: small / Recoverability: high` items.
+
 ### Step 4: Write the seven sections in order
 
 Write Section 1 (Synopsis) first; this anchors the rest of the report. Then Sections 2 through 5 in order. Section 6 (likely action) and Section 7 (rescue plan) come last and follow from the preceding diagnosis.

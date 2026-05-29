@@ -512,6 +512,31 @@ Rules:
 - `CRITICAL` and `HIGH` rows require human sign-off before the paper proceeds to drafting.
 - The register is updated in `stat-paper-write` after the first full draft and reviewed again in the final Codex pass.
 
+### Step 5.7: Initialize the citation lock manifest (required)
+
+Create `papers/<project-name>/cited_results.lock.md`. This is the project's canonical record of which cache entries the project's citations depend on, with the verification level at decision time. It prevents retroactive contamination if the global literature cache is later edited.
+
+The schema and ownership rules live in the sibling `stat-theory-skills/stat-shared-references/cited-results-lock-protocol.md`. For this initialization step in stat-paper-plan, populate one row per `PRIOR_WORK_MATRIX.md` row whose `Read In Full` resolves to a cache entry:
+
+```markdown
+---
+artifact: project_citation_lock
+project: <project-name>
+generated: <YYYY-MM-DD>
+generator: stat-paper-plan v1.x.x Step 5.7
+---
+
+# Citation Lock Manifest
+
+| Citation site | Reference | Citation purpose | Role in literature | Role relative to current paper | Source version at decision | Entry hash at decision | Verification level at decision | Axis or lineage bridge recorded | Decision date |
+|---|---|---|---|---|---|---|---|---|---|
+| `PRIOR_WORK_MATRIX.md#row-1` | `paper:<bibkey>#<result_id>` | `lineage_positioning` | (from cache `role_in_literature`) | `lineage_predecessor` (typical for prior work matrix) | (from cache) | (from cache) | (from cache `verification_status`) | `primary_line: <line>` | <today> |
+```
+
+Downstream skills (`stat-paper-write` Step 2.5, `stat-polishing` Step 11 + Step 16, `stat-mock-review` Step 3, `proof-repair` Step 4 + 5C, `proof-writer` Cited Results Audit) append rows for new citation sites; they do not edit existing rows. See `cited-results-lock-protocol.md` for the full ownership map and update discipline.
+
+If a `PRIOR_WORK_MATRIX.md` row's `Read In Full` cell does not resolve to a cache entry yet (i.e., the paper has not been read or cached), leave that row out of the lock manifest at initialization. The downstream skill that first uses the citation creates the row when it triggers the literature search and cache write-back.
+
 ### Step 6: Citation Scaffolding
 
 ```markdown

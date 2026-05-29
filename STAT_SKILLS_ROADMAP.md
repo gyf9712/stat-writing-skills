@@ -57,10 +57,16 @@ Cache protocol files (in sibling `stat-theory-skills/stat-shared-references/`, a
 - `applicability-axes.md` (8 axes; namespaced families per domain with conservative tightening — `tail_condition` split into `exponential_concentration` vs `moment_bounded` to prevent the `sub_gaussian = polynomial_p_moment` substitution Codex round 3 V9 flagged as too liberal)
 - `cache-verification-states.md` (4 evidence-based verification states; F1/F2/F3 workflows; inbox/queue + `/lit-cache verify` promotion; project-side pin manifest mechanics)
 
-Deferred to Commit 5 (next):
+Applied in Commit 5 (final commit of the v1.8.0 sequence):
 
-- `/lit-cache verify` MVP — currently the protocol references `/lit-cache verify` and `/lit-cache audit` skill workflows but no implementation exists. Codex round 3 V7 marked this as REQUIRES FIX: without verification promotion, entries stay at `unverified_extract` and the strict gate ("background mention requires source_checked") blocks all citation use.
-- `cited_results.lock.md` ownership formalization — Codex round 3 V8 marked the absence of a designated owner as REQUIRES FIX. The lock manifest is referenced by every literature-touching skill but no skill currently has the canonical responsibility to create it.
+- **V7 `/lit-cache verify` MVP**: new shared ref `stat-theory-skills/stat-shared-references/lit-cache-verify-protocol.md` defines the workflow for promoting inbox entries to `source_checked`. 7 steps (list inbox, fetch source, hash-compare source, locate-and-hash quotes, verify applicability contract, promote or hold, print summary). MVP scope: only `unverified_extract → source_checked` transition. The `source_checked → independently_checked` upgrade (Codex MCP call) and `human_signed` transition are deferred. The MVP catches the most common hallucination class — writing skill claimed verbatim it did not actually read — via source-hash and per-quote text-hash reconciliation.
+- **V8 `cited_results.lock.md` ownership**: new shared ref `stat-theory-skills/stat-shared-references/cited-results-lock-protocol.md` formalizes the ownership map. `stat-paper-plan` Step 5.7 (NEW) initializes the lock manifest after `PRIOR_WORK_MATRIX` and `TECHNICAL_RISK_REGISTER`. Downstream skills follow read-before-write + append-only discipline. `proofcheck --post-repair` Step P3.7 (NEW) performs read-only consistency validation: every row's Reference resolves to cache entry, Entry hash matches current cache, load-bearing rows at `independently_checked` or higher, bridges exist for `partial`/`same_family`. Findings written to `audit/08_post_repair/lock_manifest_validation.md`. STALE and GAP are warnings; verification floor gap on load-bearing rows blocks `CONVERGED`.
+- **stat-paper-plan Step 5.7** added: initializes `papers/<project>/cited_results.lock.md` with manifest header + initial rows from `PRIOR_WORK_MATRIX.md` `Read In Full` entries that resolve to cache hits. Rows without cache entries are deferred to the downstream skill that first triggers the literature search.
+- **stat-positioning-and-claims Step 3** and **stat-mock-review Step 3**: updated with the lock manifest update discipline (`stat-positioning` writes new rows append-only; `stat-mock-review` is read-only and flags missing entries as Rescue Plan items).
+
+Why no separate `/lock-citations` skill: per Codex round 3 V5 deferred guidance, do not add further cross-cutting protocols before extracting more machinery from proof-repair. The in-skill update discipline is sufficient. A separate skill becomes worth creating if responsibility grows (automated reverse indexes, batch validation across many projects).
+
+The v1.8.0 release is now complete across the four-commit sequence: 612f170 protocol split + 668cc64 compactification + 3bd1e65 cache integration + f0e2fbd cleanup + this commit's enforcement infrastructure.
 
 Token-savings update (replacing the prior estimate):
 

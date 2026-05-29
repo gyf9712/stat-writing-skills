@@ -106,7 +106,7 @@ Search strategy:
 3. Check at least three sources: Semantic Scholar, arXiv, and DBLP. For statistics papers, also check MathSciNet when accessible.
 4. Read the abstracts of the top candidates; read the relevant section of any paper whose abstract looks close.
 5. Record what you found in the Literature Support column. For every new paper fetched, write a cache proposal to `~/.claude/literature_cache/inbox/<bibkey>.draft.md` per `cache-verification-states.md` so the next audit benefits from the work.
-6. Update the project's `papers/<project>/cited_results.lock.md` with the citation site, reference, citation purpose, verification level at decision, and any bridge recorded.
+6. Update the project's `papers/<project>/cited_results.lock.md` per the ownership protocol (in sibling `stat-theory-skills/stat-shared-references/cited-results-lock-protocol.md`). Positioning audit citations typically appear with purpose `benchmark_claim` ("first-to" / "improves on"), `lineage_positioning` ("we extend the line of"), or `comparative` ("we relax their X assumption"). The audit writes new rows; it does not edit existing ones (append-only discipline). If a row at a lower verification level exists for the same citation site, the audit can add a new row at the higher level — the older row remains as historical record.
 
 If the search returns no close prior work, the claim "first to" is plausible but still subject to risk. Note in `Status` as SUPPORTED with the qualification "no close prior work identified by [date]" and reduce the strength of language slightly: "to the best of our knowledge" rather than "we are the first to".
 
