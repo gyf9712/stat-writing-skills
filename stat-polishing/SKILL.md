@@ -51,7 +51,8 @@ These files are reference support. Open them after the section's rhetorical job 
 | `../stat-shared-references/stat-codex-dialogue.md` | **Read before any Codex MCP call.** Dialogue discipline: when to accept, when to push back via `mcp__codex__codex-reply`, when to log disagreement, common areas where Codex is right or wrong, convergence test, documentation expectations. |
 | `../stat-shared-references/stat-latex-audit.md` | **Read before the mechanical audit pass.** Template conformance check (documentclass, packages, font, line spacing, margins, bibliography style, venue-required blocks, anonymization) and LaTeX integrity check (undefined references, undefined citations, missing image files, broken cross-file references, log warnings). |
 | `../stat-shared-references/stat-reproducibility-audit.md` | Read before final submission. Big Four expectations on data and code availability, reproducible simulations, venue-specific reproducibility artifacts (JASA ACC, Biostatistics D/C/R, AOAS replication code, Biometrika supplementary code). Includes the three submission statements (data availability, code availability, reproducibility). |
-| `../stat-shared-references/stat-notation-audit.md` | Read before final compile. Two-layer audit: every symbol defined on first use, every acronym either standard or defined. Discipline against homemade method acronyms, especially for Biometrika. |
+| `../stat-shared-references/stat-notation-audit.md` | Read before final compile. Two-layer audit: every symbol defined on first use, every acronym either standard or defined. Discipline against homemade method acronyms, especially for Biometrika. Also the cross-reference drift audit for the formal-statement pass. |
+| `../stat-shared-references/equivalence-ledger-protocol.md` | **Read before the formal-statement pass.** Governs equivalence-preserving formalization of assumptions, definitions, theorem/lemma statements: the standing refusal condition (never formalize to look deeper), the precision-vs-decoration discriminator, the use-test, venue-register calibration, the two-tier gate (cosmetic cluster vs semantic per-atomic-claim), the equivalence ledger schema, and the proofcheck depth split. Lives in the sibling `stat-theory-skills` repo (shares the silent-semantic-change ontology). |
 
 ## Big Four Standards
 
@@ -756,6 +757,30 @@ Simulate three readers in sequence. For each reader, read the manuscript end-to-
 For each reader, record the first-friction location, the diagnosis, and the smallest change that would clear the friction. Fix in order of severity, not in order of reader; an AE-level friction blocks all three readers.
 
 Do not try to satisfy all three readers in the same paragraph. The introduction belongs to the AE; the main results to the referee; the application section to the applied statistician. Each reader gets a section where their needs dominate.
+
+### Mode: Formal-Statement Pass
+
+A polishing pass that targets only the mathematical FORM in the body: assumptions, definitions, theorem and lemma statements, and displayed conditions. It rewrites each into a more formal, more conventional, equivalence-preserving form aligned with how the target venue's published papers state such objects. Invoke when the math is settled and the author wants the statements to read at the venue's register.
+
+This mode is governed by `../stat-shared-references/equivalence-ledger-protocol.md` (in the sibling `stat-theory-skills` repo, which owns the silent-semantic-change ontology this mode reuses). Read it before running this pass. The mode is **as much a refusal engine as a formalization engine**; its standing refusal condition is:
+
+> Never formalize to increase apparent depth. Apparent depth is only ever a side effect of a genuine precision-or-register gain. The moment a rewrite raises the reading barrier without resolving a referee-checkable ambiguity, matching the venue's register, or removing notation clutter, refuse it.
+
+The math-form analog of this skill's prose rule "mathematical precision over adjectival praise" is **"precision over notational sophistication."**
+
+Operational summary (full protocol in `equivalence-ledger-protocol.md`):
+
+1. For each candidate object, draft the formalized form, then apply the discriminator: does it resolve a referee-checkable ambiguity (with respect to what limit? uniform over which class? in which norm? what probability mode? what conditioning?), match the venue register, or remove clutter? If none, it is decoration; withdraw it.
+2. Apply the **use-test**: every introduced symbol, space, operator, topology, or process must be used downstream in a theorem, proof, rate, or assumption cross-reference. A symbol introduced only to restate an elementary scalar/vector condition is withdrawn.
+3. Apply the **simpler-equivalent challenge**: if a simpler conventional statement is equally falsifiable, choose it.
+4. Apply the **venue-register exemplar check**: would this object look normal in two recent accepted or similar papers from the target venue, and does it reduce or increase the modal reader's burden? Biometrika and JASA prefer compact assumptions with verbal interpretation; AoS, Bernoulli, EJS allow native technical objects when used downstream. Calibrate against the 2-3 recent venue papers identified in Step 2 of the workflow.
+5. Classify each rewrite. **Cosmetic / packaging** rewrites (formatting, labeling, ordering, environment cleanup) go through the normal `REVISION_PLAN.md` cluster gate. **Semantic** rewrites — any rewrite touching quantifier, probability mode, uniformity, constants, asymptotic regime, conditioning set, norm or topology, dependence structure, or parameter space — get a **per-atomic-claim gate** (one atomic claim, one approval, never clustered) with an `EQUIVALENCE_LEDGER.md` row attached. A six-part assumption produces up to six approval items.
+6. For each semantic rewrite, fill the ledger row, including the honest "possible silent strengthening / weakening" column and the downstream consumers.
+7. Apply the **proofcheck depth split**: a semantic rewrite not on the main dependency chain gets a targeted dependency check (does any downstream unit consume the changed property?); a rewrite on the path to a headline theorem, rate theorem, or main-chain lemma gets a full `/proofcheck --post-repair` on the affected sub-DAG. Unclear dependency status is treated as load-bearing.
+8. Run the **cross-reference drift audit** (reuse `../stat-shared-references/stat-notation-audit.md`): after rewriting any labeled object, audit every later prose and proof reference to it ("the boundedness condition", "Assumption 3(ii)") and update or flag.
+9. Run the Step 6 Mathematical Expression Economy self-check on the output; any formalization that trips an economy flag without a precision gain is withdrawn.
+
+This mode never silently changes a statement's meaning. A formalization that strengthens or weakens an assumption, even by adding a single quantifier or pinning a single constant, is a semantic rewrite and is gated and ledgered as one. A formalization that cannot be justified as equivalent (or as a documented intended correction) is not applied by this mode; it is flagged for the author and, if it affects a proof, routed to `/proof-repair`.
 
 ### When to skip the Codex pass
 

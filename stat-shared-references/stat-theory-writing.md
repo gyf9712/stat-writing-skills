@@ -357,3 +357,55 @@ $\mathbb{E}[\|\hat{f}_n - f_0\|_2^2] = O(n^{-1})$.
 | Adaptive result claimed but tuning depends on unknowns | Specify what the tuning parameter depends on |
 | Proof uses an assumption not listed | Add the assumption or weaken the proof to avoid it |
 | "The proof is similar to [ref]" for a novel setting | Explain what changes and why the argument still works |
+
+## Formalizing Statements (the formal-statement-pass mode)
+
+`stat-polishing`'s `--formal-statement-pass` mode rewrites assumptions, definitions, theorem and lemma statements, and displayed conditions into more formal, more conventional, equivalence-preserving forms aligned with the target venue's published register. The governing protocol is `equivalence-ledger-protocol.md` (in the sibling `stat-theory-skills` repo). This section is the statement-pattern reference the mode draws from. **Read the protocol's standing refusal condition first**: never formalize to increase apparent depth; precision over notational sophistication.
+
+### Precision-increasing formalization patterns (apply)
+
+These resolve a referee-checkable ambiguity. Each "before" leaves a question the "after" answers.
+
+| Vague / informal | Formalized | Ambiguity resolved |
+|---|---|---|
+| "$p$ is large" | "$\log p / n \to 0$ as $n \to \infty$" | with respect to what limit |
+| "the estimator is consistent" | "$\hat\theta_n \to \theta_0$ in probability as $n \to \infty$" | probability mode + limit |
+| "uniformly good over the class" | "$\sup_{f \in \mathcal{F}} \mathbb{E}\,\ell(\hat f, f) \le C r_n$" | uniform over which class, in which loss |
+| "the error is small" | "$\|\hat\theta_n - \theta_0\|_2 = O_P(n^{-1/2})$" | in which norm, what stochastic order |
+| "holds with high probability" | "with probability at least $1 - 2 p^{-c}$ for a constant $c > 0$" | what probability level, in what regime |
+| "the design is regular" | (only if the author confirms the intended condition) "$\lambda_{\min}(n^{-1} X^\top X) \ge \kappa > 0$" | which regularity, uniform or per-$n$ — SEMANTIC, ledger it |
+
+The last row is the cautionary one: it is a semantic rewrite (touches conditioning / constants / uniformity) and must go through the per-atomic-claim gate with an equivalence-ledger row, not applied silently. "Regular" might mean only per-$n$ invertibility, not a uniform lower bound.
+
+### Decoration patterns (refuse or flag)
+
+These raise the reading barrier without resolving any ambiguity.
+
+| Decoration | Why it is theater | What to do |
+|---|---|---|
+| Measure-theoretic dress on an elementary i.i.d. argument | The probability space is never used beyond the elementary statement | Keep the elementary statement |
+| Operator notation for a scalar quantity | The "operator" acts on a one-dimensional space | Use the scalar |
+| Empirical-process language ($\mathbb{G}_n$, Donsker) for a plain sample mean | The process structure is never exploited | Use the sample mean |
+| Introducing a function space the paper never revisits | Fails the use-test | Withdraw the space |
+| Bourbaki-style maximal generality with no downstream payoff | Generality is not used by any theorem | State the case actually proved |
+
+### Notation formalism: legitimate only when the object lives in the structure
+
+Introducing operators, function spaces, measure-theoretic objects, or processes is legitimate only when the object already lives in that structure AND is used downstream (use-test): stochastic-process convergence, operator norms, function classes, empirical measures, RKHS objects, semiparametric tangent spaces. Otherwise it is decoration.
+
+### Venue formalism register
+
+Target the venue's actual register, not maximum formalism.
+
+| Venue | Register |
+|---|---|
+| AoS / Bernoulli / EJS | High formalism native; measure-theoretic and empirical-process language expected when the object is used |
+| JRSS-B | Middle; formal where precision demands, not gratuitously heavy |
+| Biometrika | Concise and readable; excess formalism penalized; compact assumptions with verbal interpretation |
+| JASA T&M | Compact assumptions plus verbal interpretation; formalism for precision, not display |
+| JASA ACS / AOAS | Application-facing; formalism that hurts readability is wrong |
+| Biostatistics / JCGS | Readable; formalism subordinate to the applied narrative |
+
+### Cross-reference drift after a formalization
+
+Rewriting a labeled object (an assumption's name, number, or verbal handle) silently breaks later references: "the boundedness condition", "the compatibility condition", "Assumption 3(ii)" in prose and proofs. After any such rewrite, audit every downstream reference and update or flag it. Reuse `stat-notation-audit.md`. This is the most common first-pass failure of the formal-statement pass.

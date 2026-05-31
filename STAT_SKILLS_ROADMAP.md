@@ -37,6 +37,22 @@ The combined effect: every positioning claim and every comparative technical cla
 
 This directly addresses Codex's diagnosis that the skills had not yet protected against the two things that actually kill top-stat submissions: weak positioning and unverified technical overclaim.
 
+### Formal-statement pass: equivalence-preserving formalization mode (May 28, 2026)
+
+The user proposed rewriting the mathematical FORM of body statements (assumptions, definitions, theorem/lemma statements, displayed conditions) into more formal, more conventional, equivalence-preserving forms aligned with the target venue's published register. They named the central tension: more formal notation raises the reading barrier but also makes a paper *appear* deeper, and apparent depth is appearance, not substance.
+
+Codex MCP review (threadId `019e7bc0-56ef-7710-8424-e61b6d58399b`, two rounds at xhigh) settled it as a MODE, not a standalone skill — a standalone skill would create a second owner for theorem/assumption prose, the same ownership hazard as `cited_results.lock.md`. The critical finding: equivalence preservation is a correctness-critical operation (the same silent-meaning-change failure class as proof-repair's semantic edits) and gets the same grade of guardrail.
+
+Applied to `stat-writing-skills`:
+
+- `stat-polishing/SKILL.md`: new **Mode: Formal-Statement Pass** section. Standing refusal condition (never formalize to look deeper; "precision over notational sophistication"), the discriminator (resolves a referee-checkable ambiguity on limit / uniformity / norm / probability mode / conditioning), the use-test, the simpler-equivalent challenge, the venue-register exemplar check, the two-tier gate (cosmetic cluster vs semantic per-atomic-claim), the proofcheck depth split, the cross-reference drift audit, and the Step 6 economy self-check. Reference-table entry added for `equivalence-ledger-protocol.md`.
+- `stat-shared-references/stat-theory-writing.md`: new "Formalizing Statements" section — precision-increasing formalization patterns (apply), decoration patterns (refuse), the notation-formalism legitimacy rule (object must live in the structure and be used downstream), a per-venue formalism register table, and the cross-reference drift caution.
+- `stat-shared-references/stat-notation-audit.md` is reused for the cross-reference drift audit (rewriting a labeled object breaks later "the boundedness condition" / "Assumption 3(ii)" references).
+
+The governing protocol `equivalence-ledger-protocol.md` lives in the sibling `stat-theory-skills` repo (it shares the silent-semantic-change ontology — axis vocabulary, change logs, diff ledger). `stat-polishing` references it cross-repo, exactly as it references the cache protocol. The artifact a formal pass produces, `papers/<project>/EQUIVALENCE_LEDGER.md`, is consumed by `/proofcheck --post-repair` (a formalized statement on the main dependency chain that silently strengthened an assumption is a `NEW-S0`, same as an undocumented Weaken-Claim edit).
+
+Companion: `gyf9712/stat-theory-skills` CHANGELOG v1.9.0 hosts the protocol and the proofcheck wiring.
+
 ### Literature cache integration + SKILL.md compactification iteration (May 28, 2026, four-commit sequence)
 
 After the earlier token-economy iteration, the user identified literature reading as the dominant remaining cost (~100-300K tokens per session on stat-theory work). A Codex MCP review (threadId `019e70c3-1844-7181-b6a1-0b4041c657df` for rounds 1-2; `019e7112-283e-74b1-97e5-6344592cd820` for round 3 after the original expired) over three rounds shaped a four-commit response.
