@@ -233,6 +233,29 @@ Biometrika and similar concise-prose venues enforce additional hard bans that ar
 - **"It can be shown that"** without saying where it is shown. Either prove it now, cite a result by number, or remove the claim.
 - **"In this paper" / "In this work"** repeated across sections. The reader knows where they are. Cut on sight in body sections; use sparingly in the abstract and introduction if at all.
 
+### Hyphenated Noun-Adjective Discipline
+
+Reduce the habit of turning a noun into an attributive adjective by hyphenation. The productive offenders are the `-based`, `-driven`, `-type`, `-induced`, `-dependent`, `-wise`, `-specific` family, and stacked noun premodifiers. Default to a prepositional phrase or the plain noun. Use the hyphenated form only when it is an established term of art or the prepositional rewrite is genuinely clumsier.
+
+The reason is concision and parse cost. A noun-rooted hyphenated adjective compresses a relation into a premodifier, which raises the reader's parse load, and stacks of them read as jargon density. Senior statisticians unpack the relation into a preposition or a verb, which the reader processes in order. This is the word-level analog of the figure rule "move information out of the title and into the caption": move the relation out of the premodifier and into the sentence.
+
+Reduce (rewrite by default):
+
+| Premodifier | Prefer |
+|---|---|
+| "a kernel-based estimator" | "an estimator based on kernels", or "a kernel estimator" (standard, no hyphen needed) |
+| "a likelihood-based test" | "a test based on the likelihood" |
+| "a model-driven procedure" | "a procedure driven by the model" |
+| "a tuning-parameter-dependent rate" | "a rate that depends on the tuning parameter" |
+| "a simulation-based comparison" | "a comparison using simulation" |
+| "a sparsity-induced bias" | "the bias induced by sparsity" |
+| "a coordinate-wise update" | "an update over each coordinate" (or keep if standard in the optimization subfield) |
+| stacked: "a high-dimensional sparse-regression-based variable-selection procedure" | "a procedure for variable selection in high-dimensional sparse regression" |
+
+Keep (established terms; do not rewrite): high-dimensional, finite-sample, large-sample, low-rank, closed-form, real-valued, second-order, worst-case, well-specified, sub-Gaussian, data-driven and model-based where they are the recognized term of art in the subfield. These are read as single lexical units, not as compressed relations.
+
+Discriminator before keeping a hyphenated noun-adjective: is it a standard term the reader expects as one unit, or an ad-hoc nominal compression the author formed to save a few words? Keep the former. Unpack the latter, and unpack on sight when two or more stack before a single noun.
+
 ### The Rule-of-Three Tic
 
 LLMs habitually produce three-item lists: "X, Y, and Z." This becomes a tic when used reflexively. Vary list lengths. Single items, pairs, and quadruples are also valid. Cut items that are duplicative.
@@ -477,6 +500,7 @@ Run this checklist on any section:
 - [ ] Look for empty section openings. Replace with content.
 - [ ] Look for homemade method acronyms. Replace with a descriptive short name.
 - [ ] Look for in-text `w.r.t.`, `s.t.`, `i.f.f.`. Spell out in body prose.
+- [ ] Look for `-based`, `-driven`, `-type`, `-induced`, `-dependent`, `-wise` premodifiers and stacked noun-adjectives. Unpack to a preposition or verb unless the term is standard; unpack on sight when two or more stack before one noun.
 - [ ] Count manual `\textbf{...}` and `\emph{...}` in body prose. Justify each one or remove. Theorem/class-supplied bold does not count.
 - [ ] Count italic phrases used for emphasis (not for term definition). Cut.
 - [ ] Check that every paragraph develops one idea.

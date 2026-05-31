@@ -266,6 +266,7 @@ Read `../stat-shared-references/stat-style-discipline.md` "AI-Template Patterns 
 - Empty connectives ("It is worth noting that", "Importantly,", "Notably,", "Crucially,")
 - AI watchwords (delve / pivotal / underscore / unveil / leveraging / etc.) used as decoration
 - Biometrika-style hard bans ("Note that" at sentence start; "is given by"; homemade method acronyms; in-text `w.r.t.` / `s.t.` / `i.f.f.`)
+- Hyphenated noun-adjectives ("kernel-based", "model-driven", "simulation-based", stacked premodifiers) — unpack to a preposition or verb unless the term is standard; unpack on sight when two or more stack before one noun
 - Padding phrases ("in order to" → "to"; "perform an analysis of" → "analyze")
 - Hedge stacking ("may potentially" → "suggests")
 - Generic conclusions ("opens exciting new avenues", "wide-ranging implications")
