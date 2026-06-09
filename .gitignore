@@ -30,3 +30,8 @@ supplement/
 *.run.xml
 
 stat-theory-skills/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
