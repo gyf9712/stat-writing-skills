@@ -1,0 +1,64 @@
+% Synthetic JASA-style submission with deliberate audit violations.
+\documentclass[11pt]{article}    % FAIL: JASA needs 12pt
+\usepackage{geometry}             % missing margin=1in spec
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{setspace}
+\onehalfspacing                   % FAIL for JASA (forbidden)
+
+\title{Synthetic Audit Fixture}
+\author{Anon}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This abstract is deliberately written to exceed the JASA target word count
+range of one hundred to two hundred fifty words. We pad it with redundant
+sentences. The estimator achieves a certain rate. The proof uses standard
+techniques. We also describe an application to a synthetic dataset. The
+results are illustrated in figures and tables. We compare with several
+baselines. The comparison is favorable. We discuss limitations. We outline
+extensions. We summarize contributions. We present the main finding. We
+motivate the problem. We position relative to existing work. We argue for
+substantive novelty. We tie the methodology to a scientific question. We
+sketch the proof strategy. We describe the simulation study. We mention
+the real-data analysis. We highlight the implications. We emphasize
+reproducibility. We discuss future directions in some detail to ensure
+the abstract goes well past the upper bound of two hundred fifty words
+and triggers the audit flag. We further elaborate on potential extensions
+to other problem settings of interest, including nonparametric variants,
+high-dimensional regimes, dependent data structures, robust loss
+functions, and the integration of side information from auxiliary
+sources. We close with a few words on broader impact and on the relevance
+of these contributions to the wider statistical community, including
+implications for applied practice, methodological standardization,
+and the design of future studies that build on the results presented
+here. We also remark briefly on connections to related lines of work
+in adjacent fields, where similar challenges arise but the dominant
+techniques diverge from those used here. These remarks are not central
+to the contribution and could be omitted if a tighter abstract were
+required by venue policy.
+\end{abstract}
+
+\input{body}
+
+% Cross-file reference: this is OK within main.tex itself.
+The main result appears in Theorem~\ref{thm:main}.
+
+% This references a label that lives ONLY in the supplement; in
+% separate-self-contained mode this is a HIGH-severity cross-file leak.
+A full proof of the auxiliary lemma is given in Lemma~\ref{lem:supp_only}.
+
+% A genuinely undefined ref.
+See Section~\ref{sec:does_not_exist}.
+
+% Plain \cite{} is forbidden for JASA (which requires natbib \citep/\citet).
+This uses an old citation style \cite{smith2020}.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}

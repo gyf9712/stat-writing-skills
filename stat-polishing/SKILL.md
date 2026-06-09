@@ -445,17 +445,23 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
 11. **Polish at the sentence level.** Apply punctuation discipline and AI-template removal.
 12. **Polish at the word level.** Cut watchwords; replace with precise alternatives or remove.
 13. **Audit figures and tables.** Apply the figure design rules in `../stat-shared-references/stat-figure-design.md`.
-14. **Template conformance audit.** Read `../stat-shared-references/stat-latex-audit.md`. Verify `\documentclass` matches the venue, required packages are loaded, `\bibliographystyle` matches the venue, line spacing matches the venue, margins match, font matches, and venue-required blocks are present (keywords, AMS subject classification, alt text, AI disclosure block where required). Produce `TEMPLATE_CONFORMANCE_REPORT.md` with PASS / FAIL / NEEDS VERIFY for each check, and the exact LaTeX line to change for any FAIL.
+14. **Mechanical LaTeX audit (script).** Run `latex_audit.py` for template conformance, ref/label cross-check, cite/bib cross-check, image-file existence, cross-file leaks under the active `SUPPLEMENT_MODE`, abstract word count against the venue range, and compile-log scan.
 
-    **JASA-specific FAIL patterns to flag immediately**:
-    - `\documentclass` without `[12pt]` → FAIL: JASA requires 12-point font
-    - `\onehalfspacing` → FAIL: JASA requires fully double-spaced manuscript; change to `\doublespacing`
-    - No `\doublespacing` or equivalent and no other JASA-template line-spacing directive → FAIL: manuscript defaults to single spacing which is non-compliant
-    - Margins different from 1 inch → FAIL
-    - Abstract over 250 words → FAIL: cut to 200-250
-    - `\cite{}` used instead of `\citet{}` / `\citep{}` → FAIL: JASA uses author-year
-15. **LaTeX integrity audit.** Same reference. Compile with `latexmk -pdf -interaction=nonstopmode`, search the log for undefined references, undefined citations, multiply-defined labels, missing image files, font-shape warnings, overfull boxes. Cross-check `\ref{}` and `\label{}`. Cross-check `\cite{}` and the `.bib` file. Cross-check `\includegraphics` and image files on disk. For `SUPPLEMENT_MODE = separate_self_contained`, also verify the supplement contains no `\ref` to labels in the main paper and vice versa. Produce `LATEX_INTEGRITY_REPORT.md` with HIGH and CRITICAL findings and the exact fix for each. All HIGH and CRITICAL findings must be fixed before polishing is declared complete.
-16. **Citation identity and bibliography hygiene audit.** This is the polishing-time citation audit. It consults `../shared-references/citation-discipline.md` for the verification workflow, metadata rules, and placeholder policy. It does **not** replace the literature-relative novelty and comparative-claim audit in `../stat-shared-references/stat-positioning-and-claims.md`, the theorem-import checks in `proof-writer`'s `## Cited Results Audit`, or the undefined-citation and template checks in `../stat-shared-references/stat-latex-audit.md`.
+    ```bash
+    python ../stat-shared-references/scripts/latex_audit.py \
+      --main main.tex \
+      --supplement supplement.tex \
+      --supplement-mode separate-self-contained \
+      --venue jasa \
+      --md-out audit/LATEX_AUDIT_REPORT.md
+    ```
+
+    The script is authoritative for mechanical checks (`PASS` / `FAIL` / `WARN` / `INFO`). Every `FAIL` is a hard gate — polishing is not complete until they are zero. `WARN` findings should be cleared unless the venue's live IFA page has an explicit waiver. `CANDIDATE` findings (heuristic) are review prompts, never verdicts; they never affect the exit code.
+
+    Read `../stat-shared-references/stat-latex-audit.md` for interpretation, severity semantics, the cross-file ref bug worked example, and venue-profile maintenance guidance. Do not duplicate the script's check list in prose; if a finding is unclear, consult the file.
+
+    Exit code `0` = no mechanical FAIL. Exit code `1` = at least one mechanical FAIL. Exit code `2` = invocation error. The audit's report file `audit/LATEX_AUDIT_REPORT.md` includes provenance (`script_version`, `rules_version`, `rules_digest`) for traceability.
+15. **Citation identity and bibliography hygiene audit.** This is the polishing-time citation audit. It consults `../shared-references/citation-discipline.md` for the verification workflow, metadata rules, and placeholder policy. It does **not** replace the literature-relative novelty and comparative-claim audit in `../stat-shared-references/stat-positioning-and-claims.md`, the theorem-import checks in `proof-writer`'s `## Cited Results Audit`, or the undefined-citation and template checks in the script run in Step 14.
 
     Checks:
     - **Canonical version discipline.** For works that exist as both preprint and published versions, choose the canonical version deliberately and use it consistently unless there is a clear reason to cite both.
@@ -466,9 +472,8 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
 
     **Not in scope**: this step does not decide novelty, adjudicate whether a comparative claim is true in the literature, verify that an imported theorem justifies a proof step, or repair compile-level citation failures.
 
-17. **Journal-style match check.** Compare the polished prose against the 2-3 recent venue papers identified in Step 2. Does the polished draft match their voice, density, and structural choices? If not, identify the specific deltas (e.g., "this introduction is much longer than typical Biometrika introductions; consider compressing"). For JASA, JRSS-B, AOS, AOAS, this check is usually done by Codex in the optional second-pass; for first-pass polishing, a quick comparison by the polisher is sufficient.
-18. **Final venue check.** Read `stat-venue-checklists.md` for the target venue and confirm every venue-specific requirement is met. Always include:
-    - **Abstract word count** against the venue norm. JASA: 200-250 words; Biometrika: 100-150; AOAS: 150-250; AOS / Bernoulli / EJS: 150-200; COLT / ALT: 150-300. A 350-word draft abstract must be cut before submission.
+16. **Journal-style match check.** Compare the polished prose against the 2-3 recent venue papers identified in Step 2. Does the polished draft match their voice, density, and structural choices? If not, identify the specific deltas (e.g., "this introduction is much longer than typical Biometrika introductions; consider compressing"). For JASA, JRSS-B, AOS, AOAS, this check is usually done by Codex in the optional second-pass; for first-pass polishing, a quick comparison by the polisher is sufficient.
+17. **Final venue check.** Read `stat-venue-checklists.md` for the target venue and confirm every venue-specific requirement Step 14 cannot mechanically verify:
     - **Cover letter** is ready (separate file or portal text box per the venue)
     - **AI disclosure** block is present in the manuscript
     - **Data and code availability statements** are present
@@ -477,12 +482,9 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
     - **AMS subject classification** for IMS venues (AOS, AOAS, EJS, Bernoulli)
     - **Author anonymization** matches the venue's peer-review setting
 
-    A quick word-count check on the abstract:
-    ```bash
-    awk '/\\begin\{abstract\}/{flag=1; next} /\\end\{abstract\}/{flag=0} flag' main.tex \
-      | tr -s ' \n' '\n' | grep -E '\S' | wc -l
-    ```
-19. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, a story-spine assessment, a journal-style-match assessment against the venue, and an AI-tell line-level audit. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
+    Abstract word count, template conformance, and citation/ref/label/image cross-checks are already covered by Step 14's mechanical audit; if the script's exit code is `0` and there are no `WARN` findings outstanding, those items have passed.
+
+18. **Optional Codex second-pass.** Invoke external senior-statistician review via Codex MCP (see next section). The Codex pass should include an independent positioning and claim strength audit, a story-spine assessment, a journal-style-match assessment against the venue, and an AI-tell line-level audit. Disagreements between the two audits signal genuine ambiguity worth surfacing to the author.
 
 ## Optional Codex MCP second-pass dialogue
 

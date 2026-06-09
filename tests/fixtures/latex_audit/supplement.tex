@@ -1,0 +1,22 @@
+% Supplement that compiles standalone. Demonstrates the cross-file ref bug.
+\documentclass[12pt]{article}
+\usepackage{amsmath, amsthm}
+\newtheorem{lemma}{Lemma}
+\renewcommand{\thelemma}{S\arabic{lemma}}
+
+\title{Supplementary Material}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+% This references a label that lives ONLY in the main paper; in
+% separate-self-contained mode this is a HIGH-severity cross-file leak.
+\section{Proof of Theorem~\ref{thm:main}}
+
+\begin{lemma}\label{lem:supp_only}
+This lemma is defined in the supplement; the main paper's \ref to it is a bug.
+\end{lemma}
+
+\end{document}
