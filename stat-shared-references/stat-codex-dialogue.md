@@ -113,6 +113,10 @@ Stop iterating with Codex when one of the following holds.
 
 Do not iterate indefinitely. The point is convergence, not unanimity.
 
+## Anti-churn escalation
+
+A separate trigger from the stop rule above. If the same substantive concern survives one pushback, or reappears after one accepted repair and recompile, stop making additional local prose edits on that issue: the problem is structural, not tactical. Route it by failure mode through `stat-review-routing.md` to the owning skill or artifact class (positioning and claims, theory, structure, venue fit) and take the cheapest repair inside that owner. If the routed repair still does not change the substance, narrow the claim, reconsider the venue, or log the disagreement. This is an escalation trigger, not a new stopping rule, and it does not bypass the author approval gates.
+
 ## Documentation
 
 Every Codex review should produce a written log saved alongside the project artifacts. Suggested file names:

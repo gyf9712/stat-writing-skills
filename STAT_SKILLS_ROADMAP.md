@@ -376,6 +376,32 @@ Applied in this iteration:
 
 Full writing-repo suite: 38 tests, all passing.
 
+### Follow-up: autonomous-framework review (auto_research/framework.html)
+
+The user then asked whether the same project's autonomous research *framework*
+(zero-interaction, 72-hour unattended runs, heartbeat watchdogs, quantitative
+stall detection) had anything to offer. As a system it is the inverse of this
+suite's human-in-the-loop, approval-gated design, so nothing transfers wholesale.
+It does independently corroborate principles already held here (≤300-line files,
+separate execution from evaluation, mechanical-checking-is-not-verification,
+validate between iterations).
+
+A Codex MCP dialogue (threadId `019edcac-8236-70a0-915d-6ff162b217ec`, gpt-5.4
+xhigh) reshaped the one borrowable idea. My proposal was a quantitative stall
+signal for the Phase 5 improvement loop; Codex rejected it as ceremony at a 2-4
+round human-supervised scale and caught two factual errors in my framing (Phase 5
+writes `PAPER_IMPROVEMENT_LOG.md`, not `MOCK_REVIEW.md`, so `review_regression.py`
+does not apply to it; and that script detects *dropped* concerns, not *recurring*
+ones). The converged result is an **anti-churn escalation rule**, not stall
+detection: when a concern survives a pushback or reappears after an accepted
+repair, the problem is structural, so route it via `stat-review-routing.md` to the
+owning skill rather than running another prose pass. Added as 2-3 lines in
+`stat-codex-dialogue.md` (generic) and `stat-paper-writing` Phase 5 (near the
+dispatch rule). No new code. A deferred option, if an objective signal is ever
+wanted: instrument `PAPER_IMPROVEMENT_LOG.md` with per-issue states
+(`OPEN -> ACCEPTED / WITHDRAWN / DISAGREED`); stall = same OPEN issue, same owner,
+two rounds, no state change.
+
 ## Versioning
 
 When applying items from this roadmap, mark them as moved from `Roadmap for next iteration` to `Applied in this iteration`, and rebuild the open-items list for the iteration after.
