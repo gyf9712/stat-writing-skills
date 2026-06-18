@@ -10,7 +10,36 @@ Rules versioning:
     a `rules_digest` automatically; the two together pin provenance.
 """
 
-RULES_VERSION = "1.0.0"
+import re
+
+RULES_VERSION = "1.1.0"
+
+
+# ---------------------------------------------------------------------------
+# Citation worklist (item ③): preprint / venue-upgrade and year sanity
+# ---------------------------------------------------------------------------
+#
+# Mechanical bib-hygiene signals. The actual title/author/year/venue
+# verification is JUDGMENT owned by stat-positioning-and-claims (web lookup of
+# every LOAD-BEARING citation, not a sample). These patterns only surface
+# entries worth a human look; preprint flags are heuristic CANDIDATE and never
+# affect the exit code.
+
+# An entry whose journal/note/howpublished/series mentions one of these, or
+# that carries an eprint field, is likely a preprint that may now have a
+# published version (the "venue upgrade").
+ARXIV_MARKERS = [
+    r"arxiv",
+    r"\bpreprint\b",
+    r"in preparation",
+    r"manuscript in prep",
+    r"under review",
+    r"submitted\b",
+]
+
+# A plausible 4-digit publication year. A present-but-malformed year is flagged
+# (heuristic CANDIDATE, because "forthcoming"/"in press" are legitimate).
+PLAUSIBLE_YEAR_RE = re.compile(r"^(18|19|20)\d{2}$")
 
 
 # ---------------------------------------------------------------------------

@@ -184,12 +184,19 @@ _BIB_ENTRY_RE = re.compile(
     re.DOTALL,
 )
 _BIB_FIELD_RE = re.compile(r"(\w+)\s*=\s*[\{\"]", re.IGNORECASE)
+# Field = value, capturing the value (braced, quoted, or bare).
+_BIB_FIELD_KV_RE = re.compile(
+    r'(\w+)\s*=\s*(?:\{((?:[^{}]|\{[^{}]*\})*)\}|"([^"]*)"|([^,\n}]+))',
+    re.IGNORECASE | re.DOTALL,
+)
 
 
 def parse_bib(path: Path) -> dict[str, dict]:
-    """Parse a .bib file into {key: {"type": str, "fields": set[str]}}.
+    """Parse a .bib file into {key: {"type": str, "fields": set[str], "values": dict}}.
 
-    Lightweight; does not extract field values. Used for completeness checks.
+    "values" maps field name (lower) to its raw value; used by the citation
+    worklist for preprint and year-sanity signals. Backward compatible: the
+    "type" and "fields" keys are unchanged.
     """
     if not path.exists():
         return {}
@@ -199,8 +206,27 @@ def parse_bib(path: Path) -> dict[str, dict]:
         key = m.group("key").strip()
         body = m.group("body")
         fields = {fm.group(1).lower() for fm in _BIB_FIELD_RE.finditer(body)}
-        entries[key] = {"type": m.group("type").lower(), "fields": fields}
+        values = {}
+        for fm in _BIB_FIELD_KV_RE.finditer(body):
+            name = fm.group(1).lower()
+            val = (fm.group(2) or fm.group(3) or fm.group(4) or "").strip()
+            values[name] = val
+        entries[key] = {"type": m.group("type").lower(), "fields": fields, "values": values}
     return entries
+
+
+def find_duplicate_bib_keys(path: Path) -> list[str]:
+    """Return bib keys defined more than once (parse_bib collapses them silently)."""
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8", errors="replace")
+    seen, dupes = set(), set()
+    for m in _BIB_ENTRY_RE.finditer(text):
+        key = m.group("key").strip()
+        if key in seen:
+            dupes.add(key)
+        seen.add(key)
+    return sorted(dupes)
 
 
 # ---------------------------------------------------------------------------
@@ -404,6 +430,63 @@ def check_bib_entry_completeness(bib_entries: dict, bib_path: Path) -> list[Find
                 evidence={"file": str(bib_path), "citation_key": key,
                           "type": entry["type"], "missing_fields": missing},
                 fix_hint="Add the missing field(s) or change the entry type.",
+            ))
+    return findings
+
+
+def check_citation_worklist(
+    bib_entries: dict,
+    cited_keys: set,
+    duplicate_keys: list,
+    bib_path: Path,
+) -> list[Finding]:
+    """Mechanical bib-hygiene signals feeding the citation worklist.
+
+    Duplicate keys are a definite defect (mechanical WARN). Preprint / venue-
+    upgrade flags and malformed-year flags are heuristic CANDIDATE: they point a
+    human at an entry but never decide. The actual title/author/year/venue
+    verification of every LOAD-BEARING citation is owned by
+    stat-positioning-and-claims (web lookup), not this script.
+    """
+    findings = []
+
+    for k in duplicate_keys:
+        findings.append(Finding(
+            id="bib_duplicate_key", kind="mechanical", status="WARN", severity="HIGH",
+            message=f"BibTeX key '{k}' is defined more than once; BibTeX silently keeps one.",
+            evidence={"file": str(bib_path), "citation_key": k},
+            fix_hint="Remove or rename the duplicate @entry.",
+        ))
+
+    for key, entry in bib_entries.items():
+        if key not in cited_keys:
+            continue  # uncited entries are handled by the unused-entry check
+        values = entry.get("values", {})
+        haystack = " ".join(
+            values.get(f, "") for f in
+            ("archiveprefix", "journal", "journaltitle", "howpublished", "note", "series")
+        ).lower()
+        is_preprint = ("eprint" in entry.get("fields", set())) or any(
+            re.search(p, haystack) for p in rules.ARXIV_MARKERS
+        )
+        if is_preprint:
+            findings.append(Finding(
+                id="bib_preprint_check_published", kind="heuristic",
+                status="CANDIDATE", severity="REVIEW",
+                message=(f"Cited entry '{key}' looks like a preprint; if a published "
+                         f"version now exists, cite that (venue upgrade)."),
+                evidence={"citation_key": key},
+                review_question=("Has this work since appeared in a journal or "
+                                 "proceedings? If so, cite the published version."),
+            ))
+        year = values.get("year", "").strip()
+        if year and not rules.PLAUSIBLE_YEAR_RE.match(year):
+            findings.append(Finding(
+                id="bib_year_implausible", kind="heuristic",
+                status="CANDIDATE", severity="REVIEW",
+                message=f"Cited entry '{key}' has a non-standard year value '{year}'.",
+                evidence={"citation_key": key, "year": year},
+                review_question="Is this a typo, or a legitimate 'forthcoming'/'in press'?",
             ))
     return findings
 
@@ -795,6 +878,12 @@ def run_audit(args: argparse.Namespace) -> tuple[list[Finding], dict]:
     ))
     if bib_path:
         findings.extend(check_bib_entry_completeness(bib_entries, bib_path))
+        cited_keys = {k for k, _ in find_cites(main_source)}
+        if supplement_source:
+            cited_keys |= {k for k, _ in find_cites(supplement_source)}
+        findings.extend(check_citation_worklist(
+            bib_entries, cited_keys, find_duplicate_bib_keys(bib_path), bib_path,
+        ))
 
     # Images
     findings.extend(check_image_files(main_source, supplement_source, main_path, supplement_path))

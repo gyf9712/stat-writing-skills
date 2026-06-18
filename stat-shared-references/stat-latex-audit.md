@@ -22,6 +22,8 @@ The script is authoritative for these mechanical checks:
 | `\ref` resolves to a `\label` in the same compilation unit | Yes | follows `\input{}` / `\include{}` |
 | `\cite` keys match `.bib` entries | Yes | also flags unused entries (bib bloat) |
 | BibTeX entry completeness for required fields | Yes | per entry type |
+| Duplicate BibTeX keys | Yes | `WARN`; BibTeX silently keeps one |
+| Preprint / venue-upgrade and non-standard-year flags on cited entries | No (heuristic) | `CANDIDATE` worklist; verification is owned by `stat-positioning-and-claims` |
 | `\includegraphics` paths exist on disk | Yes | resolves common extensions and the `figures/` convention |
 | Cross-file ref leaks (main ↔ supplement under `separate-self-contained`) | Yes | the canonical JASA / AoS / Biometrika / JRSS-B bug class |
 | Compile log scan (undefined refs, citations, multiply-defined labels, missing files, overfull boxes) | Yes | parses `main.log` or `logs/main.compile.log` |

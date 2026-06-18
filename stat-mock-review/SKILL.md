@@ -30,7 +30,7 @@ Do not run this skill on a half-finished draft. The mock review is calibrated fo
 
 ## Output: MOCK_REVIEW.md
 
-The file has seven sections in fixed order. Brevity is the discipline; an AE writes screening notes in fifteen minutes, not a referee report in a week.
+The file has seven sections in fixed order, plus an optional Section 0 (Regression Check) that appears only on a revise-and-resubmit or a later cycle. Brevity is the discipline; an AE writes screening notes in fifteen minutes, not a referee report in a week.
 
 ```markdown
 # MOCK_REVIEW.md
@@ -40,6 +40,10 @@ Paper type: [theory / methodology / application]
 Manuscript: [title]
 Reviewer: AE-style mock review, single pass
 Date: [YYYY-MM-DD]
+
+## 0. Regression Check (revise-and-resubmit or later cycle only)
+
+Present only when a prior MOCK_REVIEW.md exists. For each canonical concern raised in the prior review (cited by CS#, PW#, TR#, or a theorem / assumption label), state its current disposition in one line: resolved, still-open, or regressed. A prior canonical concern that is silently dropped from this cycle is itself a finding and must be restated or explicitly withdrawn. Omit this section entirely on a first-cycle review.
 
 ## 1. Synopsis
 
@@ -91,10 +95,12 @@ A focused list of what to change before submission, in priority order. Three to 
 
 - `Problem`: one sentence diagnosis
 - `Action`: one sentence, concrete and bounded
+- `Owner`: the skill that owns the first fix, per `../stat-shared-references/stat-review-routing.md`
 - `Effort`: small / medium / large
 - `Recoverability`: high (presentation issue, fixable in one session) / medium (requires new analysis or rewriting a section) / low (structural; the contribution itself needs reframing)
+- `Refs`: canonical IDs this item touches (CS#, PW#, TR#, theorem / assumption label), if any
 
-The rescue plan is the actionable output. Everything before it is justification.
+The rescue plan is the actionable output. Everything before it is justification. The `Owner` field is the first handoff only; the routing table does not override a skill's own internal escalation.
 ```
 
 ## Workflow
@@ -135,6 +141,17 @@ Discipline:
 
 If the project has these artifacts from `stat-paper-plan` and `stat-paper-write`, cross-check Section 2 and Section 3 against them. A `Severity = CRITICAL` row in `TECHNICAL_RISK_REGISTER.md` that is still open is automatically a fatal concern. A `Novelty Risk = HIGH` row in `PRIOR_WORK_MATRIX.md` that is not yet defused is automatically a major concern.
 
+### Step 5.5: Regression check against the prior review
+
+If a prior `MOCK_REVIEW.md` exists for this manuscript (a revise-and-resubmit, or a later cycle in an iterative polish), copy it to `MOCK_REVIEW.prev.md` before overwriting, then run:
+
+```bash
+python ../stat-shared-references/scripts/review_regression.py \
+    --prior MOCK_REVIEW.prev.md --current MOCK_REVIEW.md
+```
+
+The script keys on the **canonical IDs** the reviews cite (CS#, PW#, TR#, theorem / assumption labels) — never review-local numbering, which the model can silently renumber across cycles. It flags any prior canonical concern absent from the current review. For each flagged ID, add a disposition line to Section 0 (resolved / still-open / regressed). The check detects "not mentioned," not "not resolved": confirming a concern is genuinely fixed is judgment, not something the script certifies. On a first-cycle review there is no prior file and this step is skipped.
+
 ### Step 6: Optional Codex second-pass
 
 For high-stakes submissions, send `MOCK_REVIEW.md` and the manuscript to Codex MCP for an independent AE-style verdict. Use `model_reasoning_effort: xhigh`. The prompt should ask Codex to write its own Sections 2, 3, 6, and 7 without seeing the author's version; agreement between the two versions is the signal.
@@ -158,8 +175,9 @@ Conference reviewer simulators output a 1-10 score because conferences aggregate
 
 ## Output Discipline
 
-- One file: `MOCK_REVIEW.md` in the project root.
+- One file: `MOCK_REVIEW.md` in the project root (plus a `MOCK_REVIEW.prev.md` snapshot kept only long enough to run the regression check on a re-run).
 - No companion files; the rescue plan is in Section 7.
+- Concerns that correspond to a row in `CLAIM_SUPPORT_MAP.md` (CS#), `PRIOR_WORK_MATRIX.md` (PW#), or `TECHNICAL_RISK_REGISTER.md` (TR#), or to a theorem / assumption label, cite that canonical ID. This is what lets the regression check track a concern across cycles without depending on review-local numbering.
 - Plain text, no manual bold or italics (the headings carry structure).
 - Captions, theorem statements, and quoted text from the manuscript are reproduced verbatim, not paraphrased.
 - The mock review is dated; it is a snapshot, not a living document.

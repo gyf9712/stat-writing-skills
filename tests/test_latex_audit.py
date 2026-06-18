@@ -109,6 +109,37 @@ class LatexAuditFixtureTest(unittest.TestCase):
     def test_incomplete_bib_entry(self):
         self._assert_id("incomplete_bib_entry")
 
+    # citation worklist (item ③)
+    def test_bib_duplicate_key(self):
+        self._assert_id("bib_duplicate_key")
+        dupes = [f.evidence.get("citation_key") for f in self.findings if f.id == "bib_duplicate_key"]
+        self.assertIn("jones2021", dupes)
+
+    def test_preprint_flagged(self):
+        self._assert_id("bib_preprint_check_published")
+        keys = [f.evidence.get("citation_key") for f in self.findings
+                if f.id == "bib_preprint_check_published"]
+        self.assertIn("arxiv_preprint2023", keys)
+
+    def test_year_implausible_flagged(self):
+        self._assert_id("bib_year_implausible")
+        keys = [f.evidence.get("citation_key") for f in self.findings
+                if f.id == "bib_year_implausible"]
+        self.assertIn("badyear2022", keys)
+
+    def test_worklist_findings_are_advisory(self):
+        # Preprint + year flags are heuristic CANDIDATE; they never affect exit code.
+        for f in self.findings:
+            if f.id in ("bib_preprint_check_published", "bib_year_implausible"):
+                self.assertEqual(f.kind, "heuristic")
+                self.assertEqual(f.status, "CANDIDATE")
+                self.assertFalse(latex_audit.is_mechanical_fail(f))
+
+    def test_published_entry_not_preprint_flagged(self):
+        keys = [f.evidence.get("citation_key") for f in self.findings
+                if f.id == "bib_preprint_check_published"]
+        self.assertNotIn("jones2021", keys)
+
     # images
     def test_missing_image(self):
         self._assert_id("missing_image_file")

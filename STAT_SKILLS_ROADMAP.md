@@ -322,6 +322,60 @@ Sources Codex checked (May 27, 2026):
 - Biostatistics author guidelines: https://academic.oup.com/biostatistics/pages/general_instructions
 - Biostatistics supplementary data page: https://academic.oup.com/biostatistics/pages/supp_data
 
+## 2026-06-09: borrowing from an external paper-writing skill (auto_research)
+
+The user asked whether an ML/AI survey-paper-writing skill group
+(`victorchen96.github.io/auto_research/skill/paper-writing.html`) had anything to
+offer these skills. Most of it is genre-mismatched (ML survey + conference idiom:
+1-10 reviewer scores, MECE taxonomies with empty cells, "Conjecture-not-Theorem"
+default, fixed figure quotas, an LQS citation weighting that includes author
+institution). Four mechanisms were worth adapting; a Codex MCP dialogue
+(threadId `019edc94-e386-7580-8353-05372985d65c`, gpt-5.4 xhigh) reshaped them.
+
+What Codex changed in the design:
+
+- **Item ④ (multi-persona AE review): dropped.** It would turn the single-pass AE
+  snapshot into a mini-pipeline and duplicates the existing `stat-polishing`
+  Three-Reader mode. A journal AE genuinely is one persona; the "lenses = referees"
+  reframing was a rationalization. Not built.
+- **Item ② (regression check): re-anchored.** The original free-text concern IDs were
+  "false-security bait" — a script diffing them passes while the model silently
+  renumbers. Re-anchored to the existing canonical IDs (`CS#`, `PW#`, `TR#`, theorem /
+  assumption labels) that project artifacts already own.
+- **Item ③ (citation cadence): de-ceremonied.** Dropped the ML-survey "verification
+  rate / sampling" apparatus. Verify all load-bearing citations, not a sample; the
+  mechanical half folds into `latex_audit.py`, web verification stays in
+  `stat-positioning-and-claims`.
+- **Item ① (routing table): kept weak.** A human-facing reference, not executable
+  rule-data (which rots and lies); owners must be skills, not shared references; plus
+  a tiny existence-lint. This matches the family's earlier rejection of cross-cutting
+  owners.
+
+Applied in this iteration:
+
+- **NEW `stat-shared-references/stat-review-routing.md`** + `scripts/routing_lint.py`
+  + `scripts/routing_lint_rules.py` (item ①). The lint checks referential integrity
+  only — that every owner skill / artifact named in the table exists — never routing
+  correctness. On its first run it caught a real error: `stat-positioning-and-claims`
+  listed as an owner, but it is a reference; the owner is `stat-polishing`. 7 tests.
+- **`scripts/latex_audit.py` extended** (item ③, RULES_VERSION 1.0.0 → 1.1.0): duplicate
+  BibTeX key detection (mechanical WARN); preprint / venue-upgrade and non-standard-year
+  flags on cited entries (heuristic CANDIDATE, never affect exit). `parse_bib` now
+  captures field values. `stat-positioning-and-claims.md` gains a Step 4.5 establishing
+  all-load-bearing (not sampled) verification; `stat-latex-audit.md` updated. Tests
+  20 → 25.
+- **`stat-mock-review` regression check** (item ②): concerns cite canonical IDs; an
+  optional Section 0 (Regression Check) on revise-and-resubmit; a Step 5.5 that runs
+  `scripts/review_regression.py` (+ `_rules.py`); the Rescue Plan gains an `Owner` field
+  routed through `stat-review-routing.md`. The script keys only on canonical IDs and
+  detects "not mentioned," not "not resolved." 6 tests. Two real bugs caught by the
+  clean fixture (a trailing-colon ID mismatch, an ID literally named in a fixture
+  comment); both fixed.
+- **`stat-paper-writing` pipeline**: Phase 5 dispatches review findings through the
+  routing table instead of re-deriving the mapping each round.
+
+Full writing-repo suite: 38 tests, all passing.
+
 ## Versioning
 
 When applying items from this roadmap, mark them as moved from `Roadmap for next iteration` to `Applied in this iteration`, and rebuild the open-items list for the iteration after.

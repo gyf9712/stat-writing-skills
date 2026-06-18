@@ -370,6 +370,8 @@ The reviewer prompt should explicitly invoke `/stat-polishing` standards. The po
 
 **Output:** PDFs for comparison + `PAPER_IMPROVEMENT_LOG.md`.
 
+**Dispatching review findings.** When a round surfaces a substantive concern (not a line edit), send it to its owner with `../stat-shared-references/stat-review-routing.md` rather than re-deriving the mapping each round. The routing table gives the first handoff only — overclaim and prior-work findings to the positioning/claim audit, assumption and proof findings across to the `stat-theory-skills` repo, style and structure findings to `/stat-polishing`. A finding that maps to a canonical artifact row (CS#, PW#, TR#) carries that ID so the `stat-mock-review` regression check can track it across rounds.
+
 ### Post-pipeline polishing
 
 After the pipeline completes, the user can invoke `/stat-polishing` directly on specific sections that need deeper refinement than two automated rounds can provide. Common cases:

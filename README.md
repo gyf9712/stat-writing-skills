@@ -35,6 +35,7 @@ Located in `stat-shared-references/`. These are reusable across the four skills.
 | `stat-reproducibility-audit.md` | Code, data, simulation reproducibility, and submission statements per Big Four expectations; per-venue table (JASA ACC, JRSS-B data/code policy, Biometrika code supplement, AOAS replication, Biostatistics D/C/R kite-marks); audit checklist and common failure modes |
 | `stat-notation-audit.md` | Two-layer audit: every symbol defined on first use, and every acronym either standard or defined. Discipline for new method names (descriptive phrase preferred over homemade acronym, especially at Biometrika); standard statistics acronym list |
 | `stat-venue-checklists.md` | Per-venue formatting, supplement, anonymity, AI disclosure, alt text, reproducibility rules with `Last checked` dates |
+| `stat-review-routing.md` | Coarse, human-facing map from a review finding to the owner skill, artifact, and first action. Normalizes the first handoff only; `scripts/routing_lint.py` checks that every named skill/artifact exists |
 
 ## Design Philosophy
 

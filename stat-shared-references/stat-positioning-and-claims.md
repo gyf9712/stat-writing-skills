@@ -136,6 +136,12 @@ fourth moment, at the cost of an additional log factor in the rate."
 
 The qualification belongs in the prose, not hidden in the appendix. Stating it openly is a strength.
 
+### Step 4.5: Citation verification coverage
+
+Verify every **load-bearing** citation, not a sample. A citation is load-bearing when the argument leans on what it says: comparative claims ("weaker than X", "improves on Y"), prior-work claims ("first to", "unlike Z"), and any cited result a theorem or method step actually consumes. Background and lineage citations are not load-bearing and need no statement-level verification here.
+
+The `latex_audit.py` citation worklist is the mechanical feeder, not the verifier. It fails on duplicate BibTeX keys (a defect to fix) and emits CANDIDATE preprint and non-standard-year findings (`bib_preprint_check_published`, `bib_year_implausible`). Treat each preprint flag as a venue-upgrade prompt: if the work has since appeared in a journal or proceedings, cite the published version. The script never certifies a citation. Verification of every load-bearing citation is the web-lookup work in Steps 3 and 4, and there is no sampling rate: either the whole load-bearing set is verified, or the unverified claims stay `Status = UNVERIFIED`.
+
 ### Step 5: For overclaimed claims, draft replacement language
 
 Every OVERCLAIMED claim needs a specific replacement. Options:
