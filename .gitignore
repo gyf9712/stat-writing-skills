@@ -35,3 +35,10 @@ stat-theory-skills/
 __pycache__/
 *.pyc
 *.pyo
+
+# Test fixtures intentionally tracked despite the figures/ and *.log ignores above.
+# The latex_audit suite needs a present figure (existence check) and a synthetic
+# compile log (log-scan checks); both would otherwise be swallowed by line 18 and 26.
+!tests/fixtures/latex_audit/figures/
+!tests/fixtures/latex_audit/figures/present.pdf
+!tests/fixtures/latex_audit/main.log

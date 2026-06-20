@@ -1,0 +1,26 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2021-11-15> patch level 1
+(./body.tex
+Overfull \hbox (15.38pt too wide) in paragraph at lines 20--44
+[]\OT1/cmr/m/n/10 We pad it with redundant sentences.
+
+! LaTeX Error: File `figures/missing' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...
+l.21 \includegraphics[width=0.7\linewidth]{figures/missing}
+)
+LaTeX Warning: Reference `sec:does_not_exist' on page 1 undefined on input line 56.
+
+LaTeX Warning: Citation `smith2020' on page 1 undefined on input line 59.
+
+[1]
+LaTeX Warning: There were undefined references.
+
+(./main.aux)
+ )
+Output written on main.pdf (1 page).
