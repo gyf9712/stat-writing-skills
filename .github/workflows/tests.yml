@@ -1,0 +1,26 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: unittest (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      # The deterministic skill scripts (latex_audit, routing_lint,
+      # review_regression, ...) use only the Python standard library, so there
+      # is nothing to pip install. latex_audit --compile auto parses a committed
+      # main.log fixture; it does not invoke latexmk, so no TeX toolchain is needed.
+      - name: Run test suite
+        run: python -m unittest discover -s tests -p 'test_*.py' -v

@@ -1,5 +1,7 @@
 # stat-writing-skills
 
+[![tests](https://github.com/gyf9712/stat-writing-skills/actions/workflows/tests.yml/badge.svg)](https://github.com/gyf9712/stat-writing-skills/actions/workflows/tests.yml)
+
 A family of [Claude Code](https://claude.com/claude-code) skills for writing, polishing, and submitting statistics manuscripts to the Big Four statistics journals (JASA, Annals of Statistics, JRSS-B, Biometrika) and similar venues (AOAS, EJS, Bernoulli, Statistica Sinica, Biostatistics, JCGS, JASA ACS), plus ML theory venues (COLT, ALT).
 
 The skills support three paper types with distinct section structure and theory weight:
