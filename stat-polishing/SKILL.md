@@ -1,6 +1,6 @@
 ---
 name: stat-polishing
-description: Polish, restructure, or refine statistics manuscript prose to meet the standards of the Big Four statistics journals (JASA, Annals of Statistics, JRSS-B, Biometrika) plus AOAS, EJS, Bernoulli, Statistica Sinica, Biostatistics, and similar venues. Apply to abstracts, introductions, problem setups, methodology, theory, simulation studies, application sections, discussions, theorem statements, proof sketches, and Chinese-to-English statistics drafts. Optionally invokes Codex MCP (GPT-5.4 at xhigh reasoning) as a senior-statistician second-pass reviewer. Use when the user asks to polish, refine, rewrite, or restructure a statistics manuscript section for publication-quality English at top statistics journals.
+description: Polish, restructure, or refine statistics manuscript prose to meet the standards of the Big Four statistics journals (JASA, Annals of Statistics, JRSS-B, Biometrika) plus AOAS, EJS, Bernoulli, Statistica Sinica, Biostatistics, and similar venues. Apply to abstracts, introductions, problem setups, methodology, theory, simulation studies, application sections, discussions, theorem statements, proof sketches, and Chinese-to-English statistics drafts. Optionally invokes Codex MCP (GPT-5.5 at xhigh reasoning) as a senior-statistician second-pass reviewer. Use when the user asks to polish, refine, rewrite, or restructure a statistics manuscript section for publication-quality English at top statistics journals.
 version: 1.1.0
 author: stat-skills based on stat-writing-principles, stat-style-discipline, stat-figure-design, and curated COPSS-awardee writing patterns
 allowed-tools: Bash(*), Read, Write, Edit, Grep, Glob, Agent, WebSearch, WebFetch, mcp__codex__codex, mcp__codex__codex-reply
@@ -11,7 +11,7 @@ allowed-tools: Bash(*), Read, Write, Edit, Grep, Glob, Agent, WebSearch, WebFetc
 ## Constants
 
 - **CLAUDE_REVIEWER_MODEL = `claude-opus-4-6`** — Internal Claude review (when used as part of a pipeline).
-- **CODEX_REVIEWER_MODEL = `gpt-5.4`** — External LLM via Codex MCP for the senior-statistician second-pass review, at `model_reasoning_effort: xhigh`.
+- **CODEX_REVIEWER_MODEL = `gpt-5.5`** — External LLM via Codex MCP for the senior-statistician second-pass review, at `model_reasoning_effort: xhigh`.
 - **CODEX_PASS = `optional`** — Options: `off` (Claude polishing only), `optional` (offer Codex second-pass and ask user), `mandatory` (always invoke Codex). For high-stakes journal submissions, default is `optional`; for routine polishing, `off` is appropriate.
 
 Use this skill to improve statistics writing at three levels.
@@ -498,7 +498,7 @@ This second-pass is independent of Claude. It frequently catches AI-shaped patte
 
 ```yaml
 mcp__codex__codex:
-  model: gpt-5.4
+  model: gpt-5.5
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |

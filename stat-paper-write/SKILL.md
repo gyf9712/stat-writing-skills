@@ -12,7 +12,7 @@ Draft a statistics, applied statistics, or ML theory LaTeX paper based on: **$AR
 ## Constants
 
 - **CLAUDE_REVIEWER_MODEL = `claude-opus-4-6`** — Claude model invoked via the Agent tool for internal subagent review.
-- **CODEX_REVIEWER_MODEL = `gpt-5.4`** — External LLM invoked via Codex MCP for senior-statistician external review at `model_reasoning_effort: xhigh`.
+- **CODEX_REVIEWER_MODEL = `gpt-5.5`** — External LLM invoked via Codex MCP for senior-statistician external review at `model_reasoning_effort: xhigh`.
 - **REVIEW_MODE = `both`** — Options: `claude`, `codex`, `both`. Default `both` for journal submissions. Switch to `claude` for quick drafting iteration.
 - **SUPPLEMENT_MODE** — controls how the skill writes supplementary material and how the main paper refers to it.
   - `separate_self_contained`: the main paper and supplement are separate submission artifacts. Do not use cross-file LaTeX references. Cite the supplement textually or bibliographically from the main paper. Make the supplement readable on its own.
@@ -886,7 +886,7 @@ Apply CRITICAL and MAJOR fixes from Pass A before moving to Pass B.
 
 #### Pass B: External senior-statistician dialogue with Codex MCP
 
-Use when `REVIEW_MODE = codex` or `both`. This is the high-stakes pass that brings independent judgment from GPT-5.4 with xhigh reasoning. Recommended before any journal submission.
+Use when `REVIEW_MODE = codex` or `both`. This is the high-stakes pass that brings independent judgment from GPT-5.5 with xhigh reasoning. Recommended before any journal submission.
 
 **The dialogue principle.** Codex's review is one senior reader's opinion, not a directive. The job of Pass B is to discuss with Codex until both sides converge on what the draft needs, not to apply Codex's feedback wholesale. Read `../stat-shared-references/stat-codex-dialogue.md` before starting.
 
@@ -896,7 +896,7 @@ For **theory/methodology papers**:
 
 ```
 mcp__codex__codex:
-  model: gpt-5.4
+  model: gpt-5.5
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |
@@ -980,7 +980,7 @@ For **application papers**:
 
 ```
 mcp__codex__codex:
-  model: gpt-5.4
+  model: gpt-5.5
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |

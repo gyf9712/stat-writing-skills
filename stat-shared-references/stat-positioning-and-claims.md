@@ -219,13 +219,13 @@ The Codex review of a fresh draft tends to surface the same set of failure modes
 
 ## Codex Integration for the Audit
 
-The audit is well-suited to a Codex MCP call because Codex (GPT-5.4 xhigh) can independently bring positioning and claim-strength judgments. The call is a dialogue, not a directive. Read `stat-codex-dialogue.md` before starting. The initial Codex review opens the conversation; the value comes from pushback and convergence using `mcp__codex__codex-reply`.
+The audit is well-suited to a Codex MCP call because Codex (GPT-5.5 xhigh) can independently bring positioning and claim-strength judgments. The call is a dialogue, not a directive. Read `stat-codex-dialogue.md` before starting. The initial Codex review opens the conversation; the value comes from pushback and convergence using `mcp__codex__codex-reply`.
 
 Use this prompt template for the opening call:
 
 ```yaml
 mcp__codex__codex:
-  model: gpt-5.4
+  model: gpt-5.5
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |
