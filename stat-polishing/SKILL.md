@@ -1,6 +1,6 @@
 ---
 name: stat-polishing
-description: Polish, restructure, or refine statistics manuscript prose to meet the standards of the Big Four statistics journals (JASA, Annals of Statistics, JRSS-B, Biometrika) plus AOAS, EJS, Bernoulli, Statistica Sinica, Biostatistics, and similar venues. Apply to abstracts, introductions, problem setups, methodology, theory, simulation studies, application sections, discussions, theorem statements, proof sketches, and Chinese-to-English statistics drafts. Optionally invokes Codex MCP (GPT-5.5 at xhigh reasoning) as a senior-statistician second-pass reviewer. Use when the user asks to polish, refine, rewrite, or restructure a statistics manuscript section for publication-quality English at top statistics journals.
+description: Polish, restructure, or refine statistics manuscript prose to meet the standards of the Big Four statistics journals (JASA, Annals of Statistics, JRSS-B, Biometrika) plus AOAS, EJS, Bernoulli, Statistica Sinica, Biostatistics, and similar venues. Apply to abstracts, introductions, problem setups, methodology, theory, simulation studies, application sections, discussions, theorem statements, proof sketches, and Chinese-to-English statistics drafts. Optionally invokes Codex MCP (GPT-5.6 at xhigh reasoning) as a senior-statistician second-pass reviewer. Use when the user asks to polish, refine, rewrite, or restructure a statistics manuscript section for publication-quality English at top statistics journals.
 version: 1.1.0
 author: stat-skills based on stat-writing-principles, stat-style-discipline, stat-figure-design, and curated COPSS-awardee writing patterns
 allowed-tools: Bash(*), Read, Write, Edit, Grep, Glob, Agent, WebSearch, WebFetch, mcp__codex__codex, mcp__codex__codex-reply
@@ -11,7 +11,7 @@ allowed-tools: Bash(*), Read, Write, Edit, Grep, Glob, Agent, WebSearch, WebFetc
 ## Constants
 
 - **CLAUDE_REVIEWER_MODEL = `claude-opus-4-6`** — Internal Claude review (when used as part of a pipeline).
-- **CODEX_REVIEWER_MODEL = `gpt-5.5`** — External LLM via Codex MCP for the senior-statistician second-pass review, at `model_reasoning_effort: xhigh`.
+- **CODEX_REVIEWER_MODEL = `gpt-5.6`** — External LLM via Codex MCP for the senior-statistician second-pass review, at `model_reasoning_effort: xhigh`.
 - **CODEX_PASS = `optional`** — Options: `off` (Claude polishing only), `optional` (offer Codex second-pass and ask user), `mandatory` (always invoke Codex). For high-stakes journal submissions, default is `optional`; for routine polishing, `off` is appropriate.
 
 Use this skill to improve statistics writing at three levels.
@@ -28,9 +28,11 @@ The skill is designed for the Big Four and similar statistics venues. It is not 
 - Write for the statistical reader: precise, measured, evidence-anchored.
 - Do not invent results, theorems, citations, simulations, or claims.
 - Do not let the polisher draft the paper's core scientific argument from scratch. If the argument is weak or unclear, expose the weakness rather than hiding it under polished language.
-- Avoid em-dashes for sentence connection. Prefer commas, periods, or restructuring. The em-dash is the strongest AI-tell in academic prose.
-- Reduce colon use. Keep colons only for introducing lists or figure/table captions.
-- Reduce semicolon use. Convert most to periods.
+- Body-prose em-dashes: at most one per paper. Prefer commas, periods, or restructuring.
+- Body-prose colons: prohibited except before a list, in a figure/table label, or in math and code. Split every other colon into two sentences.
+- Body-prose semicolons: prohibited except in bibliographic citation clusters and in commas-within-items lists. Split every other semicolon into two sentences.
+- Body-prose parentheses: prohibited except for citations, equation numbers, assumption/step labels, standard acronym first-use, and short mathematical annotations. Restructure or cut every other parenthetical.
+- Manual bold and italic in body prose: prohibited except italics on the first defined use of a technical term and venue-mandated bold for vectors and matrices. Cut every other case.
 - Reduce paragraph fragmentation. Statistics paragraphs are longer than ML conference paragraphs.
 - Reduce bullet point use. Bullets belong in contribution lists, assumption lists, algorithm pseudocode, and simulation-setup item lists. Otherwise use prose.
 
@@ -47,7 +49,6 @@ These files are reference support. Open them after the section's rhetorical job 
 | `../stat-shared-references/stat-application-writing.md` | Polishing application papers, especially Data and Background section, EDA, application section |
 | `../stat-shared-references/stat-figure-design.md` | Auditing figures and tables, caption discipline, legend placement |
 | `../stat-shared-references/stat-venue-checklists.md` | Final-pass venue conformance check |
-| `../shared-references/citation-discipline.md` | Auditing citations, fabricated references, citation key consistency |
 | `../stat-shared-references/stat-codex-dialogue.md` | **Read before any Codex MCP call.** Dialogue discipline: when to accept, when to push back via `mcp__codex__codex-reply`, when to log disagreement, common areas where Codex is right or wrong, convergence test, documentation expectations. |
 | `../stat-shared-references/stat-latex-audit.md` | **Read before the mechanical audit pass.** Template conformance check (documentclass, packages, font, line spacing, margins, bibliography style, venue-required blocks, anonymization) and LaTeX integrity check (undefined references, undefined citations, missing image files, broken cross-file references, log warnings). |
 | `../stat-shared-references/stat-reproducibility-audit.md` | Read before final submission. Big Four expectations on data and code availability, reproducible simulations, venue-specific reproducibility artifacts (JASA ACC, Biostatistics D/C/R, AOAS replication code, Biometrika supplementary code). Includes the three submission statements (data availability, code availability, reproducibility). |
@@ -125,7 +126,7 @@ Before rewriting, identify the main problems. Prioritize in this order.
 5. Section-level structure problems (Methodology mixed with Theory; Discussion mixed with Results)
 6. Paragraph-level argument problems (one paragraph carrying two ideas)
 7. Sentence-level AI-template patterns
-8. Punctuation discipline (em-dashes, colons, semicolons)
+8. Punctuation and emphasis discipline (em-dashes, colons, semicolons, prose parentheticals, rhetorical bold and italic)
 9. Word-level watchwords (delve, pivotal, noteworthy)
 
 The earlier in this list a problem appears, the more important it is to fix first. Polishing sentence punctuation while a theorem is missing an assumption is a misallocation of effort.
@@ -248,15 +249,17 @@ A polished statistics title:
 
 ## Sentence, paragraph, bullet, and punctuation discipline (priority)
 
-Read `../stat-shared-references/stat-style-discipline.md` for the full rules. Headline items, in priority order:
+Read `../stat-shared-references/stat-style-discipline.md` for the full rules. Headline items, in priority order.
 
-1. **Em-dashes**: cut to at most one per paper. Replace with commas, periods, or restructured sentences.
-2. **Colons**: only to introduce lists, figure captions, or table captions. Cut stylistic colons that connect clauses.
-3. **Semicolons**: convert most to periods. Keep only for joining two short, closely related parallel clauses.
-4. **Sentence length**: 10-30 word range; check any sentence > 20 words for multiple propositions.
-5. **Paragraph length**: 4-8 sentences; one idea per paragraph; old-info to new-info movement; end on the load-bearing point.
-6. **Bullets**: only in contribution lists, assumption lists, algorithm pseudocode, simulation setups. Convert other bullets to prose.
-7. **Results vs Discussion register**: Results sentences report ("was estimated", "increased by", "showed"); Discussion sentences interpret ("suggests that", "is consistent with", "may reflect"). Do not let a Results paragraph drift into Discussion syntax unless the transition is intentional.
+1. Em-dashes. At most one per paper. Replace others with commas, periods, or restructured sentences.
+2. Colons. Prohibited in body prose. Permitted only before a list, in a figure/table label, or in math and code. Split every other colon into two sentences.
+3. Semicolons. Prohibited in body prose. Permitted only in bibliographic clusters and commas-within-items lists. Split every other semicolon into two sentences.
+4. Parentheses. Prohibited in body prose. Permitted only for citations, equation numbers, assumption/step labels, standard acronym first-use, and short mathematical annotations. Restructure or cut every other parenthetical.
+5. Manual bold and italic. Prohibited in body prose. Permitted only for italics on first-defined technical term and venue-mandated bold for vectors and matrices. Cut every other case, including bold on contribution items, "key findings," and theorem claim sentences.
+6. Sentence length. 10 to 30 words. Check any sentence over 20 words for multiple propositions.
+7. Paragraph length. 4 to 8 sentences. One idea per paragraph. Old-info to new-info movement. End on the load-bearing point.
+8. Bullets. Only in contribution lists, assumption lists, algorithm pseudocode, and simulation setups. Convert other bullets to prose.
+9. Results vs Discussion register. Results sentences report, as in "was estimated", "increased by", "showed". Discussion sentences interpret, as in "suggests that", "is consistent with", "may reflect". Do not let a Results paragraph drift into Discussion syntax unless the transition is intentional.
 
 ## AI-template removal (priority)
 
@@ -461,7 +464,7 @@ The order matters. Polishing prose on top of an overclaim makes the overclaim mo
     Read `../stat-shared-references/stat-latex-audit.md` for interpretation, severity semantics, the cross-file ref bug worked example, and venue-profile maintenance guidance. Do not duplicate the script's check list in prose; if a finding is unclear, consult the file.
 
     Exit code `0` = no mechanical FAIL. Exit code `1` = at least one mechanical FAIL. Exit code `2` = invocation error. The audit's report file `audit/LATEX_AUDIT_REPORT.md` includes provenance (`script_version`, `rules_version`, `rules_digest`) for traceability.
-15. **Citation identity and bibliography hygiene audit.** This is the polishing-time citation audit. It consults `../shared-references/citation-discipline.md` for the verification workflow, metadata rules, and placeholder policy. It does **not** replace the literature-relative novelty and comparative-claim audit in `../stat-shared-references/stat-positioning-and-claims.md`, the theorem-import checks in `proof-writer`'s `## Cited Results Audit`, or the undefined-citation and template checks in the script run in Step 14.
+15. **Citation identity and bibliography hygiene audit.** This is the polishing-time citation audit; the checks below are self-contained. It does **not** replace the literature-relative novelty and comparative-claim audit in `../stat-shared-references/stat-positioning-and-claims.md`, the theorem-import checks in `proof-writer`'s `## Cited Results Audit`, or the undefined-citation and template checks in the script run in Step 14.
 
     Checks:
     - **Canonical version discipline.** For works that exist as both preprint and published versions, choose the canonical version deliberately and use it consistently unless there is a clear reason to cite both.
@@ -498,7 +501,7 @@ This second-pass is independent of Claude. It frequently catches AI-shaped patte
 
 ```yaml
 mcp__codex__codex:
-  model: gpt-5.5
+  model: gpt-5.6
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |
@@ -617,8 +620,10 @@ mcp__codex__codex:
 
     Count and quote (with line numbers when available):
     - em-dashes used to connect clauses
-    - colons outside lists and captions
-    - excessive semicolons
+    - body-prose colons outside lists, figure/table labels, math, and code
+    - body-prose semicolons outside bibliographic clusters and commas-within-items lists
+    - body-prose parentheticals outside the citation, equation-number, label, acronym-first-use, and short-math-annotation cases
+    - manual bold or italic outside first-defined technical term and venue-mandated math bold
     - formulaic openings ("In this section, we ...", "Here, we ...")
     - empty connectives ("It is worth noting that", "Importantly,",
       "Notably,", "Crucially,", "Interestingly,")
@@ -692,8 +697,8 @@ When the manuscript is over the venue's page limit by a small amount (one to thr
 
 Big Four page caps that commonly trigger this pass:
 
-- JASA T&M: 32 pages, double-spaced, 12 pt
-- JASA ACS: 32 pages
+- JASA T&M: 35 pages, double-spaced, 12 pt
+- JASA ACS: 35 pages, double-spaced, 12 pt
 - AoS: 30 pages double-spaced
 - Biometrika main paper: 25 pages typeset (Miscellanea: 8 pages)
 - JRSS-B: no hard cap but length is screened editorially; papers over 30 typeset pages face headwinds
@@ -802,7 +807,7 @@ This mode never silently changes a statement's meaning. A formalization that str
 - **LaTeX integrity is non-negotiable**. The manuscript must compile cleanly with no undefined references, no undefined citations, no missing image files, and no fatal log warnings. For `SUPPLEMENT_MODE = separate_self_contained`, the supplement and main paper must each compile independently with no cross-file `\ref` or `\cite`.
 - **Journal-style match**. The polished prose should feel at home alongside 2-3 recent papers from the target venue. The polisher (and Codex) calibrate to those papers, not to a generic "statistics paper" voice.
 - **Do not invent**. Polishing improves prose, not content. Flag content concerns; do not paper over them.
-- **Punctuation discipline is non-negotiable**. Em-dashes cut, colons restricted, semicolons reduced.
+- **Punctuation and emphasis discipline is non-negotiable**. Em-dashes cut to at most one. Body-prose colons, semicolons, and parentheticals prohibited except for the whitelisted uses. Manual bold and italic prohibited except for first-defined technical term and venue-required math bold.
 - **AI templates and watchwords must be removed**.
 - **COPSS-style voice**: confident, plain, precise, measured.
 - **Main and supplement independence must be preserved**. Flag broken cross-file references as CRITICAL.

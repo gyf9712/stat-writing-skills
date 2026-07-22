@@ -12,7 +12,7 @@ Draft a statistics, applied statistics, or ML theory LaTeX paper based on: **$AR
 ## Constants
 
 - **CLAUDE_REVIEWER_MODEL = `claude-opus-4-6`** — Claude model invoked via the Agent tool for internal subagent review.
-- **CODEX_REVIEWER_MODEL = `gpt-5.5`** — External LLM invoked via Codex MCP for senior-statistician external review at `model_reasoning_effort: xhigh`.
+- **CODEX_REVIEWER_MODEL = `gpt-5.6`** — External LLM invoked via Codex MCP for senior-statistician external review at `model_reasoning_effort: xhigh`.
 - **REVIEW_MODE = `both`** — Options: `claude`, `codex`, `both`. Default `both` for journal submissions. Switch to `claude` for quick drafting iteration.
 - **SUPPLEMENT_MODE** — controls how the skill writes supplementary material and how the main paper refers to it.
   - `separate_self_contained`: the main paper and supplement are separate submission artifacts. Do not use cross-file LaTeX references. Cite the supplement textually or bibliographically from the main paper. Make the supplement readable on its own.
@@ -45,12 +45,11 @@ Read these shared references when they improve writing quality:
 
 - **Read `../stat-shared-references/stat-positioning-and-claims.md` before drafting the abstract, introduction, contribution list, theorem statements, related work, or discussion.** This is the primary defense against the two most common Big Four rejection drivers: weak positioning and overclaim. The reference describes the positioning audit, the technical claim strength audit, and the `CLAIM_SUPPORT_MAP.md` artifact.
 - Read `../stat-shared-references/stat-writing-principles.md` before drafting the Abstract, Introduction, or when prose needs statistics-specific voice.
-- **Read `../stat-shared-references/stat-style-discipline.md` during every drafting and clarity pass.** This is the primary defense against AI-shaped prose. It covers punctuation rules (no em-dash, no colon, reduce semicolons), AI-template patterns to remove, paragraph and bullet discipline, and COPSS-style scholar writing patterns.
+- **Read `../stat-shared-references/stat-style-discipline.md` during every drafting and clarity pass.** This is the primary defense against AI-shaped prose. It covers hard punctuation rules (no em-dash, no body-prose colons or semicolons or parentheticals outside a small whitelist), the same hard emphasis rules (no manual bold or italic outside first-defined technical term and venue-required math bold), AI-template patterns to remove, paragraph and bullet discipline, and COPSS-style scholar writing patterns.
 - **Read `../stat-shared-references/stat-figure-design.md` before generating or polishing any figure.** It covers the no-title rule, caption discipline, legend placement, sizing, and overlap prevention.
 - Read `../stat-shared-references/stat-venue-checklists.md` during setup and final checks.
 - Read `../stat-shared-references/stat-theory-writing.md` when writing assumptions, theorems, proof sketches, or rate comparison tables (especially for theory and methodology papers).
 - Read `../stat-shared-references/stat-application-writing.md` when writing an application paper (PAPER_TYPE = application), especially the Data and Background section and the Application / Real Data Analysis section.
-- Read `../shared-references/citation-discipline.md` when the DBLP/CrossRef workflow is insufficient.
 
 ## Templates
 
@@ -745,10 +744,12 @@ After drafting all sections, run two passes: first content/structure, then style
 
 **Style discipline pass — read `../stat-shared-references/stat-style-discipline.md` first.**
 
-Punctuation discipline:
-- Count em-dashes (—). Cut to at most one per paper. Replace with commas, periods, or restructured sentences. **Em-dashes are the single strongest AI-tell in academic prose.**
-- Count colons (:). Keep only those introducing numbered lists, bulleted lists, or figure/table captions. Cut all stylistic colons.
-- Count semicolons (;). Convert most to periods. Keep only for two closely related short clauses or for complex lists.
+Punctuation and emphasis discipline:
+- Count em-dashes. Cut to at most one per paper. Replace others with commas, periods, or restructured sentences. Em-dashes are the single strongest AI tell in academic prose.
+- Count body-prose colons. Prohibited except before a list, in a figure/table label, or in math and code. Split every other colon into two sentences.
+- Count body-prose semicolons. Prohibited except in bibliographic clusters and in commas-within-items lists. Split every other semicolon into two sentences.
+- Count body-prose parentheticals. Prohibited except for citations, equation numbers, assumption/step labels, standard acronym first-use, and short mathematical annotations. Restructure or cut every other parenthetical.
+- Count manual bold and italic in body prose. Prohibited except italics on first-defined technical term and venue-mandated bold for vectors and matrices. Cut every other case, including bold on contribution items, "key findings," and theorem claim sentences.
 
 AI-template removal:
 - Remove formulaic section openings: "In this section, we ...", "Here, we ...", "We now turn to ..."
@@ -886,7 +887,7 @@ Apply CRITICAL and MAJOR fixes from Pass A before moving to Pass B.
 
 #### Pass B: External senior-statistician dialogue with Codex MCP
 
-Use when `REVIEW_MODE = codex` or `both`. This is the high-stakes pass that brings independent judgment from GPT-5.5 with xhigh reasoning. Recommended before any journal submission.
+Use when `REVIEW_MODE = codex` or `both`. This is the high-stakes pass that brings independent judgment from GPT-5.6 with xhigh reasoning. Recommended before any journal submission.
 
 **The dialogue principle.** Codex's review is one senior reader's opinion, not a directive. The job of Pass B is to discuss with Codex until both sides converge on what the draft needs, not to apply Codex's feedback wholesale. Read `../stat-shared-references/stat-codex-dialogue.md` before starting.
 
@@ -896,7 +897,7 @@ For **theory/methodology papers**:
 
 ```
 mcp__codex__codex:
-  model: gpt-5.5
+  model: gpt-5.6
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |
@@ -937,8 +938,10 @@ mcp__codex__codex:
 
         Specifically check for AI tells:
         - em-dashes used to connect clauses
-        - colons used outside lists and captions
-        - excessive semicolons
+        - body-prose colons outside lists, figure/table labels, math, and code
+        - body-prose semicolons outside bibliographic clusters and commas-within-items lists
+        - body-prose parentheticals outside citations, equation numbers, labels, acronym first-use, and short math annotations
+        - manual bold or italic outside first-defined technical term and venue-required math bold
         - formulaic openings ("In this section, we ...")
         - empty connectives ("It is worth noting that", "Importantly,",
           "Notably,", "Crucially,")
@@ -980,7 +983,7 @@ For **application papers**:
 
 ```
 mcp__codex__codex:
-  model: gpt-5.5
+  model: gpt-5.6
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |
@@ -1103,9 +1106,11 @@ For the mechanical compile and reference checks below, read `../stat-shared-refe
 
 **Style discipline checks (read `../stat-shared-references/stat-style-discipline.md`):**
 
-- [ ] Em-dashes (—) cut to at most one per paper
-- [ ] Colons (:) limited to introducing lists, figure/table captions
-- [ ] Semicolons (;) reduced; most converted to periods
+- [ ] Em-dashes cut to at most one per paper
+- [ ] Body-prose colons: zero outside lists, figure/table labels, and math or code
+- [ ] Body-prose semicolons: zero outside bibliographic clusters and commas-within-items lists
+- [ ] Body-prose parentheticals: zero outside citations, equation numbers, labels, acronym first-use, and short math annotations
+- [ ] Manual bold and italic in body prose: zero outside first-defined technical term and venue-required math bold
 - [ ] No formulaic section openings ("In this section, we ...")
 - [ ] No empty connectives ("It is worth noting that", "Importantly,", "Notably,")
 - [ ] No AI watchwords (delve, pivotal, landscape, underscore, noteworthy, comprehensive, leveraging)
@@ -1181,7 +1186,7 @@ For the mechanical compile and reference checks below, read `../stat-shared-refe
 - **Backup before overwrite**. Never destroy existing work.
 - **Main and supplement are independent documents**. No cross-references between them; use textual references ("Section S.2 of the Supplement"). Each file compiles standalone. Restate theorems in the supplement.
 - **Positioning and claim audit is non-negotiable**. Before drafting front matter, build `CLAIM_SUPPORT_MAP.md`. After drafting, audit it. No positioning or technical claim ships without backing in `PRIOR_WORK_MATRIX.md`, `TECHNICAL_RISK_REGISTER.md`, and verified literature support. Read `../stat-shared-references/stat-positioning-and-claims.md`.
-- **Style discipline is non-negotiable**. Read `../stat-shared-references/stat-style-discipline.md` and apply during the clarity pass. Em-dashes, colons, AI templates, watchwords, and excessive bullets must all be removed.
+- **Style discipline is non-negotiable**. Read `../stat-shared-references/stat-style-discipline.md` and apply during the clarity pass. Em-dashes cut to at most one. Body-prose colons, semicolons, and parentheticals prohibited except for the whitelisted uses. Manual bold and italic prohibited except for first-defined technical term and venue-required math bold. AI templates, watchwords, and excessive bullets must all be removed.
 - **Figure discipline is non-negotiable**. Read `../stat-shared-references/stat-figure-design.md`. No titles in figures; legends do not overlap data; captions are self-contained.
 
 ### Theory/methodology paper rules

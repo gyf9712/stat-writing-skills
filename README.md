@@ -51,7 +51,7 @@ Three principles shaped the family.
 
 ## External Review via Codex MCP
 
-Every skill integrates [Codex MCP](https://github.com/openai/codex) for an independent senior-statistician review at `gpt-5.4` with `model_reasoning_effort: xhigh`. Codex catches positioning and claim-strength issues that Claude polishing misses, because it brings a different model family's judgment.
+Every skill integrates [Codex MCP](https://github.com/openai/codex) for an independent senior-statistician review at `gpt-5.6` with `model_reasoning_effort: xhigh`. Codex catches positioning and claim-strength issues that Claude polishing misses, because it brings a different model family's judgment.
 
 The default `REVIEW_MODE = both` runs Claude internal review on every round and Codex external review on the final round.
 
@@ -94,6 +94,8 @@ cp stat-writing-skills/STAT_SKILLS_ROADMAP.md ~/.claude/skills/
 ```
 
 Claude Code will pick up the skills automatically. Invoke them with `/stat-paper-plan`, `/stat-paper-write`, `/stat-paper-writing`, `/stat-polishing`, or `/stat-mock-review`.
+
+If you also install the sibling [`stat-theory-skills`](https://github.com/gyf9712/stat-theory-skills) family, both repos share a single `stat-shared-references/` directory at `~/.claude/skills/stat-shared-references/`. The `cp -r` above merges this repo's shared references into that directory; `stat-theory-skills`' `install.sh` merges its own on top. Do not keep the two `stat-shared-references/` directories separate — several writing-side references (`citation-purpose-protocol.md`, `cited-results-lock-protocol.md`, `equivalence-ledger-protocol.md`, `literature-cache-protocol.md`) are owned by `stat-theory-skills` and must resolve under the same relative path for both families.
 
 For Codex MCP integration, the Codex MCP server must be configured in Claude Code:
 

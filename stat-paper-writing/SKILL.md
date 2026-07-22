@@ -31,7 +31,7 @@ The improvement loop uses `/stat-polishing` standards internally to enforce Big 
 - **PAPER_TYPE = `auto`** — `theory`, `methodology`, `application`, or `auto`.
 - **MAX_IMPROVEMENT_ROUNDS = 2** — Number of review→fix→recompile rounds.
 - **CLAUDE_REVIEWER_MODEL = `claude-opus-4-6`** — Claude subagent model for fast internal reviews in each phase.
-- **CODEX_REVIEWER_MODEL = `gpt-5.5`** — External LLM for Codex MCP reviews at `model_reasoning_effort: xhigh`.
+- **CODEX_REVIEWER_MODEL = `gpt-5.6`** — External LLM for Codex MCP reviews at `model_reasoning_effort: xhigh`.
 - **REVIEW_MODE = `both`** — Options: `claude` (fast), `codex` (deep), `both` (Claude every round, Codex on final round). Default `both`. Passed through to plan/write/polish sub-skills.
 - **AUTO_PROCEED = true** — Auto-continue between phases. Set `false` to pause after each phase.
 - **HUMAN_CHECKPOINT = false** — When `true`, improvement loop pauses after each round's review.
@@ -259,7 +259,7 @@ Shall I proceed with the improvement loop?
 
 ### Phase 5: Auto Improvement Loop with Codex External Dialogue
 
-The improvement loop combines internal Claude review (every round, fast structural fixes) with external Codex MCP dialogue (final round, senior-statistician depth at GPT-5.5 xhigh).
+The improvement loop combines internal Claude review (every round, fast structural fixes) with external Codex MCP dialogue (final round, senior-statistician depth at GPT-5.6 xhigh).
 
 **The dialogue principle applies in Phase 5.** Codex's review is one senior reader's opinion, not a directive. The loop discusses with Codex until both sides converge on what the draft needs, not applies Codex's feedback wholesale. Read `../stat-shared-references/stat-codex-dialogue.md` before starting Round 2.
 
@@ -271,7 +271,7 @@ Round 1 (Claude internal review):
 - Recompiles to `main_round1.pdf` and `supplement_round1.pdf`.
 
 Round 2 (Codex external dialogue):
-- Initial Codex MCP review at GPT-5.5 with xhigh reasoning (see stat-paper-write Step 6 Pass B for the prompt template).
+- Initial Codex MCP review at GPT-5.6 with xhigh reasoning (see stat-paper-write Step 6 Pass B for the prompt template).
 - For each Codex criticism, decide per `../stat-shared-references/stat-codex-dialogue.md`: accept, push back via `mcp__codex__codex-reply`, or log disagreement.
 - Apply accepted criticisms only (not all criticisms).
 - Recompile to `main_round2.pdf` and `supplement_round2.pdf`.
@@ -286,7 +286,7 @@ Optional Round 3 (extended Codex dialogue):
 
 ```
 mcp__codex__codex:
-  model: gpt-5.5
+  model: gpt-5.6
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |
@@ -302,9 +302,12 @@ mcp__codex__codex:
        needs major revision, or fundamental problems?
     2. Three to five highest-priority remaining issues, with the
        minimum fix for each
-    3. AI-tell audit: count em-dashes, colons (outside lists/captions),
-       semicolons, formulaic openings, empty connectives ("Importantly,",
-       "Notably,"), watchwords (delve, pivotal, landscape, etc.)
+    3. AI-tell audit: count em-dashes, body-prose colons, body-prose
+       semicolons, body-prose parentheticals, manual bold or italic in
+       body prose, formulaic openings, empty connectives (Importantly,
+       Notably), and watchwords (delve, pivotal, landscape, etc.). See
+       `../stat-shared-references/stat-style-discipline.md` for the
+       whitelisted exceptions per mark.
     4. Main-supplement independence check: any broken cross-references?
        Theorems properly restated in supplement?
     5. Figure design audit: any titles inside figures? Any captions
@@ -361,7 +364,7 @@ For application papers (additionally or instead):
 
 The reviewer prompt should explicitly invoke `/stat-polishing` standards. The polishing checks the reviewer applies in each round include:
 
-- Punctuation discipline (em-dashes cut, colons restricted, semicolons reduced)
+- Punctuation and emphasis discipline (em-dashes cut to at most one; body-prose colons, semicolons, and parentheticals prohibited except for the whitelisted uses; manual bold and italic prohibited except for first-defined technical term and venue-required math bold)
 - AI-template removal (no formulaic openings, no empty connectives, no watchwords, no hedge-stacking, no generic conclusions)
 - COPSS-style scholar voice (confidence without hype, plain verbs, connective restraint, mathematical precision over praise)
 - Paragraph and bullet discipline (4-8 sentence paragraphs, bullets only where appropriate)

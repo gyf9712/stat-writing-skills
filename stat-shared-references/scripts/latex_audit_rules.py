@@ -159,7 +159,7 @@ VENUE_PROFILES = {
             "natbib_required": True,
             "forbid_plain_cite": True,
         },
-        "abstract_words": {"min": 100, "max": 250},
+        "abstract_words": {"min": 200, "max": 250},
         "bibliographystyle_pattern": None,  # JASA-bundled .bst varies; treat as informational only
     },
 }

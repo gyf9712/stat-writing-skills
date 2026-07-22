@@ -38,7 +38,15 @@ If you have to use an em-dash, limit yourself to one per paper, and never use a 
 
 ### The Colon Rule
 
-Reduce colon use. A colon is appropriate for a list ("the assumptions are: (A1) ..., (A2) ..., (A3) ...") or for introducing a numbered structure. It is not appropriate as a stylistic flourish between two clauses.
+**Colons are prohibited in body prose.** Split into two sentences instead. Prose colons are one of the top AI tells and add nothing a period cannot.
+
+Permitted uses are limited to:
+- Before a numbered or bulleted list, as in `the assumptions are: (A1) ..., (A2) ..., (A3) ...`
+- Before a long quotation, rare in statistics
+- After section labels in figure captions, as in `Figure 3: ...`
+- In ratios, times, mathematical notation, and code
+
+Any colon in body prose that does not match one of the four cases above must be split into two sentences.
 
 Bad:
 ```
@@ -63,11 +71,12 @@ Acceptable colon uses:
 
 ### The Semicolon Rule
 
-Reduce semicolon use. The semicolon is acceptable when joining two closely related independent clauses, but it is overused in AI-generated text. When in doubt, split into two sentences.
+**Semicolons are prohibited in body prose.** Split into two sentences instead. Even the traditionally accepted "two closely related independent clauses" case reads as AI-shaped in current statistics prose. A period does the same work without the tell.
 
-Acceptable semicolon use:
-- Joining two short, parallel clauses that share a subject: "The bias decreases with $n$; the variance decreases more slowly."
-- In a complex list where items themselves contain commas
+Permitted uses are limited to:
+- Bibliographic citation clusters, as in `(Talagrand, 1996; van Handel, 2014)`
+- Complex lists where the items themselves contain commas
+- Code, mathematical notation, or LaTeX macros
 
 Overused semicolon (rewrite):
 ```
@@ -85,25 +94,46 @@ Use standard double quotation marks for direct quotation. Avoid scare quotes aro
 
 ### Parentheses
 
-Use parentheses sparingly. Long parenthetical remarks should usually be sentences in their own right or be cut. A parenthetical citation is fine; a parenthetical clause longer than five words is usually a sign the sentence needs restructuring.
+**Prose parentheses are prohibited.** Restructure the sentence or cut. A parenthetical is almost always evidence that the surrounding sentence tried to carry two ideas.
+
+Permitted uses are limited to:
+- Citations `(Author, Year)` and citation clusters
+- Equation numbers `(1), (2), (3)` and equation-label references
+- Assumption, condition, or step labels `(A1), (i), (a)`
+- Standard acronym first-use, as in `MSE (mean squared error)`
+- Short purely mathematical annotations, e.g., `(where $n = |D|$)`, provided the annotation is under about six words and carries a formula
+
+Explanatory prose asides — "for example ...", "i.e., ...", "note that ..." — must be restructured into a full sentence or cut. Sentence-length parenthetical clauses are forbidden even when they contain useful content.
 
 ## Emphasis Formatting Discipline
 
-Avoid emphasis formatting in prose. Do not use bold, italics, underlining, small caps, color, boxed text, or display styling to make a sentence sound important. If a point needs emphasis, rewrite the sentence or promote it structurally to a heading, theorem, remark, table, or figure. Manual emphasis is permitted only for journal-conventional objects: theorem and proof headers supplied by the class, mathematically defined notation on first use, vectors or matrices when the target journal uses bold notation, table headers produced by the table style, and unavoidable bibliographic or title conventions. Do not manually bold or italicize assumption labels, theorem claims, contribution sentences, figure captions, abstract phrases, or "key findings."
+**Manual bold, italics, underlining, small caps, color, boxed text, and display styling are prohibited in body prose.** If a point needs emphasis, rewrite the sentence or promote it structurally to a heading, theorem, remark, table, or figure. Emphasis-as-rhetoric is the strongest single AI tell in academic prose. A draft with three bolded sentences in the abstract and two italicized phrases in the introduction has already lost the senior-statistician voice before any other audit runs.
 
-The rule is stricter than punctuation discipline because Big Four house styles ban or restrict prose emphasis directly, and because emphasis-as-rhetoric is a strong AI tell. A draft with three bolded sentences in the abstract and two italicized phrases in the introduction has already lost the senior-statistician voice before any other audit runs.
+Permitted uses are limited to two:
+
+1. Italics on the first defined use of a technical term, as in `the *propensity score* is defined as ...`. After the first use, plain text. Nothing else earns italics.
+2. Bold for mathematical objects where the target journal's convention requires it, typically vectors and matrices at ASA journals. Never invented locally. Biometrika does not use bold vectors at all.
+
+Everything else, including all rhetorical bold and italic, is prohibited. In particular, do not bold or italicize:
+- Assumption labels, condition labels, theorem/lemma/corollary claim sentences
+- Contribution list items, "key findings," "main result," or "our contribution" markers
+- Figure captions and table titles — the class handles typography
+- Sentences carrying rhetorical weight, e.g., "this is *crucial*", "we *strongly* emphasize"
+- Any content in the abstract, introduction, or discussion, under any pretext
+
+Theorem, lemma, proposition, corollary, definition, assumption, and remark headers typeset by `amsthm` or the journal's class do not count as manual emphasis. The class inserts them. Table column headers produced by the table code do not count either.
 
 ### What counts as journal-conventional
 
-- Theorem, lemma, proposition, corollary, definition, assumption, and remark headers as styled by `amsthm` or the journal's class. These are typeset by the class; the author does not insert manual bold.
-- Mathematical objects rendered in their canonical typeface (boldface for vectors and matrices when the venue uses that convention; calligraphic for sets; blackboard for number systems). Do not invent a new bold convention.
-- Italics on the first defined use of a technical term (`the *propensity score* is defined as ...`). After the first use, plain text.
+- Theorem, lemma, proposition, corollary, definition, assumption, and remark headers as styled by `amsthm` or the journal's class. These are typeset by the class. The author does not insert manual bold.
+- Mathematical objects rendered in their canonical typeface: boldface for vectors and matrices when the venue uses that convention, calligraphic for sets, blackboard for number systems. Do not invent a new bold convention.
+- Italics on the first defined use of a technical term, as in `the *propensity score* is defined as ...`. After the first use, plain text.
 - Table column headers and panel labels when produced by the table or figure code, not by manual emphasis in the prose.
 
 ### What is banned regardless of venue
 
 - Bolded sentences or phrases in the body, abstract, introduction, theorem statements, or discussion to convey importance.
-- Italicized rhetorical phrases ("this is *crucial*", "we *strongly* emphasize").
+- Italicized rhetorical phrases such as "this is *crucial*" or "we *strongly* emphasize".
 - Manual bolding of contribution items, claim sentences, or "main result" labels.
 - Color in body prose. Color belongs in figures, used for data, not for words.
 - Underlining anywhere in the manuscript.
@@ -113,14 +143,14 @@ The rule is stricter than punctuation discipline because Big Four house styles b
 
 | Venue | Emphasis policy |
 |---|---|
-| Biometrika | Strictest. Verbal phrases in italic or bold are not used. Even vectors and matrices are not set in distinctive bold type by house convention; use the class's defaults. Captions carry symbol descriptions in plain text. |
-| Annals of Statistics | Avoid excessive italics and bold face. Theorem and remark headers are produced by the `imsart` class; do not add manual bold. |
-| JASA (and ASA journals) | Italics for emphasis are used sparingly. Vectors and matrices are typeset in bold by ASA convention. |
-| JRSS-B (and JRSS-A, JRSS-C) | Local macros and special formatting are discouraged. Theorem, caption, and heading formatting is left to the journal class. |
-| AOAS, Bernoulli, EJS | Follow `imsart` defaults; do not override with manual emphasis. |
-| Biostatistics, JCGS | Class-driven formatting; rhetorical emphasis is not part of the house voice. |
+| Biometrika | Strictest. Verbal phrases in italic or bold are not used. Even vectors and matrices are not set in distinctive bold type by house convention. Use the class's defaults. Captions carry symbol descriptions in plain text. |
+| Annals of Statistics | Avoid excessive italics and bold face. Theorem and remark headers are produced by the `imsart` class. Do not add manual bold. |
+| JASA and other ASA journals | Italics for emphasis are used sparingly. Vectors and matrices are typeset in bold by ASA convention. |
+| JRSS-B, JRSS-A, JRSS-C | Local macros and special formatting are discouraged. Theorem, caption, and heading formatting is left to the journal class. |
+| AOAS, Bernoulli, EJS | Follow `imsart` defaults. Do not override with manual emphasis. |
+| Biostatistics, JCGS | Class-driven formatting. Rhetorical emphasis is not part of the house voice. |
 
-When in doubt, fall back to the strictest rule: no manual emphasis. The senior-statistician voice carries its own weight; it does not need typography to assert importance.
+When in doubt, fall back to the strictest rule: no manual emphasis. The senior-statistician voice carries its own weight. It does not need typography to assert importance.
 
 ## AI-Template Patterns to Avoid
 
@@ -196,7 +226,7 @@ Replace with specific statements about what the work enables.
 
 ### AI Watchwords (Watchlist, Not Blacklist)
 
-The following words appear with disproportionate frequency in LLM prose. Treat the list as a watchlist, not an automatic ban list. Many of these words have legitimate technical uses; flag rhetorical uses and keep technically necessary ones.
+The following words appear with disproportionate frequency in LLM prose. Treat the list as a watchlist, not an automatic ban list. Many of these words have legitimate technical uses. Flag rhetorical uses and keep technically necessary ones.
 
 - delve, delving, delve into
 - pivotal, crucial, paramount, vital
@@ -218,26 +248,26 @@ For each candidate occurrence, ask three questions:
 
 1. Does the word carry information that a reader could not infer from the surrounding sentence?
 2. If the word were cut, would the sentence become weaker, or would it just shorten?
-3. Is the word doing real technical work (e.g., "leveraging the asymptotic equivalence in Lemma 3"), or is it rhetorical decoration?
+3. Is the word doing real technical work, as in `leveraging the asymptotic equivalence in Lemma 3`, or is it rhetorical decoration?
 
-Keep when (1) or (3); cut otherwise.
+Keep when (1) or (3). Cut otherwise.
 
 ### Biometrika-Style House Bans
 
 Biometrika and similar concise-prose venues enforce additional hard bans that are useful Big-Four-wide:
 
-- **"Note that"** at the start of a sentence. Either the next clause is worth saying, in which case start with the content; or it is not, in which case cut. Replace `Note that the estimator is consistent.` with `The estimator is consistent.`
-- **"Is given by"** in mathematical phrasing. Prefer the direct relation: `The estimator $\hat\theta$ is given by $\hat\theta = (X^\top X)^{-1} X^\top y$.` becomes `The estimator is $\hat\theta = (X^\top X)^{-1} X^\top y$.` or `Define $\hat\theta = (X^\top X)^{-1} X^\top y$.`
-- **Homemade method acronyms.** Big Four journals, and Biometrika most aggressively, discourage acronyms for new methods. A method named `Doubly Robust Adaptive Kernel Estimator (DRAKE)` reads as ML-style branding, not statistics. Prefer a descriptive short name (`the adaptive kernel estimator`, `the proposed estimator`) and let the formal definition do the work. Acronyms for standard objects (MLE, MCMC, GLM, MSE, KL, OLS) are fine.
-- **Unnecessary abbreviations.** Avoid in-text abbreviations like `w.r.t.`, `s.t.`, `i.f.f.` in body prose; spell them out (`with respect to`, `subject to`, `if and only if`). Mathematical shorthand inside displayed equations is fine.
-- **"It can be shown that"** without saying where it is shown. Either prove it now, cite a result by number, or remove the claim.
-- **"In this paper" / "In this work"** repeated across sections. The reader knows where they are. Cut on sight in body sections; use sparingly in the abstract and introduction if at all.
+- "Note that" at the start of a sentence. Either the next clause is worth saying, in which case start with the content, or it is not, in which case cut. Replace `Note that the estimator is consistent.` with `The estimator is consistent.`
+- "Is given by" in mathematical phrasing. Prefer the direct relation. `The estimator $\hat\theta$ is given by $\hat\theta = (X^\top X)^{-1} X^\top y$.` becomes `The estimator is $\hat\theta = (X^\top X)^{-1} X^\top y$.` or `Define $\hat\theta = (X^\top X)^{-1} X^\top y$.`
+- Homemade method acronyms. Big Four journals, and Biometrika most aggressively, discourage acronyms for new methods. A method named `Doubly Robust Adaptive Kernel Estimator (DRAKE)` reads as ML-style branding, not statistics. Prefer a descriptive short name such as `the adaptive kernel estimator` or `the proposed estimator`, and let the formal definition do the work. Acronyms for standard objects such as MLE, MCMC, GLM, MSE, KL, and OLS are fine.
+- Unnecessary abbreviations. Avoid in-text abbreviations like `w.r.t.`, `s.t.`, or `i.f.f.` in body prose. Spell them out as `with respect to`, `subject to`, or `if and only if`. Mathematical shorthand inside displayed equations is fine.
+- "It can be shown that" without saying where it is shown. Either prove it now, cite a result by number, or remove the claim.
+- "In this paper" / "In this work" repeated across sections. The reader knows where they are. Cut on sight in body sections. Use sparingly in the abstract and introduction if at all.
 
 ### Hyphenated Noun-Adjective Discipline
 
 Reduce the habit of turning a noun into an attributive adjective by hyphenation. The productive offenders are the `-based`, `-driven`, `-type`, `-induced`, `-dependent`, `-wise`, `-specific` family, and stacked noun premodifiers. Default to a prepositional phrase or the plain noun. Use the hyphenated form only when it is an established term of art or the prepositional rewrite is genuinely clumsier.
 
-The reason is concision and parse cost. A noun-rooted hyphenated adjective compresses a relation into a premodifier, which raises the reader's parse load, and stacks of them read as jargon density. Senior statisticians unpack the relation into a preposition or a verb, which the reader processes in order. This is the word-level analog of the figure rule "move information out of the title and into the caption": move the relation out of the premodifier and into the sentence.
+The reason is concision and parse cost. A noun-rooted hyphenated adjective compresses a relation into a premodifier, which raises the reader's parse load, and stacks of them read as jargon density. Senior statisticians unpack the relation into a preposition or a verb, which the reader processes in order. This is the word-level analog of the figure rule "move information out of the title and into the caption". Move the relation out of the premodifier and into the sentence.
 
 Reduce (rewrite by default):
 
@@ -252,13 +282,13 @@ Reduce (rewrite by default):
 | "a coordinate-wise update" | "an update over each coordinate" (or keep if standard in the optimization subfield) |
 | stacked: "a high-dimensional sparse-regression-based variable-selection procedure" | "a procedure for variable selection in high-dimensional sparse regression" |
 
-Keep (established terms; do not rewrite): high-dimensional, finite-sample, large-sample, low-rank, closed-form, real-valued, second-order, worst-case, well-specified, sub-Gaussian, data-driven and model-based where they are the recognized term of art in the subfield. These are read as single lexical units, not as compressed relations.
+Keep the following established terms without rewriting: high-dimensional, finite-sample, large-sample, low-rank, closed-form, real-valued, second-order, worst-case, well-specified, sub-Gaussian, data-driven and model-based where they are the recognized term of art in the subfield. These are read as single lexical units, not as compressed relations.
 
-Discriminator before keeping a hyphenated noun-adjective: is it a standard term the reader expects as one unit, or an ad-hoc nominal compression the author formed to save a few words? Keep the former. Unpack the latter, and unpack on sight when two or more stack before a single noun.
+Before keeping a hyphenated noun-adjective, ask whether it is a standard term the reader expects as one unit, or an ad-hoc nominal compression the author formed to save a few words. Keep the former. Unpack the latter, and unpack on sight when two or more stack before a single noun.
 
 ### The Rule-of-Three Tic
 
-LLMs habitually produce three-item lists: "X, Y, and Z." This becomes a tic when used reflexively. Vary list lengths. Single items, pairs, and quadruples are also valid. Cut items that are duplicative.
+LLMs habitually produce three-item lists such as "X, Y, and Z." This becomes a tic when used reflexively. Vary list lengths. Single items, pairs, and quadruples are also valid. Cut items that are duplicative.
 
 Avoid:
 ```
@@ -278,7 +308,7 @@ LLMs often begin every paragraph with a topic sentence that summarizes the parag
 
 ### Length
 
-Statistics papers favor longer paragraphs than ML conference papers. A paragraph of 4 to 8 sentences develops an argument; a one-sentence paragraph almost never belongs in a journal paper.
+Statistics papers favor longer paragraphs than ML conference papers. A paragraph of 4 to 8 sentences develops an argument. A one-sentence paragraph almost never belongs in a journal paper.
 
 Avoid:
 ```
@@ -315,7 +345,7 @@ Not every paragraph needs a topic sentence. Some natural variations:
 
 ## Bullet Point Discipline
 
-Statistics papers use bullet points sparingly. Look at any recent JASA or AoS paper: bullet points are rare outside contribution lists and assumption lists.
+Statistics papers use bullet points sparingly. Look at any recent JASA or AoS paper. Bullet points are rare outside contribution lists and assumption lists.
 
 When bullets are appropriate:
 - Listing 3 to 5 numbered contributions in the introduction
@@ -334,7 +364,7 @@ Prefer prose by default. The natural unit of statistical writing is the paragrap
 ### Contribution Lists
 
 When using a contribution list in the introduction:
-- Use a numbered list (1, 2, 3, 4) rather than bullets when there is a meaningful order
+- Use a numbered list rather than bullets when there is a meaningful order
 - Each contribution should be 1 to 3 lines
 - Be specific and falsifiable
 - 2 to 4 items, rarely more
@@ -419,7 +449,7 @@ This is stronger writing than either overclaiming or hedging without specifics.
 
 ### Sentence Rhythm
 
-Vary sentence length. A paragraph of all short sentences feels choppy; a paragraph of all long sentences feels dense. Senior statisticians mix short, declarative sentences ("This is the main result.") with longer sentences that develop nuance.
+Vary sentence length. A paragraph of all short sentences feels choppy. A paragraph of all long sentences feels dense. Senior statisticians mix short, declarative sentences such as "This is the main result." with longer sentences that develop nuance.
 
 A pattern that often works:
 - Open with a medium-length sentence stating the point
@@ -450,7 +480,7 @@ Senior statisticians' abstracts:
 - Make a specific claim in the first sentence
 - Include one quantitative result
 - Avoid the words "novel," "groundbreaking," "comprehensive"
-- Are short (often 150 to 200 words even when 250 is allowed)
+- Are short, often 150 to 200 words even when 250 is allowed
 - End with the boundary or implication, not a generic platitude
 
 ### Introduction
@@ -467,7 +497,7 @@ Senior statisticians' introductions:
 - State definitions before they are used, not interleaved with derivations
 - State assumptions before stating theorems that use them
 - After the theorem, write 1 to 2 paragraphs of prose discussing the rate, the constants, and the connection to prior work
-- Do not bullet-point the implications of a theorem; develop them in prose
+- Do not bullet-point the implications of a theorem. Develop them in prose
 
 ### Simulation Sections
 
@@ -488,9 +518,12 @@ Senior statisticians' introductions:
 Run this checklist on any section:
 
 - [ ] Read the section aloud. Where do you stumble?
-- [ ] Count em-dashes. Cut all but at most one.
-- [ ] Count colons. Keep only those introducing lists.
-- [ ] Count semicolons. Convert most to periods.
+- [ ] Count em-dashes. Cut all but at most one across the paper.
+- [ ] Count body-prose colons. Zero permitted except before a list, in a figure/table label `Figure 3: ...`, or in math and code. Split every other colon into two sentences.
+- [ ] Count body-prose semicolons. Zero permitted except in bibliographic citation clusters and in commas-within-items lists. Split every other semicolon into two sentences.
+- [ ] Count body-prose parentheticals. Zero permitted except for citations, equation numbers, assumption/step labels, standard acronym first-use, and short mathematical annotations under about six words. Restructure or cut every other parenthetical.
+- [ ] Count manual `\textbf{...}`, `\emph{...}`, and `\underline{...}` in body prose. Zero permitted except italics on first defined use of a technical term and venue-mandated bold for vectors and matrices. Everything else is cut, including bold on contribution items, "key findings," theorem-claim sentences, and abstract phrases.
+- [ ] Count italic phrases used for emphasis rather than for term definition. Cut every one.
 - [ ] Count "however," "moreover," "furthermore," "additionally." Cut the unnecessary ones.
 - [ ] Look for "It is worth noting that," "Importantly,", "Notably,". Cut them all.
 - [ ] Look for "Note that" at sentence start. Cut and rewrite.
@@ -500,9 +533,7 @@ Run this checklist on any section:
 - [ ] Look for empty section openings. Replace with content.
 - [ ] Look for homemade method acronyms. Replace with a descriptive short name.
 - [ ] Look for in-text `w.r.t.`, `s.t.`, `i.f.f.`. Spell out in body prose.
-- [ ] Look for `-based`, `-driven`, `-type`, `-induced`, `-dependent`, `-wise` premodifiers and stacked noun-adjectives. Unpack to a preposition or verb unless the term is standard; unpack on sight when two or more stack before one noun.
-- [ ] Count manual `\textbf{...}` and `\emph{...}` in body prose. Justify each one or remove. Theorem/class-supplied bold does not count.
-- [ ] Count italic phrases used for emphasis (not for term definition). Cut.
+- [ ] Look for `-based`, `-driven`, `-type`, `-induced`, `-dependent`, `-wise` premodifiers and stacked noun-adjectives. Unpack to a preposition or verb unless the term is standard. Unpack on sight when two or more stack before one noun.
 - [ ] Check that every paragraph develops one idea.
 - [ ] Check that bullets only appear in contribution lists, assumption lists, algorithm descriptions, and other places where bullets are genuinely appropriate.
 - [ ] Check that each sentence either states a fact, makes an argument, or transitions. Cut sentences that do none of these.

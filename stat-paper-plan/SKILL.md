@@ -12,7 +12,7 @@ Generate a structured outline for a statistics, applied statistics, or ML theory
 ## Constants
 
 - **CLAUDE_REVIEWER_MODEL = `claude-opus-4-6`** — Claude model invoked via the Agent tool as a subagent for fast internal review.
-- **CODEX_REVIEWER_MODEL = `gpt-5.5`** — External LLM invoked via Codex MCP for senior-statistician external review. Uses `model_reasoning_effort: xhigh`.
+- **CODEX_REVIEWER_MODEL = `gpt-5.6`** — External LLM invoked via Codex MCP for senior-statistician external review. Uses `model_reasoning_effort: xhigh`.
 - **REVIEW_MODE = `both`** — Options: `claude` (internal only, fast), `codex` (external only, deep), `both` (claude first, then codex on final draft). Default `both` for high-stakes submissions; switch to `claude` for quick iteration.
 - **TARGET_VENUE = `AOS`** — Default venue. Supported:
   - **Theory/methodology venues**: `AOS` (Annals of Statistics), `JASA` (JASA Theory & Methods), `JRSSB`, `BIOMETRIKA`, `BERNOULLI`, `EJS`, `STATSINICA`, `MSL`
@@ -619,7 +619,7 @@ Agent(subagent_type="general-purpose"):
 
 Apply feedback before moving to Pass B.
 
-#### Pass B: External senior-statistician dialogue with Codex MCP (GPT-5.5, xhigh)
+#### Pass B: External senior-statistician dialogue with Codex MCP (GPT-5.6, xhigh)
 
 Use when `REVIEW_MODE = codex` or `both`. The external review brings independent judgment from a different model family. This is the recommended final check before drafting begins for serious submissions.
 
@@ -629,7 +629,7 @@ Use when `REVIEW_MODE = codex` or `both`. The external review brings independent
 
 ```
 mcp__codex__codex:
-  model: gpt-5.5
+  model: gpt-5.6
   sandbox: read-only
   config: {"model_reasoning_effort": "xhigh"}
   prompt: |
