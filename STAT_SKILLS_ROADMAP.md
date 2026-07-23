@@ -402,6 +402,107 @@ wanted: instrument `PAPER_IMPROVEMENT_LOG.md` with per-issue states
 (`OPEN -> ACCEPTED / WITHDRAWN / DISAGREED`); stall = same OPEN issue, same owner,
 two rounds, no state change.
 
+## 2026-07-23: borrowing from ARIS (Auto-Research-In-Sleep)
+
+The user pointed at [wanshuiyin/Auto-claude-code-research-in-sleep](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
+(ARIS), a framework-free autonomous ML-research orchestrator (79+ skills,
+cross-model review gates, research-wiki graph, integrity-forensics, meta-optimize
+self-evolution, SSH GPU experiment-bridge), and asked whether our stat family
+needs updating and what is worth borrowing.
+
+Verdict: **no forced update**. ARIS is the same genre as the auto_research
+framework reviewed on 2026-06-09 (autonomous, zero-interaction, overnight loops) —
+the inverse of our human-in-the-loop, approval-gated, rigor-first design. Most of
+it is genre-mismatched for Big Four statistics (overnight loops, watchdog, stall
+detection, SSH GPU queue, HTML poster/talk/slides, patent pipeline, interview
+cheatsheets, meta-optimize auto-patching of SKILL.md). Continue to skip those.
+
+### Applied in this iteration
+
+- **GRIM/GRIMMER/statcheck deterministic core** ported into `ccf-integrity-auditor`
+  as `scripts/stat_consistency.py` (pure Python, zero deps, `--selftest` with 14
+  checks). ARIS's integrity-forensics is a thin launcher over an upstream
+  Anti-Autoresearch repo whose deterministic core includes GRIM/GRIMMER/statcheck —
+  all statistics-native tools (Brown & Heathers 2017; Anaya 2016; Nuijten et al.
+  2016) that our auditor's semantic "numeric consistency" pass did not have as a
+  mechanical algorithm. GRIM tests whether a reported mean is arithmetically
+  achievable for an integer-item scale; the conservative GRIMMER flags only clear
+  SD impossibilities (no parity refinement, to avoid false positives); statcheck
+  recomputes p from a test statistic + df and flags mismatches, escalating to a
+  BLOCK when the recomputed p crosses alpha from the reported significance
+  decision. Wired into `SKILL.md` as workflow Step 2.5 (a mechanical pre-pass
+  before the semantic cross-check) and a new output-contract line.
+- **Delta-aware gating (`NO_NEW_BLOCKER`)** added to `ccf-integrity-auditor`'s new
+  Gating section. On a revision audit, a pre-existing unchanged finding (tracked by
+  stable id) downgrades to WARN; only newly introduced problems BLOCK. Borrowed
+  from ARIS's `gate.json` BLOCK/WARN/NO_NEW_BLOCKER policy + append-only
+  obligations ledger. This is the delta-gate our revision workflow (item 8 below)
+  and `proofcheck`'s `CONVERGED` gate should also adopt so a known, already-tracked
+  S2 does not hold a revision hostage.
+
+### Deferred / observed, not built
+
+- **research-wiki typed relationship graph** (`edges.jsonl` single source of truth;
+  8 edge types extends/contradicts/supersedes…; "failed ideas as banlist, top gaps
+  as search seeds"). Overlaps our `literature-cache-protocol` + `cited_results.lock`
+  but is more graph-shaped and idea-centric. The failed-idea-banlist idea is the
+  most interesting borrowable for `idea-battle` / `paper-radar` memory. Big build;
+  our cache is verification-state-driven and stricter. Track, do not build yet.
+- **meta-optimize / meta-apply** (analyze session logs → propose SKILL.md patches →
+  cross-model jury). This is what STAT_SKILLS_ROADMAP + the manual Codex-review
+  process already does deliberately and safely; auto-patching skill files is higher
+  risk than value here. Skip.
+
+## 2026-07-24: Assumption Load-Bearing Audit (closing the "assumption too close to the conclusion" gap)
+
+The user asked whether the family checks, on a **submitted** manuscript, if a load-bearing
+assumption sits too close to the conclusion / assumes away the hard part. Audit of the
+skills found: literal circularity is hard-gated (`S0`), assumption strength is passively
+recorded (proofcheck Task 2A), overstrengthening is challenged only for **repair-time
+added** assumptions (`proof-closure-machinery.md`), and relaxation is opt-in
+(`theory-sharpen`) — but nothing proactively flagged the classic AE kill-line on
+**original** assumptions. A Codex MCP dialogue (threadId `019f8fef-ec47-7a40-b311-ecf821ccf869`,
+`model_reasoning_effort: xhigh`, one round, near-full convergence) reshaped the design.
+
+Codex's two decisive corrections (both accepted): (1) drop my proposed "short/trivial proof
+exists" test — a false-positive magnet, since many valuable theorems close short once the
+right condition is isolated (Lasso under RE, M-estimator CLT after asymptotic linearity,
+argmax consistency under separation, fast rates under a margin condition); the defect is
+*claiming to solve the condition you merely assume*, not proof length. (2) Replace the
+abstract "distance to the conclusion" framing with **central-difficulty pre-emption**,
+anchored to the paper's own claimed contribution rather than a pseudo-metric.
+
+Applied:
+
+- **NEW `stat-shared-references/assumption-loadbearing-audit.md`** — source of truth. Four
+  tests (T1 Conclusion Restatement `S0`; T2 Verification Target Assumed `S1`; T3 Central
+  Difficulty Pre-emption `S1`-capped; T4 Comparative Axis Reversal `S1`/`S2`), a
+  proof-severity-vs-AE-consequence separation, a catalogue of reviewer-cited failure
+  sub-modes (vacuous class, identifiability-assumed, separation-assumed via
+  beta-min/eigengap/margin/irrepresentable/RE-RIP/overlap, oracle assumptions,
+  realizability-while-selling-misspecification, Donsker/equicontinuity-assumed,
+  curvature-assumed, global-minimizer-assumed), the **Original Assumption Challenge Ledger**
+  schema (submission-side analogue of the repair-side change log, produced only for flagged
+  assumptions), and a repair-type routing table.
+- **`proofcheck/SKILL.md` Pass 4** — new named "Assumption load-bearing audit" subtask on
+  the existing "Stress assumptions" hook, referencing the shared ref. Deliberately Pass 4
+  (adversarial, needs the intro's claimed difficulty + Task 2A inventory), not Pass 2
+  (local). Findings + ledger to `audit/05_adversarial/assumption_loadbearing.md`.
+- **`stat-mock-review/SKILL.md` Step 3** — invokes the same reference under an
+  AE-consequence reading (T2/T3 hits become Section 2 fatal / Section 3 major by centrality
+  even when the proof is correct).
+- **`stat-review-routing.md`** — the single "Assumptions too strong -> theory-sharpen" row
+  expanded into four typed routes (relaxable -> theory-sharpen; T1 restatement ->
+  proof-repair; correct-but-oversold -> stat-polishing; result-uninteresting-under-its-own-
+  assumptions -> stat-mock-review). `routing_lint.py` passes (19 rows, 0 FAIL).
+
+Severity discipline throughout: T3 caps at `S1` in `proofcheck` and escalates to `S0` only
+as a genuine statement/consistency defect — vacuous assumption class, an `OVERSTATED`
+statement-scope mismatch (theorem claims a broader regime than its assumptions permit; wired
+to the existing `OVERSTATED` status rather than a new severity), or a silent downstream use
+of the broader claim. Absence of a finding is the expected result for a clean conditional
+theorem.
+
 ## Versioning
 
 When applying items from this roadmap, mark them as moved from `Roadmap for next iteration` to `Applied in this iteration`, and rebuild the open-items list for the iteration after.

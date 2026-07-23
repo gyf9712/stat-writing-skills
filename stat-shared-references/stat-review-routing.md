@@ -32,7 +32,10 @@ stage instead of re-deriving the mapping each round.
 | Prior work missing or mischaracterized | stat-polishing | PRIOR_WORK_MATRIX.md | Apply stat-positioning-and-claims.md; literature search; verify the cited result |
 | Weak contribution / unclear positioning | stat-paper-plan | PRIOR_WORK_MATRIX.md | Re-derive the contribution against the prior-work matrix |
 | Unaddressed technical risk | stat-polishing | TECHNICAL_RISK_REGISTER.md | Apply stat-positioning-and-claims.md; register the risk or add an explicit disclosure |
-| Assumptions too strong | theory-sharpen | — | Relaxation-pathway analysis on the offending assumption |
+| Assumptions too strong (mathematically relaxable) | theory-sharpen | — | Relaxation-pathway analysis on the offending assumption |
+| Assumption restates or assumes the conclusion (T1) | proof-repair | — | Treat as a proof defect; generate a ladder-disciplined repair |
+| Assumption pre-empts the sold central difficulty, theorem correct but oversold (T2/T3/T4) | stat-polishing | CLAIM_SUPPORT_MAP.md | Apply stat-positioning-and-claims.md; restrict scope or soften the contribution claim |
+| Central result becomes uninteresting under its own assumptions | stat-mock-review | MOCK_REVIEW.md | Mark fatal/major; rescue plan chooses relax vs reposition |
 | Proof gap or incorrect step | proofcheck | — | Audit the affected unit; hand confirmed gaps to proof-repair |
 | Repair plan needed for a confirmed gap | proof-repair | — | Generate a literature-backed, ladder-disciplined repair plan |
 | Simulation does not verify the theory | theory-simulation | — | Audit mode: map each theoretical claim to a check |
