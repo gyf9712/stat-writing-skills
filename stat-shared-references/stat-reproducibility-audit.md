@@ -106,6 +106,15 @@ Fix: pin exact versions of every dependency in the lockfile. For R, `renv::snaps
 
 Fix: every numerical result in the paper traces to a line of code in the artifact. If a number appears in the abstract, the artifact regenerates it.
 
+## Deterministic numeric-consistency pre-pass
+
+Before the semantic reproducibility review, run `scripts/stat_consistency.py` (pure Python, zero deps; `--selftest` to verify) as a mechanical pre-pass over reported summary statistics and hypothesis-test statistics. It applies GRIM, a conservative GRIMMER, and statcheck, and returns arithmetic contradictions only — it never repairs anything.
+
+- **GRIM / GRIMMER** — whether a reported mean / SD is arithmetically achievable for an **integer-item** scale of known n at the stated decimals. **Scope note: this bites only on integer or bounded-granularity descriptive statistics** (Likert scales, counts, proportions of small samples). It does **not** apply to continuous Monte-Carlo estimates in a simulation table — most theory/methodology papers have nothing for GRIM to check; it is primarily an application / JASA ACS / Biostatistics / AOAS tool.
+- **statcheck** — whether a reported test statistic + df is consistent with the reported p-value. Broadly applicable to any real-data analysis section reporting t / F / χ² / r / z with p. A mismatch is a WARN; a mismatch where the recomputed p crosses α from the reported significance decision is a decision error (BLOCK).
+
+Feed a `--json` batch spec (schema in the script docstring), or call `--grim` / `--statcheck` ad hoc. Findings are deterministic facts, not judgments; record them and never invent a fix. `stat-mock-review`'s numeric checks may call the same script.
+
 ## Audit Checklist
 
 Run before final compile.

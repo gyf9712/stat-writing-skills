@@ -503,6 +503,39 @@ to the existing `OVERSTATED` status rather than a new severity), or a silent dow
 of the broader claim. Absence of a finding is the expected result for a clean conditional
 theorem.
 
+## 2026-07-24: GRIM promotion + shared assumption system
+
+Two follow-on iterations after the ARIS review and the assumption load-bearing audit.
+
+### GRIM/GRIMMER/statcheck promoted into stat-writing-skills
+
+The deterministic numeric-consistency core first prototyped in `ccf-integrity-auditor`
+(2026-07-23 entry) is now a canonical `stat-shared-references/scripts/stat_consistency.py`
+in this repo, with `tests/test_stat_consistency.py` (16 stdlib unittests). It is the natural
+home: GRIM/GRIMMER/statcheck are numeric forensics for **applied** papers (JASA ACS,
+Biostatistics, AOAS), so they belong with the application-paper machinery, not with the
+theory repo's proofs. Wired as a deterministic pre-pass in `stat-reproducibility-audit.md`
+with an explicit scope note — GRIM/GRIMMER bite only on integer / bounded-granularity
+descriptive statistics and do **not** apply to continuous Monte-Carlo estimates, so most
+theory/methodology papers have nothing for them to check; statcheck is broadly applicable to
+any real-data section reporting t/F/χ²/r/z + p. `stat-mock-review` numeric checks may call the
+same script. `ccf-integrity-auditor` (a CCFA-family skill, outside these two repos) references
+the shared copy cross-family in the flattened install rather than keeping its own duplicate.
+
+### Shared assumption system (companion: stat-theory-skills v1.12.0)
+
+The heavy lifting lands in the theory repo (`assumptions.lock.md` + `assumptions-lock-protocol.md`,
+theory-design initialization, proof-writer invoke-by-ID, proofcheck Pass 3 contradiction
+triage). Recorded here because the family roadmap spans both repos: each theorem now draws
+its assumptions from one canonical, ID-addressable store (a subset it invokes, never a fresh
+local declaration), closing the "pile of theorems vs one framework" gap and making silent
+cross-package strengthening detectable. Codex-converged design (threadId
+`019f9239-37e0-73f2-8e36-0018b93c2d2d`); key guards: two-table normalization, contradiction
+triage instead of false-authority satisfiability certification, `A_k`-reserved namespace
+hygiene, and no automatic inheritance (invoked subsets, profiles expanded before the
+invoked-but-unused check). On the writing side, `stat-mock-review` inherits "report by
+registry ID" through the `assumption-loadbearing-audit.md` reference it already consumes.
+
 ## Versioning
 
 When applying items from this roadmap, mark them as moved from `Roadmap for next iteration` to `Applied in this iteration`, and rebuild the open-items list for the iteration after.
