@@ -298,6 +298,16 @@ rule-of-three padding. Readability at the Big Four is dense-but-navigable prose
 carried by displays, never fragmentation into bullet lists or ML-conference
 "Step 1 / Step 2" scaffolding.
 
+**Prose density (house limit).** Keep each paragraph to about four lines or fewer,
+and at most roughly two inline formulas in a sentence. This is a house limit for all
+technical prose here (statement surroundings, proof body, and technical discussion),
+not only proofs. The way to satisfy it is to **move load-bearing mathematics into a
+display** — a display resets the paragraph and does not count against the line limit —
+not to chop prose into choppy one-sentence fragments, which would reintroduce the
+bulletized look the section forbids. If a sentence needs a third inline relation or a
+paragraph runs past four lines of prose, that is the signal to display the math or to
+start a new paragraph at a genuine logical break.
+
 ### Statements
 
 Define every symbol before the statement uses it. Refer to hypotheses by label,
@@ -376,10 +386,12 @@ it is dumping *registered* assumptions back into the theorem that is non-standar
 Full proofs are written in paragraphs, not bullets. Dense Big Four prose is
 acceptable when each paragraph has one logical role and algebra is carried by
 displays. A paragraph has become a **wall of text** — split it or display the
-math — if any of these fire: it closes more than one proof obligation; it exceeds
-about eight prose sentences without a display; it contains two consecutive
+math — if any of these fire: it closes more than one proof obligation; it runs past
+about four lines of prose without a display; it packs more than roughly two inline
+formulas into a sentence (display the math instead); it contains two consecutive
 sentences that each carry multiple mathematical relations; or it leaves no stable
-display, lemma, or equation reference for the bound it claims.
+display, lemma, or equation reference for the bound it claims. The four-line and
+two-inline-formula caps are the house limit from the register intro above.
 
 Open with one sentence fixing the reduction or strategy: `It suffices to prove
 \eqref{eq:linear} and \eqref{eq:remainder}.` Do not restate the theorem inside
