@@ -299,14 +299,17 @@ carried by displays, never fragmentation into bullet lists or ML-conference
 "Step 1 / Step 2" scaffolding.
 
 **Prose density (house limit).** Keep each paragraph to about four lines or fewer,
-and at most roughly two inline formulas in a sentence. This is a house limit for all
-technical prose here (statement surroundings, proof body, and technical discussion),
-not only proofs. The way to satisfy it is to **move load-bearing mathematics into a
-display** — a display resets the paragraph and does not count against the line limit —
-not to chop prose into choppy one-sentence fragments, which would reintroduce the
-bulletized look the section forbids. If a sentence needs a third inline relation or a
-paragraph runs past four lines of prose, that is the signal to display the math or to
-start a new paragraph at a genuine logical break.
+and at most roughly two inline formulas in a sentence. This limit applies to **theorem
+and proof writing only** — theorem/lemma/proposition statements and the proof body —
+where prose is connective tissue between displays. It does **not** apply to ordinary
+exposition (introduction, motivation, discussion, related work, prose remarks), where
+Big Four paragraphs are legitimately longer flowing prose; forcing those to four lines
+would be wrong. Within statements and proofs, the way to satisfy the limit is to **move
+load-bearing mathematics into a display** — a display resets the paragraph and does not
+count against the line limit — not to chop prose into choppy one-sentence fragments,
+which would reintroduce the bulletized look the section forbids. If a sentence needs a
+third inline relation or a proof paragraph runs past four lines of prose, that is the
+signal to display the math or to start a new paragraph at a genuine logical break.
 
 ### Statements
 
