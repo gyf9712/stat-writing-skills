@@ -15,6 +15,18 @@ Use this reference when writing, polishing, or auditing the prose of a statistic
 
 Statistics papers in the Big Four use a relatively narrow set of punctuation. Each mark has a clear job.
 
+**Governing principle: non-essential-avoid, prefer natural language.** The em-dash, prose
+colon, prose semicolon, prose parenthesis, rhetorical bold, rhetorical italic, and
+paragraph-level formatting devices (run-in `\paragraph{}` headings, structural
+signposting) are all treated the same way — used only when genuinely necessary, never as
+habitual crutches. The default is plain flowing sentences: if a mark or a formatting
+device is doing rhetorical or structural work that ordinary words and sentence boundaries
+could do, remove it and rewrite. The per-mark rules below are instances of this one
+principle. It applies to prose only; it never touches the **non-negotiable technical
+uses** that follow (citation parentheses, equation-number references, math notation,
+colons that introduce a display or list, `amsthm`/class-inserted theorem styling) — those
+are not stylistic choices and stay.
+
 ### The Em-Dash Rule
 
 Do not use em-dashes to connect clauses. The em-dash is the single most reliable AI tell in academic prose. Senior statisticians use em-dashes rarely, mostly for inline definitions or single-word interjections in informal writing. In manuscript prose, prefer commas, periods, or restructuring.
@@ -138,6 +150,7 @@ Theorem, lemma, proposition, corollary, definition, assumption, and remark heade
 - Color in body prose. Color belongs in figures, used for data, not for words.
 - Underlining anywhere in the manuscript.
 - Bolded text inside figure captions or table titles unless the journal class does it for you.
+- Run-in `\paragraph{}` / `\subparagraph{}` headings used to signpost or emphasize inside a section. These render as bold inline labels and read as a formatting crutch; use a real subsection when a break is structurally warranted, otherwise let a natural prose transition carry it. Do not fragment exposition into many short paragraphs as a substitute for connective writing either — non-essential-avoid applies to paragraph-level formatting as much as to inline marks.
 
 ### Venue-specific notes
 

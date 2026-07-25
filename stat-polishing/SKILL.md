@@ -28,11 +28,13 @@ The skill is designed for the Big Four and similar statistics venues. It is not 
 - Write for the statistical reader: precise, measured, evidence-anchored.
 - Do not invent results, theorems, citations, simulations, or claims.
 - Do not let the polisher draft the paper's core scientific argument from scratch. If the argument is weak or unclear, expose the weakness rather than hiding it under polished language.
+- Punctuation and formatting minimalism (governing principle: non-essential-avoid, prefer natural language). The marks and devices below are used only when genuinely necessary, never as rhetorical or structural crutches; the default is plain flowing sentences. This never touches the non-negotiable technical uses noted per item. Full statement in `../stat-shared-references/stat-style-discipline.md`.
 - Body-prose em-dashes: at most one per paper. Prefer commas, periods, or restructuring.
 - Body-prose colons: prohibited except before a list, in a figure/table label, or in math and code. Split every other colon into two sentences.
 - Body-prose semicolons: prohibited except in bibliographic citation clusters and in commas-within-items lists. Split every other semicolon into two sentences.
 - Body-prose parentheses: prohibited except for citations, equation numbers, assumption/step labels, standard acronym first-use, and short mathematical annotations. Restructure or cut every other parenthetical.
 - Manual bold and italic in body prose: prohibited except italics on the first defined use of a technical term and venue-mandated bold for vectors and matrices. Cut every other case.
+- Paragraph-level formatting: no run-in `\paragraph{}` / `\subparagraph{}` headings used to signpost or emphasize; use a real subsection when a break is warranted, otherwise a natural prose transition. Do not fragment exposition into short one-idea paragraphs as a substitute for connective writing.
 - Reduce paragraph fragmentation. Statistics paragraphs are longer than ML conference paragraphs.
 - Reduce bullet point use. Bullets belong in contribution lists, assumption lists, algorithm pseudocode, and simulation-setup item lists. Otherwise use prose.
 
@@ -126,7 +128,7 @@ Before rewriting, identify the main problems. Prioritize in this order.
 5. Section-level structure problems (Methodology mixed with Theory; Discussion mixed with Results)
 6. Paragraph-level argument problems (one paragraph carrying two ideas)
 7. Sentence-level AI-template patterns
-8. Punctuation and emphasis discipline (em-dashes, colons, semicolons, prose parentheticals, rhetorical bold and italic)
+8. Punctuation and formatting minimalism (em-dashes, colons, semicolons, prose parentheticals, rhetorical bold and italic, run-in `\paragraph{}` headings) — non-essential-avoid, prefer natural language
 9. Word-level watchwords (delve, pivotal, noteworthy)
 
 The earlier in this list a problem appears, the more important it is to fix first. Polishing sentence punctuation while a theorem is missing an assumption is a misallocation of effort.
