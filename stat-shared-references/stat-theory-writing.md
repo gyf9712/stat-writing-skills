@@ -264,6 +264,92 @@ gives the stated rate.
 \end{proof}
 ```
 
+The staged `\emph{Step k}` labels above are a **main-body-sketch** navigation device for a short three-step overview; they are not the model for full appendix proofs (see the register section below), and the manual emphasis is tolerated only because a sketch is compressed. In a full proof, prefer prose transitions with semantic content.
+
+## Mathematical Register and Readability (Big Four)
+
+This section governs theorem statements and full proofs. It complements
+`stat-style-discipline.md`; it does not relax the bans on bullet sprawl,
+"Note that" openers, "is given by", em-dashes, over-signposting, or
+rule-of-three padding. Readability at the Big Four is dense-but-navigable prose
+carried by displays, never fragmentation into bullet lists or ML-conference
+"Step 1 / Step 2" scaffolding.
+
+### Statements
+
+Define every symbol before the statement uses it. Refer to hypotheses by label,
+as in `Under Assumptions~\ref{ass:model} and~\ref{ass:moment}`. Do not restate
+registered assumptions inside the theorem unless no assumption registry exists
+(see `assumptions-lock-protocol.md`).
+
+Put the mathematical conclusion in a display when it is a rate, limiting law,
+probability bound, optimization characterization, or nontrivial inequality.
+Short qualitative consequences may remain inline.
+
+Use one conceptual result per theorem environment. If the result has inseparable
+parts under the same hypotheses (size and power; consistency and asymptotic
+normality), label the parts `(i)`, `(ii)`, ... inside the same theorem and prove
+them by those labels.
+
+### Full proofs
+
+Full proofs are written in paragraphs, not bullets. Dense Big Four prose is
+acceptable when each paragraph has one logical role and algebra is carried by
+displays. A paragraph has become a **wall of text** — split it or display the
+math — if any of these fire: it closes more than one proof obligation; it exceeds
+about eight prose sentences without a display; it contains two consecutive
+sentences that each carry multiple mathematical relations; or it leaves no stable
+display, lemma, or equation reference for the bound it claims.
+
+Open with one sentence fixing the reduction or strategy: `It suffices to prove
+\eqref{eq:linear} and \eqref{eq:remainder}.` Do not restate the theorem inside
+its proof.
+
+Use a display for every nontrivial algebraic, probabilistic, or asymptotic
+transition the reader may need to inspect; do not bury a multi-line derivation
+inside prose. Connect displays with short prose giving the reason: `by
+Cauchy--Schwarz`, `by Lemma~\ref{lem:entropy}`, or `combining \eqref{eq:bias}
+and \eqref{eq:variance}`.
+
+Use **one logical unit per display**, not one microscopic inference per display.
+A single `align`/`aligned` display may chain primitive transformations while the
+object, event, norm, and proof tool stay fixed. Start a new display when the
+argument changes object, changes probability mode or norm, moves from an event to
+an unconditional statement, invokes a new theorem or lemma, begins a case, or
+closes a named obligation.
+
+Number only displays referred to later or that close a named obligation. Use
+`\label`/`\eqref`; never type equation numbers manually. In an `align` chain,
+number only the line that will be cited and `\notag` the rest. Use `equation` for
+one numbered display, `equation`+`aligned` for one numbered multi-line
+derivation, `align` when several lines need separate numbers, and `\[...\]` /
+`align*` for local unnumbered algebra. Never `eqnarray`.
+
+Break long proofs by **logical stage**, not cosmetic de-blocking. Prefer prose
+transitions (`We first control the empirical term`; `It remains to remove the
+localization`) over `Step 1` labels. Numbered stages are acceptable only for
+genuinely long multi-stage proofs, and they must carry semantic titles, not
+generic labels. Venue calibration: AoS and technical supplements tolerate staged
+proofs; JRSS-B tolerates restrained staging; JASA T&M prefers compact prose with
+staged appendices acceptable; Biometrika is strictest — prefer prose transitions
+or appendix subsectioning.
+
+Displayed mathematics is part of the sentence: punctuate it (comma or period at
+the end where grammar requires), and use a colon before a display only when the
+preceding clause grammatically announces it. Use a `where` clause after a display
+only for local definitions or constant dependence; if it would hold assumptions,
+several definitions, or a full sentence, define those objects before the display.
+
+Capitalize numbered formal objects in cross-references (`Theorem~\ref{thm:main}`,
+`Lemma~\ref{lem:linear}`, `Assumption~\ref{ass:tail}`), lowercase for generic
+references (`the next lemma`, `the display above`), and `\eqref{...}` for
+equations. Let the venue class handle the proof environment: `\begin{proof}`,
+`Proof of Theorem~\ref{thm:main}` only when separated from the statement,
+`\qedhere` only when the proof ends in a display, and never a second manual QED
+marker. Keep prose words out of displays; put explanations in the surrounding
+prose; `\,` for standard thin spacing, `\quad` for short side conditions, `\;`
+sparingly and never as padding.
+
 ## Remark Patterns
 
 Remarks after theorems serve important functions. Common types:

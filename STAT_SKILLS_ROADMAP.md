@@ -536,6 +536,36 @@ hygiene, and no automatic inheritance (invoked subsets, profiles expanded before
 invoked-but-unused check). On the writing side, `stat-mock-review` inherits "report by
 registry ID" through the `assumption-loadbearing-audit.md` reference it already consumes.
 
+## 2026-07-24: Big Four mathematical register for statements and proofs
+
+The user directed that theorem/statement and proof writing attend to readability —
+avoid large blocks of text, use a professional mathematical style with the Big Four as
+the standard. A Codex MCP dialogue (threadId `019f977b-1c43-7be3-8274-94d0e54a996d`,
+xhigh) hardened the discipline against the real trap: naive "avoid large text blocks"
+pushes toward ML-conference `Step 1 / Step 2` bulletization, but actual Big Four proofs
+(especially AoS, JASA T&M) are frequently dense running prose. The converged rule is
+**paragraph-led proof, display-led navigation, sparse numbering** — readability via
+displays and logical connectives, never fragmentation into lists.
+
+Applied:
+
+- **NEW section "Mathematical Register and Readability (Big Four)"** in
+  `stat-shared-references/stat-theory-writing.md`, the single source of truth for
+  statement/proof register. Statements: symbols defined first, hypotheses referenced by
+  label (not restated when an assumption registry exists), conclusion in a display,
+  one result per environment. Full proofs: an operational wall-of-text test (closes >1
+  obligation / >~8 prose sentences without a display / two consecutive multi-relation
+  sentences / no stable reference anchor), one logical unit per display (align chains may
+  merge while object/mode/norm/tool stay fixed), number only referred-back or
+  obligation-closing displays, prose transitions over `Step 1` labels, plus the venue
+  calibration (AoS/supplements tolerant, JRSS-B restrained, JASA T&M compact-preferring,
+  Biometrika strictest) and the display-punctuation / `where` / cross-ref-capitalization /
+  proof-environment / spacing house conventions. Marked the older proof-sketch template's
+  `\emph{Step k}` labels as a main-body-sketch device, not a full-proof norm (they
+  otherwise conflict with the manual-emphasis ban in `stat-style-discipline.md`).
+- **Companion (`stat-theory-skills` v1.12.1):** `proof-writer` Step 6 drops "Number the
+  major steps" and defers to this section.
+
 ## Versioning
 
 When applying items from this roadmap, mark them as moved from `Roadmap for next iteration` to `Applied in this iteration`, and rebuild the open-items list for the iteration after.
