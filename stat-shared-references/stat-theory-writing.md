@@ -84,15 +84,38 @@ for some known smoothness $s > 0$ and radius $L > 0$.
 
 ```latex
 \begin{theorem}[Risk upper bound]\label{thm:upper}
-Grant Assumptions~\ref{ass:subgauss}--\ref{ass:smooth}. Let
-$\hat{f}_n$ be the estimator in~\eqref{eq:est} with tuning
-parameter $\lambda = \lambda_n \asymp (n / \log n)^{-s/(2s+d)}$. Then
+Grant Assumptions~\ref{ass:subgauss}--\ref{ass:smooth}, and let
+$\hat{f}_n$ be the estimator in~\eqref{eq:est} with
+\[
+  \lambda = \lambda_n \asymp (n / \log n)^{-s/(2s+d)}.
+\]
+Then, as $n \to \infty$,
 \[
   \sup_{f_0 \in \mathcal{W}^{s,2}(L)}
   \mathbb{E}\bigl[\|\hat{f}_n - f_0\|_2^2\bigr]
   \leq C \Bigl(\frac{\log n}{n}\Bigr)^{2s/(2s+d)},
 \]
 where $C$ depends only on $s$, $d$, $L$, and $\sigma$.
+\end{theorem}
+```
+
+The tuning condition sits on its own display line (a load-bearing rate condition), the
+regime `as $n\to\infty$` immediately precedes the conclusion, and the conclusion is
+displayed — so the eye lands on the two key formulas and the "Then" between them. See
+"Statement layout for at-a-glance reading" for when to display a condition versus keep
+it inline. Contrast the compact inline form, appropriate when the tuning choice is not
+the point of the theorem:
+
+```latex
+\begin{theorem}[Risk upper bound]\label{thm:upper-compact}
+Under Assumptions~\ref{ass:subgauss}--\ref{ass:smooth}, the estimator
+$\hat{f}_n$ in~\eqref{eq:est} with $\lambda \asymp (n/\log n)^{-s/(2s+d)}$
+satisfies, as $n \to \infty$,
+\[
+  \sup_{f_0 \in \mathcal{W}^{s,2}(L)}
+  \mathbb{E}\bigl[\|\hat{f}_n - f_0\|_2^2\bigr]
+  \leq C \Bigl(\frac{\log n}{n}\Bigr)^{2s/(2s+d)}.
+\]
 \end{theorem}
 ```
 
@@ -291,6 +314,63 @@ parts under the same hypotheses (size and power; consistency and asymptotic
 normality), label the parts `(i)`, `(ii)`, ... inside the same theorem and prove
 them by those labels.
 
+### Statement layout for at-a-glance reading
+
+Every theorem statement should let a reader see, in one glance, *under what* and
+*what follows*. The mechanism is line breaks that put load-bearing mathematics on
+its own display line — not a rigid two-block "hypothesis/conclusion" skeleton with
+headers, which is over-structuring. Big Four statements are running prose in which
+the eye lands on the displayed conclusion; readability comes from displaying the
+right things, not from sectioning the statement.
+
+**Single-flow form, not two-block.** The dominant Big Four shape is a lead clause
+(hypotheses by label + regime) followed by the displayed conclusion:
+`Under Assumptions~\ref{...}, as $n\to\infty$, [display].` Use the explicit
+`Suppose that ... . Then ... .` If/Then skeleton when a theorem-specific condition
+must be foregrounded; use the compact `Under Assumptions 1--3, [display]` when every
+condition is registered. AoS/JASA T&M lean If/Then; Biometrika/JRSS-B lean compact.
+
+**What goes on its own display line vs inline vs by-label.**
+
+- **By-label** — any assumption registered in an Assumption/Condition environment.
+  Never restated in the theorem (see `assumptions-lock-protocol.md`).
+- **Display (own line)** — theorem-specific *load-bearing* mathematics the reader
+  needs to parse the conclusion: a rate/order condition (`\lambda_n \asymp \cdots`,
+  `nh^d \to \infty`), a signal-strength / separation condition
+  (`\rho_n \ge C\sqrt{(\log p)/n}`), a tuning choice the rate depends on, or a
+  moment/bandwidth condition that sizes the result. The conclusion is always
+  displayed.
+- **Inline** — scoping qualifiers that carry no load: `\delta \in (0,1)`,
+  `n \ge 1`, fixed-constant declarations, and pointers to earlier-defined objects
+  (`the estimator $\hat f_n$ in~\eqref{eq:est}`, `the test $\phi_n$`).
+
+Operational test: if a reader needs the condition to understand *what the
+conclusion says or how strong it is*, display it; if it only scopes the statement,
+inline it. Keep at most one or two displayed conditions before the conclusion; if
+more accumulate, move them into a labeled Condition environment immediately before
+the theorem — that cluster of labeled, individually displayed conditions is the
+primary at-a-glance mechanism, and it keeps the theorem itself compact.
+
+**Supporting conventions.** Define the estimator / test in the text (as a numbered
+equation) *before* the theorem and reference it by label; do not define it inside
+the statement. Put the regime clause (`as $n\to\infty$`, `for $n$ sufficiently
+large`, `with probability at least $1-\delta$`) immediately before the conclusion
+display. For a compound result, write `Then the following hold:` and give each part
+as a labeled, displayed `(i)`/`(ii)` line.
+
+**Per-theorem readability micro-check** (run theorem by theorem): (a) is the
+conclusion displayed? (b) is every substantive condition either displayed or
+by-label, with none buried inline? (c) could a reader restate the hypotheses and
+the conclusion after a single glance? (d) are multi-part results labeled `(i)`/`(ii)`?
+(e) is every symbol defined before the statement uses it? A "no" on (a) or (b)
+means re-lay-out the statement.
+
+Venue calibration: AoS and JASA T&M tolerate a lead clause carrying one or two
+displayed conditions; JRSS-B is moderate; Biometrika is the most compact but still
+displays the conclusion and any substantive rate/signal condition. Displaying a
+theorem-specific load-bearing condition on its own line is standard at all four —
+it is dumping *registered* assumptions back into the theorem that is non-standard.
+
 ### Full proofs
 
 Full proofs are written in paragraphs, not bullets. Dense Big Four prose is
@@ -310,6 +390,17 @@ transition the reader may need to inspect; do not bury a multi-line derivation
 inside prose. Connect displays with short prose giving the reason: `by
 Cauchy--Schwarz`, `by Lemma~\ref{lem:entropy}`, or `combining \eqref{eq:bias}
 and \eqref{eq:variance}`.
+
+**At a glance for proofs, too.** A proof is read the way a statement is: the reader
+should be able to skim the displayed formulas and the short connectives between them
+and recover the reasoning skeleton without parsing every sentence. So the key steps
+go on their own display lines (line breaks highlight the mathematics that carries the
+argument), and each connective must name the logical move that links one display to
+the next — `it suffices to bound`, `hence`, `by \eqref{eq:bias}`, `on the event
+$\mathcal{E}_n$`, `combining the two bounds`. Displays carry the *what*; connectives
+carry the *why*. If a reader scanning only the displays and their one-line
+justifications cannot follow the logic, the reasoning is buried in prose — pull the
+load-bearing step into a display and make the connective explicit.
 
 Use **one logical unit per display**, not one microscopic inference per display.
 A single `align`/`aligned` display may chain primitive transformations while the

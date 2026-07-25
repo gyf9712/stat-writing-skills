@@ -566,6 +566,35 @@ Applied:
 - **Companion (`stat-theory-skills` v1.12.1):** `proof-writer` Step 6 drops "Number the
   major steps" and defers to this section.
 
+## 2026-07-24: At-a-glance statement layout + proof reasoning visibility
+
+Refinement of the Big Four register section: the user asked that theorem statements be
+laid out theorem-by-theorem so conditions and conclusion are visible at a glance (line
+breaks highlighting the load-bearing formulas), and that proof narration follow the same
+principle so a reader sees the key formulas and the reasoning logic. Codex was down
+(sustained 503 / open circuit on the ChatGPT backend across three retries), so this was
+implemented on my own converged Big Four design; a Codex sanity pass can follow when the
+service recovers.
+
+Applied to `stat-shared-references/stat-theory-writing.md`:
+
+- **NEW `### Statement layout for at-a-glance reading`** in the register section. Settled
+  single-flow prose over a rigid two-block hypothesis/conclusion skeleton (the latter is
+  over-structuring; Big Four statements are running prose with a displayed conclusion). A
+  three-way display/inline/by-label discriminator with an operational test (display a
+  condition iff the reader needs it to parse what the conclusion says or how strong it is;
+  inline pure scoping; never restate a registered assumption). The primary at-a-glance
+  mechanism is a cluster of labeled Condition environments immediately before the theorem,
+  keeping the statement compact. Supporting conventions (estimator defined before the
+  theorem, regime clause before the conclusion display, `Then the following hold:` +
+  `(i)/(ii)`), a per-theorem readability micro-check, and venue calibration. The
+  upper-bound template was refreshed into the target form (tuning condition on its own
+  display line) with a compact inline variant shown for contrast.
+- **Extended `### Full proofs`** with "At a glance for proofs, too": key steps on display
+  lines, connectives naming the logical move (`it suffices`, `hence`, `on the event`,
+  `combining the two bounds`) — displays carry the *what*, connectives the *why* — so a
+  reader skimming displays plus one-line justifications recovers the reasoning skeleton.
+
 ## Versioning
 
 When applying items from this roadmap, mark them as moved from `Roadmap for next iteration` to `Applied in this iteration`, and rebuild the open-items list for the iteration after.
