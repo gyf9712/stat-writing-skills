@@ -53,6 +53,37 @@ After extraction, the skill must still contain the whole control logic and be re
 "go read five references" has been over-cut. The hot file keeps the control logic; the
 references hold the detail.
 
+## Acceptance testing a rewritten skill
+
+A script has unit tests; a restructured judgment skill has none, so "it reads better"
+and a smaller line count are not evidence that a rewrite worked. Use this instead.
+
+1. **Build a small realistic fixture** per route the skill supports (e.g. one AUDIT
+   input with existing work, one DESIGN input with none).
+2. **Write an `EXPECT.md`** per fixture: the expected route, the expected per-item
+   states, the elements that must appear, and the forbidden failures.
+3. **Run the skill in a fresh context** (a subagent that reads only the installed
+   `SKILL.md` and the fixture) three times per fixture. Fresh context matters: it tests
+   the file, not your memory of what you meant.
+4. **Check each output mechanically** with a checker script, and read one by hand for
+   what the script cannot judge.
+5. **Pass = at least 2 of 3 runs satisfy every hard assertion, with no forbidden
+   failure in any run.**
+
+Two lessons from the first real use of this method, both worth expecting:
+
+- **The checker will have false positives.** Its first version flagged `PASS` / `FAIL`
+  appearing anywhere, which fired on the skill's own `| Criterion | Status |` contract.
+  A term banned as an *item state* is often legitimate elsewhere; scope the assertion to
+  where the state actually lives. Add a regression test for each false positive.
+- **A run failing for a real reason is the point.** A DESIGN run omitted two adequacy
+  dimensions the prose required, because the *contract template* had no field for them.
+  Stating a requirement in one section does not enforce it; the template the model fills
+  in is what gets followed. Fix the template, then re-run.
+
+Also lint the skill file itself for control characters. Writing `\theta` inside a
+non-raw Python string turns it into a TAB — this happened twice during one session.
+
 ## Checklist when adding capability
 
 1. Does it change the state machine (routing, invariants, terminal states)? If no, it does not belong in the hot body.
