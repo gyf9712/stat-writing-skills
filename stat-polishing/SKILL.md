@@ -37,6 +37,7 @@ The skill is designed for the Big Four and similar statistics venues. It is not 
 - Paragraph-level formatting: no run-in `\paragraph{}` / `\subparagraph{}` headings used to signpost or emphasize; use a real subsection when a break is warranted, otherwise a natural prose transition. Do not fragment exposition into short one-idea paragraphs as a substitute for connective writing.
 - Reduce paragraph fragmentation. Statistics paragraphs are longer than ML conference paragraphs.
 - Reduce bullet point use. Bullets belong in contribution lists, assumption lists, algorithm pseudocode, and simulation-setup item lists. Otherwise use prose.
+- No coined terminology; de-jargonize. Do not invent new terms, names, or nomenclature (concept nouns, named "effects"/"gaps"/"principles"/"phenomena", method acronyms) when the field has a standard term or a plain description would do. Coined vocabulary reads as branding and dressing a simple idea in technical-sounding words to look deeper is overclaiming, not depth. The one exception is naming a genuinely new, recurring object descriptively and defining it at first use; mechanics in `../stat-shared-references/stat-notation-audit.md` (Discipline for New Method Names). Full statement in `../stat-shared-references/stat-style-discipline.md`.
 
 ## When to open extra files
 
@@ -129,7 +130,7 @@ Before rewriting, identify the main problems. Prioritize in this order.
 6. Paragraph-level argument problems (one paragraph carrying two ideas)
 7. Sentence-level AI-template patterns
 8. Punctuation and formatting minimalism (em-dashes, colons, semicolons, prose parentheticals, rhetorical bold and italic, run-in `\paragraph{}` headings) — non-essential-avoid, prefer natural language
-9. Word-level watchwords (delve, pivotal, noteworthy)
+9. Word-level watchwords (delve, pivotal, noteworthy) and coined terminology (invented concept nouns, named effects/gaps/principles, method acronyms — de-jargonize)
 
 The earlier in this list a problem appears, the more important it is to fix first. Polishing sentence punctuation while a theorem is missing an assumption is a misallocation of effort.
 

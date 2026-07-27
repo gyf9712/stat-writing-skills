@@ -299,6 +299,21 @@ Keep the following established terms without rewriting: high-dimensional, finite
 
 Before keeping a hyphenated noun-adjective, ask whether it is a standard term the reader expects as one unit, or an ad-hoc nominal compression the author formed to save a few words. Keep the former. Unpack the latter, and unpack on sight when two or more stack before a single noun.
 
+### No Coined Terminology; De-Jargonize
+
+Do not invent new terms, names, or nomenclature for a concept, quantity, phenomenon, condition, or principle when the field already has a standard term or when a plain descriptive phrase would do. Use the established word. Coined vocabulary makes a reader stop, hunt for a definition, and suspect the novelty is in the label rather than the mathematics. Invented terminology reads as branding, and dressing a simple idea in technical-sounding vocabulary to make it appear deeper is a form of overclaiming, not depth (apparent depth is appearance, not substance).
+
+This generalizes the homemade-method-acronym rule beyond acronyms to *all* coinage. It applies to invented concept nouns and named "effects", "gaps", "principles", or "phenomena" just as much as to method acronyms.
+
+| Coined (avoid) | Prefer |
+|---|---|
+| "we call this the *informativeness gap*" (for a plain difference of risks) | "the difference in risk between the two estimators" |
+| "the *harmonization effect*" | describe the mechanism: "the variance reduction from pooling the two samples" |
+| "our *alignment principle*" | state the condition: "the requirement that the score functions share a common direction" |
+| "the *proposed estimator*, which we term MERGE" | "the proposed estimator" (name it descriptively, or not at all until it recurs) |
+
+De-jargonize as the default: when a sentence carries an invented technical noun, ask whether a standard term or a description of the actual mechanism says the same thing more plainly. If so, use that. The reader should meet new vocabulary only when a genuinely new object recurs often enough to need a short handle, and then it is named descriptively and defined at first use, not coined for effect. The mechanics of the sole legitimate exception — naming a genuinely new method or estimator — live in the "Discipline for New Method Names" section of `stat-notation-audit.md`; prefer a descriptive phrase, and let the formal definition, not the label, carry the novelty.
+
 ### The Rule-of-Three Tic
 
 LLMs habitually produce three-item lists such as "X, Y, and Z." This becomes a tic when used reflexively. Vary list lengths. Single items, pairs, and quadruples are also valid. Cut items that are duplicative.
@@ -545,6 +560,7 @@ Run this checklist on any section:
 - [ ] Look for rule-of-three lists. Are all three items pulling weight?
 - [ ] Look for empty section openings. Replace with content.
 - [ ] Look for homemade method acronyms. Replace with a descriptive short name.
+- [ ] Look for coined terminology of any kind: invented concept nouns, named "effects", "gaps", "principles", or "phenomena". Replace with the field's standard term or a plain description of the mechanism. De-jargonize; do not use invented vocabulary to make a simple idea look deeper.
 - [ ] Look for in-text `w.r.t.`, `s.t.`, `i.f.f.`. Spell out in body prose.
 - [ ] Look for `-based`, `-driven`, `-type`, `-induced`, `-dependent`, `-wise` premodifiers and stacked noun-adjectives. Unpack to a preposition or verb unless the term is standard. Unpack on sight when two or more stack before one noun.
 - [ ] Check that every paragraph develops one idea.
