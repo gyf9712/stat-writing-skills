@@ -516,7 +516,7 @@ Rules:
 
 Create `papers/<project-name>/cited_results.lock.md`. This is the project's canonical record of which cache entries the project's citations depend on, with the verification level at decision time. It prevents retroactive contamination if the global literature cache is later edited.
 
-The schema and ownership rules live in the sibling `stat-theory-skills/stat-shared-references/cited-results-lock-protocol.md`. For this initialization step in stat-paper-plan, populate one row per `PRIOR_WORK_MATRIX.md` row whose `Read In Full` resolves to a cache entry:
+The schema and ownership rules live in the sibling `../stat-shared-references/cited-results-lock-protocol.md`. For this initialization step in stat-paper-plan, populate one row per `PRIOR_WORK_MATRIX.md` row whose `Read In Full` resolves to a cache entry:
 
 ```markdown
 ---
