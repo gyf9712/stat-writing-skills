@@ -39,6 +39,58 @@ Located in `stat-shared-references/`. These are reusable across the four skills.
 | `stat-venue-checklists.md` | Per-venue formatting, supplement, anonymity, AI disclosure, alt text, reproducibility rules with `Last checked` dates |
 | `stat-review-routing.md` | Coarse, human-facing map from a review finding to the owner skill, artifact, and first action. Normalizes the first handoff only; `scripts/routing_lint.py` checks that every named skill/artifact exists |
 
+## Deterministic tooling
+
+Mechanical checks live in tested Python (`stat-shared-references/scripts/`, stdlib only)
+so the skill bodies stay focused on judgment. Every script separates **mechanical**
+findings, which affect the exit code, from **heuristic** ones, which never do. A script
+may flag a candidate; it may not certify correctness it cannot actually check — that
+guard is what keeps a green run from being mistaken for a verified manuscript.
+
+| Script | Checks | Exit code |
+|---|---|---|
+| `latex_audit.py` | Template conformance, `\ref`↔`\label`, `\cite`↔`.bib`, image existence, abstract word count, compile-log scan, cross-file reference leaks, duplicate bib keys | 1 on mechanical failure |
+| `stat_consistency.py` | GRIM / GRIMMER / statcheck-style numeric consistency of reported statistics | 1 on inconsistency |
+| `routing_lint.py` | Every owner skill and artifact named in `stat-review-routing.md` exists (referential integrity only, never routing correctness) | 1 on dangling reference |
+| `review_regression.py` | Canonical concerns (`CS#`/`PW#`/`TR#`/theorem labels) raised in a prior `MOCK_REVIEW.md` are still dispositioned in the current one | 1 on a silently dropped concern |
+
+Preprint and non-standard-year citations are emitted as advisory `CANDIDATE` findings:
+the script builds the worklist, and `stat-positioning-and-claims.md` owns the actual
+verification of every **load-bearing** citation — all of them, not a sample.
+
+```bash
+python -m unittest discover -s tests -p "test_*.py"
+```
+
+The sibling [`stat-theory-skills`](https://github.com/gyf9712/stat-theory-skills) repo
+ships `skill_lint.py`, which checks that every file reference in a `SKILL.md` resolves
+in the *installed* layout. Run it against this repo too:
+
+```bash
+python ../stat-theory-skills/stat-shared-references/scripts/skill_lint.py \
+    --skills-dir . --shared-dir stat-shared-references --install-root ~/.claude/skills
+```
+
+## Maintenance
+
+[`MAINTENANCE.md`](MAINTENANCE.md) holds the rules that keep these skills from
+re-growing, and the method for testing a rewritten one.
+
+- **Two budgets.** Hot prefix ≤ 200–250 lines (routing, invariants, state machine, hard
+  gates, compact contract) and total ≤ 700–800. Length is not a tidiness concern: the
+  model runs the first ~200 lines as hard law and treats the rest as suggestions.
+- **A `SKILL.md` grows only when the core state machine changes.** Deterministic check →
+  script; fixed table → rule data or reference; worked example or prompt block →
+  companion reference.
+- **Compact empty contract inline, filled specimen out.**
+- **Acceptance-testing a rewrite**: prose has no unit tests, so build a fixture per
+  route, write an `EXPECT.md`, run the skill in a **fresh context** three times, check
+  mechanically, and pass at ≥ 2 of 3 with no forbidden failure.
+
+Current status against the budgets: `stat-mock-review` (194) and `stat-paper-writing`
+(584) are inside; `stat-polishing` (819) sits at the edge; `stat-paper-plan` (843) and
+`stat-paper-write` (1216) are over and are the next compression targets.
+
 ## Design Philosophy
 
 Three principles shaped the family.
