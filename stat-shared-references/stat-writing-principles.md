@@ -1,6 +1,6 @@
 # Writing Principles for Statistics Papers
 
-Use this reference when `stat-paper-plan` needs help shaping the paper's story or when `stat-paper-write` needs stronger drafting guidance. This complements the general `writing-principles.md` with statistics-specific conventions.
+Use this reference when `stat-paper-plan` needs help shaping the paper's story or when `stat-paper-write` needs stronger drafting guidance. This complements the general `../shared-references/writing-principles.md` (a different directory from `stat-shared-references/`) with statistics-specific conventions.
 
 ## Companion References
 
