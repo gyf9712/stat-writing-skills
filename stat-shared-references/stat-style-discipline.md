@@ -111,8 +111,11 @@ Use standard double quotation marks for direct quotation. Avoid scare quotes aro
 Permitted uses are limited to:
 - Citations `(Author, Year)` and citation clusters
 - Equation numbers `(1), (2), (3)` and equation-label references
+- Formal cross-references of any kind: section, appendix, theorem, figure, table, and supplement references, as in `(Section~\ref{sec:proof})` or `(Figure 2(a))`
 - Assumption, condition, or step labels `(A1), (i), (a)`
-- Standard acronym first-use, as in `MSE (mean squared error)`
+- Standard names or acronyms on first use in either order, as in `mean squared error (MSE)` or `MSE (mean squared error)`
+- Units, measurement scales, and variable labels, as in `(years)`, `(kg/m^2)`, `(mmHg)`
+- Short technical qualifiers, including probability mode, conditioning, uniformity, constant conventions, and representative choices: `(in probability)`, `(almost surely)`, `(conditionally on $X$)`, `(uniformly over $\mathcal{P}$)`, `(up to constants)`, `(say, $c = 1/2$)`
 - Short purely mathematical annotations, e.g., `(where $n = |D|$)`, provided the annotation is under about six words and carries a formula
 
 Explanatory prose asides — "for example ...", "i.e., ...", "note that ..." — must be restructured into a full sentence or cut. Sentence-length parenthetical clauses are forbidden even when they contain useful content.
@@ -150,7 +153,7 @@ Theorem, lemma, proposition, corollary, definition, assumption, and remark heade
 - Color in body prose. Color belongs in figures, used for data, not for words.
 - Underlining anywhere in the manuscript.
 - Bolded text inside figure captions or table titles unless the journal class does it for you.
-- Run-in `\paragraph{}` / `\subparagraph{}` headings used to signpost or emphasize inside a section. These render as bold inline labels and read as a formatting crutch; use a real subsection when a break is structurally warranted, otherwise let a natural prose transition carry it. Do not fragment exposition into many short paragraphs as a substitute for connective writing either — non-essential-avoid applies to paragraph-level formatting as much as to inline marks.
+- Run-in `\paragraph{}` / `\subparagraph{}` headings used as prose-emphasis or rhetorical labels inside a section. They are acceptable where the journal class or supplement convention uses them as genuine low-level headings, proof-object headers, or semantic stage labels in a long proof; in those cases the heading must name the mathematical object or stage, not sell the result. Otherwise use a real subsection when a break is structurally warranted, or let a natural prose transition carry it. Do not fragment exposition into many short paragraphs as a substitute for connective writing either — non-essential-avoid applies to paragraph-level formatting as much as to inline marks.
 
 ### Venue-specific notes
 

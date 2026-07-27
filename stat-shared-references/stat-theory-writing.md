@@ -298,18 +298,19 @@ rule-of-three padding. Readability at the Big Four is dense-but-navigable prose
 carried by displays, never fragmentation into bullet lists or ML-conference
 "Step 1 / Step 2" scaffolding.
 
-**Prose density (house limit).** Keep each paragraph to about four lines or fewer,
-and at most roughly two inline formulas in a sentence. This limit applies to **theorem
-and proof writing only** — theorem/lemma/proposition statements and the proof body —
-where prose is connective tissue between displays. It does **not** apply to ordinary
-exposition (introduction, motivation, discussion, related work, prose remarks), where
-Big Four paragraphs are legitimately longer flowing prose; forcing those to four lines
-would be wrong. Within statements and proofs, the way to satisfy the limit is to **move
-load-bearing mathematics into a display** — a display resets the paragraph and does not
-count against the line limit — not to chop prose into choppy one-sentence fragments,
-which would reintroduce the bulletized look the section forbids. If a sentence needs a
-third inline relation or a proof paragraph runs past four lines of prose, that is the
-signal to display the math or to start a new paragraph at a genuine logical break.
+**Prose density (diagnostic, not cap).** In theorem statements and proof bodies, long
+uninterrupted prose is a warning sign rather than a formal violation. After roughly
+four to six typeset lines of prose without a display, ask whether a load-bearing
+relation should be displayed or whether a genuine logical break has arrived. Sentences
+with more than two load-bearing inline relations should usually be rewritten or
+displayed; symbol declarations, index restrictions, labels, and short qualifiers do not
+count. This screen applies **only** to theorem/lemma/proposition statements and proof
+bodies, not to ordinary exposition, remarks, introductions, motivation, discussion, or
+related work, where Big Four paragraphs are legitimately longer flowing prose. Satisfy
+it by **moving load-bearing mathematics into a display**, which resets the paragraph;
+do not split a coherent proof paragraph merely to satisfy a line count, and do not chop
+prose into one-sentence fragments, which would reintroduce the bulletized look this
+section forbids.
 
 ### Statements
 
@@ -346,23 +347,30 @@ condition is registered. AoS/JASA T&M lean If/Then; Biometrika/JRSS-B lean compa
 **What goes on its own display line vs inline vs by-label.**
 
 - **By-label** — any assumption registered in an Assumption/Condition environment.
-  Never restated in the theorem (see `assumptions-lock-protocol.md`).
+  Do not restate registered assumptions in full. A short descriptive reminder or a
+  central scalar regime may be repeated when a theorem needs to be readable in
+  isolation; the label remains authoritative (see `assumptions-lock-protocol.md`).
 - **Display (own line)** — theorem-specific *load-bearing* mathematics the reader
   needs to parse the conclusion: a rate/order condition (`\lambda_n \asymp \cdots`,
   `nh^d \to \infty`), a signal-strength / separation condition
   (`\rho_n \ge C\sqrt{(\log p)/n}`), a tuning choice the rate depends on, or a
-  moment/bandwidth condition that sizes the result. The conclusion is always
-  displayed.
+  moment/bandwidth condition that sizes the result. Display the conclusion when it is
+  a rate, limiting law, probability statement, optimization characterization,
+  nontrivial inequality, or another formula the reader must inspect; a short
+  qualitative, existence/uniqueness, identifiability, measurability, invariance, or
+  structural conclusion may remain inline.
 - **Inline** — scoping qualifiers that carry no load: `\delta \in (0,1)`,
   `n \ge 1`, fixed-constant declarations, and pointers to earlier-defined objects
   (`the estimator $\hat f_n$ in~\eqref{eq:est}`, `the test $\phi_n$`).
 
 Operational test: if a reader needs the condition to understand *what the
 conclusion says or how strong it is*, display it; if it only scopes the statement,
-inline it. Keep at most one or two displayed conditions before the conclusion; if
-more accumulate, move them into a labeled Condition environment immediately before
-the theorem — that cluster of labeled, individually displayed conditions is the
-primary at-a-glance mechanism, and it keeps the theorem itself compact.
+inline it. Aim for no more than one or two displayed condition blocks before the
+conclusion. If several conditions are bulky, reused across theorems, or independently
+interpretable, move them into a labeled Condition environment immediately before the
+theorem — that cluster of labeled, individually displayed conditions is the primary
+at-a-glance mechanism, and it keeps the theorem itself compact. If they are a one-off
+theorem-specific regime, a compact aligned display inside the theorem is acceptable.
 
 **Supporting conventions.** Define the estimator / test in the text (as a numbered
 equation) *before* the theorem and reference it by label; do not define it inside
@@ -371,8 +379,9 @@ large`, `with probability at least $1-\delta$`) immediately before the conclusio
 display. For a compound result, write `Then the following hold:` and give each part
 as a labeled, displayed `(i)`/`(ii)` line.
 
-**Per-theorem readability micro-check** (run theorem by theorem): (a) is the
-conclusion displayed? (b) is every substantive condition either displayed or
+**Per-theorem readability micro-check** (run theorem by theorem): (a) is every
+load-bearing mathematical conclusion displayed, or is the conclusion short enough to
+remain inline? (b) is every substantive condition either displayed or
 by-label, with none buried inline? (c) could a reader restate the hypotheses and
 the conclusion after a single glance? (d) are multi-part results labeled `(i)`/`(ii)`?
 (e) is every symbol defined before the statement uses it? A "no" on (a) or (b)
@@ -380,21 +389,23 @@ means re-lay-out the statement.
 
 Venue calibration: AoS and JASA T&M tolerate a lead clause carrying one or two
 displayed conditions; JRSS-B is moderate; Biometrika is the most compact but still
-displays the conclusion and any substantive rate/signal condition. Displaying a
-theorem-specific load-bearing condition on its own line is standard at all four —
-it is dumping *registered* assumptions back into the theorem that is non-standard.
+displays a load-bearing conclusion and any substantive rate/signal condition.
+Displaying a theorem-specific load-bearing condition on its own line is standard at
+all four — it is dumping *registered* assumptions back into the theorem in full that
+is non-standard.
 
 ### Full proofs
 
 Full proofs are written in paragraphs, not bullets. Dense Big Four prose is
 acceptable when each paragraph has one logical role and algebra is carried by
-displays. A paragraph has become a **wall of text** — split it or display the
-math — if any of these fire: it closes more than one proof obligation; it runs past
-about four lines of prose without a display; it packs more than roughly two inline
-formulas into a sentence (display the math instead); it contains two consecutive
-sentences that each carry multiple mathematical relations; or it leaves no stable
-display, lemma, or equation reference for the bound it claims. The four-line and
-two-inline-formula caps are the house limit from the register intro above.
+displays. A paragraph is drifting toward a **wall of text** — consider splitting it or
+displaying the math — if any of these fire: it closes more than one proof obligation;
+it runs past about four to six lines of prose without a display; it packs more than
+roughly two load-bearing inline relations into a sentence (display the math instead);
+it contains two consecutive sentences that each carry multiple mathematical relations;
+or it leaves no stable display, lemma, or equation reference for the bound it claims.
+The line and inline-formula counts are diagnostics, not caps — do not split a coherent
+proof paragraph merely to satisfy a count.
 
 Open with one sentence fixing the reduction or strategy: `It suffices to prove
 \eqref{eq:linear} and \eqref{eq:remainder}.` Do not restate the theorem inside
