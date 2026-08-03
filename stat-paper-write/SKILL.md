@@ -808,6 +808,14 @@ After drafting all sections, before cross-review, run the positioning and claim 
    - Remove or soften the prose claim until it matches the available support.
 4. For any qualification recorded in `CLAIM_SUPPORT_MAP.md` (e.g., "weaker on noise, identical on signal strength"), confirm the qualification appears in the prose, not buried in an appendix remark.
 5. Codex MCP can run an independent audit using the prompt template in `../stat-shared-references/stat-positioning-and-claims.md` (the Codex Integration section). For high-stakes submissions, run this independent audit.
+6. **Mechanical verification-floor gate (script).** Run the citation lock gate; it hard-fails any high-stakes row (`load_bearing` / `benchmark_claim` / `comparative`) below `independently_checked`:
+
+   ```
+   python ../stat-shared-references/scripts/cache_queue_lint.py \
+     --lock papers/<project>/cited_results.lock.md
+   ```
+
+   On FAIL, the options are exactly three: verify (promote the cache entry via `/lit-cache verify`), downgrade the claim so the row's purpose drops out of the high-stakes set, or remove the citation site. Do not proceed to Cross-Review with an open FAIL.
 
 Update `CLAIM_SUPPORT_MAP.md` as the audit produces refinements. The map is a living document until submission.
 
@@ -1082,14 +1090,16 @@ For the mechanical compile and reference checks below, read `../stat-shared-refe
 - [ ] **LaTeX integrity audit passes**: no undefined references, no undefined citations, no missing image files, no HIGH/CRITICAL log warnings (run `latexmk -pdf -interaction=nonstopmode` and search for "Warning|Error|undefined|multiply|missing")
 - [ ] **Template conformance audit passes**: `\documentclass`, packages, font, line spacing, margins, bibliography style match the venue requirement (read `../stat-shared-references/stat-latex-audit.md`)
 - [ ] All `\citet{}` / `\citep{}` have BibTeX entries in both main and supplement
-- [ ] Notation consistent (check math_commands.tex is included in both main and supplement)
+- [ ] Notation consistent (check math_commands.tex is included in both main and supplement; symbol/acronym audit per `../stat-shared-references/stat-notation-audit.md`)
 - [ ] No TODO/FIXME/VERIFY markers remain
+- [ ] **Citation verification-floor gate passes**: `python ../stat-shared-references/scripts/cache_queue_lint.py --lock papers/<project>/cited_results.lock.md` exits 0 (no high-stakes row below `independently_checked`). For sign-off discipline on final submission, `--require-signed` raises the floor to `human_signed`.
 - [ ] Abstract is self-contained
 - [ ] Title is specific and informative
 - [ ] references.bib contains ONLY cited entries
 - [ ] No stale section files
 - [ ] Section files match main.tex `\input` paths
 - [ ] Venue-specific requirements met (read `../stat-shared-references/stat-venue-checklists.md`)
+- [ ] Reproducibility audit passes when data/code/simulations are in scope (read `../stat-shared-references/stat-reproducibility-audit.md`: availability statements, venue kite-marks, replication artifacts)
 - [ ] For COLT/ALT: anonymization is correct, main body within page limit
 - [ ] For journals: page count within venue norms
 - [ ] Keywords / AMS subject classification included (if required)

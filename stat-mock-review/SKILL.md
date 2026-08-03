@@ -101,6 +101,8 @@ A focused list of what to change before submission, in priority order. Three to 
 - `Refs`: canonical IDs this item touches (CS#, PW#, TR#, theorem / assumption label), if any
 
 The rescue plan is the actionable output. Everything before it is justification. The `Owner` field is the first handoff only; the routing table does not override a skill's own internal escalation.
+
+Before finalizing the rescue plan for a Big Four submission with data, code, or simulations in scope, check `../stat-shared-references/stat-reproducibility-audit.md`: a submission that meets the methodological bar but fails the reproducibility audit is held at the AE stage, so a failed audit item belongs in the rescue plan with `Owner: stat-polishing`.
 ```
 
 ## Workflow
@@ -125,7 +127,7 @@ Read `../stat-shared-references/stat-positioning-and-claims.md`. Extract the pos
 
 For theory and methodology papers, also run the assumption load-bearing audit in `../stat-shared-references/assumption-loadbearing-audit.md` against each load-bearing assumption of the main theorems. Here the tests carry an **AE-consequence** reading, not a proof-severity one: an assumption that pre-empts the paper's sold central difficulty (test T3) or assumes the exact verification target (test T2) is a Section 2 (fatal) or Section 3 (major) concern by centrality, even when the proof itself is correct. A correct theorem that assumes away its own selling point is precisely the concern an AE raises. Do not manufacture this concern for a clean conditional theorem — proof length is not evidence, and absence of a finding is expected.
 
-For every claim that names a specific theorem or rate of a cited paper, resolve it to the project's `papers/<project>/cited_results.lock.md` and the global literature cache. Schema and protocol in `../stat-shared-references/citation-purpose-protocol.md` (gate matrix) and the sibling `stat-theory-skills` `literature-cache-protocol.md` router. A fatal-or-major mock-review concern that depends on a specific theorem requires `independently_checked` verification floor; a lower state demotes the concern to a verification-request pending item rather than a load-bearing finding.
+For every claim that names a specific theorem or rate of a cited paper, resolve it to the project's `papers/<project>/cited_results.lock.md` and the global literature cache. Schema and protocol in `../stat-shared-references/citation-purpose-protocol.md` (gate matrix) and the sibling `stat-theory-skills` `literature-cache-protocol.md` router. A fatal-or-major mock-review concern that depends on a specific theorem requires `independently_checked` verification floor; a lower state demotes the concern to a verification-request pending item rather than a load-bearing finding. Run the floor check mechanically before writing the concerns section: `python ../stat-shared-references/scripts/cache_queue_lint.py --lock papers/<project>/cited_results.lock.md` — any FAIL row is a submission-readiness problem in its own right and belongs in the report, not only in the rescue plan.
 
 This step is **read-only** with respect to the lock manifest. The mock review does not append rows. If a fatal-or-major concern references a citation site not yet in the lock manifest, that itself is flagged as a gap requiring the upstream skill (stat-paper-write or proof-repair) to add the row before submission. The mock-review report's Rescue Plan (Section 7) lists missing lock entries as `Effort: small / Recoverability: high` items.
 

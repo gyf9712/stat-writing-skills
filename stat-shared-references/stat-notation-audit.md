@@ -139,12 +139,11 @@ When in doubt, expand on first use and explain the acronym. The cost of expansio
 
 ## Integration with the Skill Family
 
-This reference is consulted by:
+Wired consumers (skills whose SKILL.md points here):
 
-- `stat-paper-plan`: when listing the notation conventions in `PAPER_PLAN.md`
-- `stat-paper-write`: when introducing notation and method names for the first time
-- `stat-polishing`: as part of the final audit pass
-- `stat-paper-writing`: bundled into the pre-submission inspection
-- `stat-mock-review`: as a routine minor-concern check; an undefined symbol in the abstract is a major concern
+- `stat-polishing`: the final audit pass and the formal-statement pass's cross-reference drift audit
+- `stat-paper-write`: the notation-consistency line of Step 8 Final Checks
+
+Also useful — but not currently wired — when listing notation conventions in `PAPER_PLAN.md` (`stat-paper-plan`) and as a minor-concern check in `stat-mock-review` (an undefined symbol in the abstract is a major concern). Wire those only on demonstrated need; do not restate this file's rules elsewhere.
 
 When a symbol or acronym audit fails late in the pipeline, the fix is local. The cost of running the audit early is one hour; the cost of skipping it is a referee report point per undefined symbol.

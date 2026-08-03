@@ -172,13 +172,19 @@ The effect: the skills no longer treat Codex as authoritative. They use Codex as
 
 These are the items Codex identified as important but that are deferred to a future iteration rather than applied immediately.
 
+**Two-state convention (2026-08-01).** Every open item carries exactly one status line: `queued(trigger = <concrete event>)` — builds when the trigger fires, not before — or `deliberately deferred(reason = <concrete non-trigger>)` — will not build absent a change in circumstances. No trigger, no queue. Adopted from Statlib's honest "not yet charted" boundary marking; see the 2026-08-01 entry.
+
 ### 1. Venue-by-venue compliance refresh with `last_checked` and sources
+
+**Status: queued(trigger = a real paper targets a venue whose block lacks `Last checked:`; refresh that venue's block at submission prep, not all venues in a batch).**
 
 Add a `last_checked` date and a list of official source URLs to every venue block in `stat-venue-checklists.md`. The Biometrika, Biostatistics, and AOAS blocks now follow this pattern; bring the rest up to the same standard.
 
 Done means: every venue block has (a) a `Last checked:` date, (b) a list of official URLs, (c) explicit `[VERIFY AT SUBMISSION]` flags for any rule that could not be confirmed.
 
 ### 2. Submission package skill
+
+**Status: queued(trigger = a real paper reaches submission-ready and the cover-letter / statements work is being done by hand for the second time; the first time is done manually and its cost recorded).**
 
 Build a new skill `stat-submission-package` covering:
 
@@ -196,12 +202,16 @@ This addresses the gap between "writing finished" and "ready to submit".
 
 ### 3. PRIOR_WORK_MATRIX and TECHNICAL_RISK_REGISTER as hard gates
 
+**Status: queued(trigger = next `stat-paper-write` run on a real paper; add the refusal condition in that session).**
+
 The matrices are now required artifacts in `stat-paper-plan` but the writing skill does not yet block on them. Next iteration: `stat-paper-write` should refuse to draft the abstract or introduction until:
 
 - All `Novelty Risk = HIGH` rows in `PRIOR_WORK_MATRIX.md` have been resolved
 - All `Severity = CRITICAL` rows in `TECHNICAL_RISK_REGISTER.md` are `CLOSED` or explicitly downgraded
 
 ### 4. Reproducibility packaging module
+
+**Status: queued(trigger = a real submission requires a kite-mark or replication package — Biostatistics D/C/R, JASA ACC, or equivalent).** The audit-side reference (`stat-reproducibility-audit.md`) is now wired into `stat-paper-write` Step 8 and `stat-mock-review` (2026-08-01); this item is the artifact-building side only.
 
 Beyond statements, build the actual artifacts:
 
@@ -213,6 +223,8 @@ Beyond statements, build the actual artifacts:
 
 ### 5. Prompt de-duplication
 
+**Status: queued(trigger = `schema_lint.py` gains a rule for the block in question, or a duplicated rule block is caught drifting; deduplicate that block then).** Partially superseded 2026-08-01: the schema three-class policy (normative / emission fixture / exemplar) and `schema_lint.py` now govern schema-shaped duplication; this item retains only the prose-rule dedup.
+
 Move repeated style, figure, supplement, and review rules out of SKILL.md files into shared references. Currently, the four SKILL.md files repeat the same style discipline blocks, figure rules, supplement rules, and reviewer checklists. The duplication has two costs:
 
 - Inconsistency risk when one place is updated but not the others
@@ -221,6 +233,8 @@ Move repeated style, figure, supplement, and review rules out of SKILL.md files 
 Done means: each rule lives in exactly one shared-reference file; SKILL.md files reference rules by name and section, not by re-stating them.
 
 ### 6. PDF-aware review path for figure quality
+
+**Status: deliberately deferred(reason = requires a new pipeline capability with no measured recurring failure on record; figure discipline is currently held by prose review plus `latex_audit.py`. Revisit only if a submitted figure fails at a journal for a defect this path would have caught).**
 
 Currently the figure design rules are enforced through prose review. A PDF-aware review path would:
 
@@ -232,6 +246,8 @@ Currently the figure design rules are enforced through prose review. A PDF-aware
 This requires extending the pipeline to actually open and parse PDFs.
 
 ### 7. Domain packs
+
+**Status: deliberately deferred(reason = speculative content mass; fails the three-channel admissibility gate. A pack is built only when a named paper in that domain enters planning, and only that paper's pack). The semiparametric pack additionally depends on the queued Le Cam cluster (see the 2026-08-01 entry).**
 
 Build content packs for common statistics paper classes:
 
@@ -248,6 +264,8 @@ Each pack would contribute: a section template, an assumption checklist, a simul
 
 ### 8. Revision workflow
 
+**Status: queued(trigger = first major-revision or reject-and-resubmit decision letter arrives on a real stat-journal submission).**
+
 Build a `stat-revision` skill family:
 
 - AE-facing cover letter drafting in response to a decision
@@ -260,6 +278,8 @@ This is parallel to but distinct from `nature-response`.
 
 ### 9. Claim-boundary auditing (partially addressed in the follow-up iteration)
 
+**Status: queued(trigger = manual claim extraction recurs as a recorded cost across two real papers; build the extractor after the second, using both as test cases).**
+
 Largely addressed by `stat-positioning-and-claims.md`, the `CLAIM_SUPPORT_MAP.md` artifact, and the audit steps now in `stat-paper-write` and `stat-polishing`. The remaining work for the next iteration:
 
 - Automate the extraction of positioning and technical claims from the LaTeX source (currently a manual step).
@@ -267,6 +287,8 @@ Largely addressed by `stat-positioning-and-claims.md`, the `CLAIM_SUPPORT_MAP.md
 - Add specific detectors for theorem scope drift (abstract claims more than the theorem states), lower-bound mismatch (upper and lower bounds on different function classes), and application overclaim (prediction quality interpreted as causal effect).
 
 ### 10. Skill-level prose cleanup
+
+**Status: queued(trigger = next substantive edit of each SKILL.md; clean that file's em-dashes opportunistically in the same commit rather than in a dedicated pass).**
 
 The SKILL.md files themselves use em-dashes heavily, which contradicts the discipline they enforce. Targets per Codex:
 
@@ -594,6 +616,151 @@ Applied to `stat-shared-references/stat-theory-writing.md`:
   lines, connectives naming the logical move (`it suffices`, `hence`, `on the event`,
   `combining the two bounds`) — displays carry the *what*, connectives the *why* — so a
   reader skimming displays plus one-line justifications recovers the reasoning skeleton.
+
+## 2026-08-01: Statlib review — drift fixes, mechanical gates, admissibility rules
+
+Triggered by a full read of **Statlib** (github.com/stat-lib/statlib), a Lean 4
+formalization-of-mathematical-statistics project (advisors Avigad + Wasserman; 966 lines
+of Lean against a several-hundred-theorem roadmap; three PRs unreviewed for 5 weeks to 2
+months). The comparison frame: Statlib and this library solve the same problem — a
+trusted core for statistical theory — with different trust technologies (binary machine
+verification over a narrow zone vs. graded evidence states over a broad zone). Statlib's
+observable failure mode, generation capacity exceeding verification capacity, has a
+direct internal analogue here: verification state machines whose transitions nobody runs.
+
+Codex MCP dialogue: threadId `019fbdf0-0438-7b62-b22f-75349d01e175`, four rounds at
+xhigh. Scorecard: Codex killed my broad schema-hash-pinning (would breach
+`routing_lint.py`'s designed false-authority boundary), my definition:consumer ratio
+bureaucracy, and my proposal to cite Statlib's unversioned roadmap as an external
+coordinate system inside `theory-design`. I killed Codex's single-criterion "named paper
+consumer or no build" gate (it would have blocked the literature cache, this library's
+highest-ROI build, which was justified by measured cost, not a named paper). Codex's
+best finding: two live drift instances (`applicability-axes.md` retired family name in
+the definitional `same_family` example; `stat-polishing` claiming a locally-installed
+protocol lives in a sibling repo). Empirical ratio for the record: linear reading (human
++ LLM) found 2 sites of this drift class; mechanical grep found 10.
+
+### Admissibility gate (three channels; standing rule)
+
+New protocol files, shared references, skills, or roadmap builds ship only under one of:
+
+| Channel | Required justification |
+|---|---|
+| Paper-demand item | Names a real target paper/project and the step or artifact it unlocks |
+| Cross-cutting infrastructure | Records a measured recurring cost or defect across real sessions, plus the workflow gate that will consume it |
+| Maintenance / bug fix | Fixes a concrete drift, false statement, broken script, or stale venue rule |
+
+"Might be useful later" satisfies none of the three. The roadmap's open items carry the
+two-state convention (`queued(trigger = ...)` / `deliberately deferred(reason = ...)`)
+declared at the top of the open-items section.
+
+### Applied in this iteration
+
+- **Drift fixes (Group A).** Retired `moment_based` family name at 2 sites in
+  `applicability-axes.md` — pushed to the theory repo (it is a real, repo-level-true
+  drift: the family was renamed there too). 8 stale "sibling repo" location claims
+  fixed across 6 files, **install-directory only, deliberately not pushed to either
+  source repo**: install.sh flattens both repos into one directory, which is what makes
+  "sibling repo" false there; read from inside either source repo, the same phrase is
+  true (a genuinely different repo holds the file) and the original text was correct.
+  Pushing the install-time fix to a source repo would have introduced a broken
+  cross-repo reference. Caveat recorded in `schema_lint.py`'s SCOPE note and
+  `schema_lint_rules.py`'s BANNED_LOCATION_PHRASES docstring so a future run against a
+  raw repo checkout doesn't misdiagnose true cross-repo pointers as drift.
+  `human_signed` transition in `cache-verification-states.md` now requires a verbatim
+  attestation sentence, affirmed word-for-word — a state flag alone is not a signature
+  (this one is repo-level content, pushed to the theory repo).
+- **`schema_lint.py` + `schema_lint_rules.py`** (new, `stat-shared-references/scripts/`).
+  Narrow mechanical linter, deliberately separate from `routing_lint.py`: canonical
+  schema headers (three-class policy: normative schema / emission fixture / explanatory
+  exemplar — delete copies that explain, register and pin copies consumed at
+  artifact-generation time), retired identifiers, banned repo-location phrases. Rule:
+  when retiring an identifier in a protocol, add it to the rules file in the same commit.
+  Regression-tested on fixtures: all four finding classes detect; benign "sibling
+  skill/choice" phrasing and registered fixtures do not false-positive.
+- **`cache_queue_lint.py` + `cache_queue_lint_rules.py`** (new). The verification-WIP
+  gate: hard-fails high-stakes lock rows (`load_bearing`/`benchmark_claim`/`comparative`)
+  below `independently_checked` (the existing GAP floor of
+  `cited-results-lock-protocol.md`, now mechanically enforced); `--require-signed` raises
+  the floor to `human_signed` for final-submission sign-off; global inbox backlog (>20
+  entries or oldest >14 days) is warning-only. `--list-queue` emits the promotion queue
+  ordered current-project blockers > canonical-role entries (local
+  `role_in_literature` metadata, never an external taxonomy) > age.
+- **Gate wiring at real pass-through points:** `stat-paper-write` Step 5.5 (new item 6,
+  blocks Cross-Review) and Step 8 Final Checks; `proofcheck` P3.7 (script is now the
+  mechanical feeder for the floor sub-check; CONVERGED blocks while it exits nonzero);
+  `stat-mock-review` Step 3 (FAIL rows are submission-readiness problems in the report).
+- **Thin-wiring fixes:** `lit-cache-verify-protocol.md` Step 1 now lists the inbox via
+  `--list-queue` in promotion order; `stat-reproducibility-audit.md` wired into
+  `stat-paper-write` Step 8 and `stat-mock-review`'s rescue plan (its self-described
+  consumers now actually exist); `stat-notation-audit.md`'s integration claim corrected
+  from five asserted consumers to the two real ones, with the rest marked unwired.
+- **`theory-design` 0.5D:** the Theoretical Inertia template gains a "Classical-core
+  anchoring" field — name the classical machinery cluster the framework extends, or
+  declare it frontier-native; neither is a red flag. Local vocabulary only, no external
+  URL dependency.
+
+### External-taxonomy audit record (Statlib roadmap, 2026-08-01)
+
+One-shot audit of proof/theory skill technique coverage against Statlib's roadmap
+§1.3/1.4/1.6/1.8. Covered: Fano, Assouad, two-point, contiguity (thin: one file), BvM,
+Lepski. Holes: **Yang-Barron metric entropy** (zero mentions), **Pinsker theorem** (zero),
+**Hájek convolution / LAM / LAN cluster** (zero — despite a `semiparametric` domain in
+`applicability-axes.md`). Repeat such an audit only when an external taxonomy is both
+curated and relevant to an active project.
+
+Dispositions, per the admissibility gate:
+
+- **Le Cam efficiency cluster: queued(trigger = an active project states a semiparametric
+  efficiency, local asymptotic minimax, Hájek convolution, LAN/LAMN expansion, or
+  influence-function optimality theorem — PPI-for-selection is the likeliest source).**
+  A GAP MARKER now sits in `proof-strategy.md` (Asymptotic Linearity section): these
+  claim families are out of the file's scope until this item builds; proofcheck audits
+  them against van der Vaart (1998) directly.
+- **Yang-Barron, Pinsker: queued(trigger = an active paper's minimax argument needs
+  metric-entropy global rates or sharp-constant ellipsoid bounds respectively).**
+
+### theory-simulation length — superseded by the repo's own independent fix
+
+The local install's `theory-simulation/SKILL.md` was flagged as the family's largest
+instruction file (1443 lines / ~17K tokens) and, in this same working session, split
+locally into a 1022-line SKILL.md dispatcher plus a new `references/audit-mode.md`
+(419 lines) for the AUDIT-mode workflow, on the theory that DESIGN and AUDIT modes are
+mutually exclusive at runtime and should not be co-loaded.
+
+That local edit was never pushed. Reconciling this batch against `stat-theory-skills`
+before syncing to GitHub surfaced that the source repo had **already solved the same
+problem independently, earlier, and better**: a unified Claim Evidence Ledger that
+merges DESIGN and AUDIT into one model (1443 → 1044 lines) plus a dedicated acceptance
+checker, `stat-shared-references/scripts/simulation_ledger_check.py` (Codex-designed,
+threadId `019fa456-c827-7103-9bcc-0a2af1803240`) that runs a rewritten skill N times
+against a fixture and checks the hard, decidable assertions — something the local
+mode-split never had. The local install had simply gone stale relative to the repo
+before this session started editing it.
+
+Decision (user-confirmed): discard the local mode-split; `theory-simulation` reinstalled
+from the theory repo's version instead. No `theory-simulation` change from this session
+was pushed to GitHub.
+
+General lesson for the family: `stat-theory-skills` now carries a `MAINTENANCE.md` with
+a formal skill-length discipline (hot prefix ≤ 200–250 lines is the execution budget,
+total ≤ 700–800 lines is the maintenance budget, and a `SKILL.md` may grow only when the
+core state machine changes — everything else moves to a script, a rule-data module, or a
+reference file) plus the acceptance-test method above for verifying a rewrite didn't just
+get shorter but actually preserved behavior. Any future length work on `stat-paper-write`
+(1226 lines) or `proof-repair` (1158 lines) should follow that discipline and that
+acceptance method rather than re-deriving both from scratch. No separate roadmap item
+needed; `MAINTENANCE.md` is the standing policy.
+
+### Do-not-do list (standing, same authority as the applied items)
+
+- Do not import Statlib's taxonomy as the domain registry (ours already covers it).
+- Do not hash schemas inside `routing_lint.py` (false-authority boundary).
+- Do not create a standing definition:consumer counting bureaucracy.
+- Do not pre-seed cache entries because they are canonical.
+- Do not build Hájek/LAN, Yang-Barron, or Pinsker strategy cards without an active
+  theorem consumer.
+- Do not cite Statlib's unversioned roadmap as an external authority inside any skill.
 
 ## Versioning
 
